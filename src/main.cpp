@@ -140,6 +140,10 @@ void execute_trial(size_t trial, DenseGraph &graph,
   auto start_time = std::chrono::high_resolution_clock::now();
 
   std::vector<Chromosome> initial_population;
+  initial_population.push_back(h2(graph));
+  initial_population.push_back(h3(graph));
+  initial_population.push_back(h5(graph));
+
   for (size_t i = 0; i < static_cast<size_t>(graph.getVertexCount() /
                                              params.population_factor);
        ++i) {
