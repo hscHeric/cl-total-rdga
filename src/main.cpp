@@ -154,7 +154,7 @@ void execute_trial(size_t trial, DenseGraph &graph,
   size_t stagnant_generations = 0;
 
   for (size_t generation = 0; generation < params.generations; ++generation) {
-    population.evolve(selector, crossover);
+    population.evolve(selector, crossover, graph);
     Chromosome new_best_solution = population.get_best_chromosome();
 
     if (new_best_solution.get_fitness() < best_solution.get_fitness()) {

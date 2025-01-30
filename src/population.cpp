@@ -11,7 +11,8 @@ Population::Population(unsigned size,
   }
 }
 
-void Population::evolve(const Selection &selector, const Crossover &crossover) {
+void Population::evolve(const Selection &selector, const Crossover &crossover,
+                        DenseGraph &graph) {
   std::vector<Chromosome> new_population;
   while (new_population.size() < _size) {
 
@@ -20,6 +21,8 @@ void Population::evolve(const Selection &selector, const Crossover &crossover) {
 
     // Aplicação do crossover
     auto [child1, child2] = crossover.crossover(parent1, parent2);
+    child1.fix(graph);
+    child2.fix(graph);
 
     // Adição dos filhos à nova população
     new_population.push_back(child1);
