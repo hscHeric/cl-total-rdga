@@ -5,8 +5,8 @@ SinglePoint::SinglePoint(double crossover_rate)
     : _crossover_rate(crossover_rate) {}
 
 std::pair<Chromosome, Chromosome>
-SinglePoint::crossover(const Chromosome &parent1,
-                       const Chromosome &parent2) const {
+SinglePoint::crossover(const Chromosome &parent1, const Chromosome &parent2,
+                       DenseGraph &graph) const {
   std::random_device rd;
   std::mt19937 gen(rd());
   std::uniform_real_distribution<> dist(0.0, 1.0);
@@ -24,6 +24,9 @@ SinglePoint::crossover(const Chromosome &parent1,
     child1.set_value(i, child2.get_value(i));
     child2.set_value(i, temp);
   }
+
+  child1.fix(graph);
+  child2.fix(graph);
 
   return {child1, child2};
 }

@@ -19,10 +19,7 @@ void Population::evolve(const Selection &selector, const Crossover &crossover,
     const Chromosome &parent1 = selector.select(*this);
     const Chromosome &parent2 = selector.select(*this);
 
-    // Aplicação do crossover
-    auto [child1, child2] = crossover.crossover(parent1, parent2);
-    child1.fix(graph);
-    child2.fix(graph);
+    auto [child1, child2] = crossover.crossover(parent1, parent2, graph);
 
     // Adição dos filhos à nova população
     new_population.push_back(child1);
