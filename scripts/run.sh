@@ -61,7 +61,7 @@ find "$INPUT_DIR" -type f -name "*.txt" | while read -r graph_file; do
 	start_time=$(date +%s)
 
 	# Executar o algoritmo com os parâmetros especificados
-	./target/release/cl-total-rdga "$graph_file" \
+	./cl-total-rdga "$graph_file" \
 		--crossover "$CROSSOVER_PROB" \
 		--stagnation "$MAX_STAGNANT" \
 		--generations "$GENERATIONS" \

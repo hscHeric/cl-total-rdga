@@ -194,7 +194,6 @@ void execute_trial(size_t trial, DenseGraph &graph,
 int main(int argc, char *argv[]) {
   AlgorithmParams params = parse_args(argc, argv);
 
-  std::cout << "Loading graph from file: " << params.file_path << std::endl;
   DenseGraph graph = load_graph_from_file(params.file_path);
 
   if (graph.getVertexCount() == 0) {
@@ -202,20 +201,14 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  std::cout << "Graph loaded - Nodes: " << graph.getVertexCount()
-            << ", Edges: " << graph.getEdgeCount() << std::endl;
-
   std::vector<TrialResult> results;
   results.reserve(params.trials);
 
   for (size_t trial = 0; trial < params.trials; ++trial) {
-    std::cout << "Executing trial " << (trial + 1) << "..." << std::endl;
     execute_trial(trial, graph, params, results);
   }
 
   write_results_to_csv(results, params.output_file);
 
-  std::cout << "Execution completed. Results saved to " << params.output_file
-            << std::endl;
   return 0;
 }
