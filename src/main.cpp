@@ -115,8 +115,6 @@ DenseGraph load_graph_from_file(const std::string &file_path) {
   int u, v;
   while (file >> u >> v) {
     if (u < 0 || u >= num_vertices || v < 0 || v >= num_vertices) {
-      std::cerr << "Warning: Ignoring invalid edge (" << u << ", " << v << ")"
-                << std::endl;
       continue;
     }
 
