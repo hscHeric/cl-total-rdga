@@ -94,7 +94,6 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
   return params;
 }
 
-// Função para carregar o grafo a partir de um arquivo
 DenseGraph load_graph_from_file(const std::string &file_path) {
   std::ifstream file(file_path);
   if (!file) {
@@ -103,14 +102,35 @@ DenseGraph load_graph_from_file(const std::string &file_path) {
   }
 
   int num_vertices;
-  file >> num_vertices;
+  if (!(file >> num_vertices) || num_vertices <= 0) {
+    std::cerr << "Error: Invalid number of vertices in file " << file_path
+              << std::endl;
+    exit(1);
+  }
+
   DenseGraph graph(num_vertices);
+  std::unordered_map<int, bool>
+      valid_vertices; // Para garantir que os vértices são válidos
 
   int u, v;
   while (file >> u >> v) {
+    if (u < 0 || u >= num_vertices || v < 0 || v >= num_vertices) {
+      std::cerr << "Warning: Ignoring invalid edge (" << u << ", " << v << ")"
+                << std::endl;
+      continue;
+    }
+
     if (u != v) {
       graph.addEdge(u, v);
+      valid_vertices[u] = true;
+      valid_vertices[v] = true;
     }
+  }
+
+  // Verificar se o grafo contém pelo menos um nó válido
+  if (valid_vertices.empty()) {
+    std::cerr << "Error: The graph has no valid edges or nodes." << std::endl;
+    exit(1);
   }
 
   return graph;
@@ -156,8 +176,17 @@ void execute_trial(size_t trial, DenseGraph &graph,
                               end_time - start_time)
                               .count();
 
-  results.push_back({params.file_path,
-                     static_cast<size_t>(graph.getVertexCount()),
+  // Extrair apenas o nome do arquivo (removendo o caminho)
+  std::string file_name =
+      params.file_path.substr(params.file_path.find_last_of("/\\") + 1);
+
+  // Remover a extensão ".txt" se existir
+  size_t dot_pos = file_name.find_last_of(".");
+  if (dot_pos != std::string::npos && file_name.substr(dot_pos) == ".txt") {
+    file_name = file_name.substr(0, dot_pos);
+  }
+
+  results.push_back({file_name, static_cast<size_t>(graph.getVertexCount()),
                      static_cast<size_t>(graph.getEdgeCount()),
                      best_solution.get_fitness(), elapsed_time});
 }
