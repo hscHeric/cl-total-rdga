@@ -31,7 +31,7 @@ public:
    * @brief Returns the number of vertices (order) of the graph.
    * @return Number of vertices in the graph.
    */
-  int order() const { return vertex_count; }
+  [[nodiscard]] size_t order() const noexcept { return this->vertex_count; }
 
   /**
    * @brief Returns the number of edges in the graph.
