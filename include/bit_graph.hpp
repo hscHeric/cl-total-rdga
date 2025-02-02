@@ -1,175 +1,97 @@
 #pragma once
-
 #include <boost/dynamic_bitset/dynamic_bitset.hpp>
-#include <unordered_map>
+#include <functional>
+#include <iostream>
 #include <unordered_set>
 #include <vector>
 
-/**
- * @brief Abstract class that defines the interface for a bit-based graph.
- *
- * This class provides a base structure for representing a graph,
- * allowing different storage implementations such as adjacency lists
- * or adjacency matrices using bitsets for memory efficiency.
- */
-class BitGraph {
+class Graph;
+class BitListGraph;
+class BitMatrixGraph;
+
+using BitSet = boost::dynamic_bitset<>;
+using VertexCallback = std::function<void(int)>;
+using EdgeCallback = std::function<void(int, int)>;
+
+class Graph {
 protected:
-  /// Number of vertices in the graph
   int vertex_count;
+  mutable size_t edge_count{0};
 
 public:
-  /**
-   * @brief Constructs a BitGraph with a given number of vertices.
-   * @param n Number of vertices in the graph.
-   */
-  explicit BitGraph(int n) : vertex_count(n) {}
+  explicit Graph(int n) noexcept : vertex_count(n) {}
+  virtual ~Graph() = default;
+  Graph(const Graph &) = delete;
+  Graph(Graph &&) = default;
 
-  /// Virtual destructor to allow proper cleanup in derived classes.
-  virtual ~BitGraph() = default;
+  [[nodiscard]] size_t order() const noexcept { return vertex_count; }
+  [[nodiscard]] virtual size_t size() const noexcept = 0;
+  [[nodiscard]] virtual int degree(int v) const = 0;
+  [[nodiscard]] virtual std::pair<int, int> degree_range() const noexcept = 0;
+  [[nodiscard]] virtual bool contains(int u, int v) const noexcept = 0;
+  [[nodiscard]] virtual bool contains(int v) const noexcept = 0;
 
-  /**
-   * @brief Returns the number of vertices (order) of the graph.
-   * @return Number of vertices in the graph.
-   */
-  [[nodiscard]] size_t order() const noexcept { return this->vertex_count; }
-
-  /**
-   * @brief Returns the number of edges in the graph.
-   * @return Total number of edges in the graph.
-   */
-  virtual int size() const = 0;
-
-  /**
-   * @brief Returns the degree of a given vertex.
-   * @param v The vertex whose degree is to be determined.
-   * @return The number of edges incident to vertex v.
-   */
-  virtual int degree(int v) const = 0;
-
-  /**
-   * @brief Returns the maximum degree among all vertices.
-   * @return The maximum vertex degree in the graph.
-   */
-  virtual int max_degree() const = 0;
-
-  /**
-   * @brief Returns the minimum degree among all vertices.
-   * @return The minimum vertex degree in the graph.
-   */
-  virtual int min_degree() const = 0;
-
-  /**
-   * @brief Checks if an edge (u, v) exists in the graph.
-   * @param u First vertex.
-   * @param v Second vertex.
-   * @return True if the edge (u, v) exists, otherwise false.
-   */
-  virtual bool contains(int u, int v) const = 0;
-
-  /**
-   * @brief Checks if a vertex exists in the graph.
-   * @param v Vertex to check.
-   * @return True if the vertex exists, otherwise false.
-   */
-  virtual bool contains(int v) const = 0;
-
-  /**
-   * @brief Adds an edge between two vertices.
-   * @param u First vertex.
-   * @param v Second vertex.
-   */
   virtual void add_edge(int u, int v) = 0;
-
-  /**
-   * @brief Removes an edge between two vertices.
-   * @param u First vertex.
-   * @param v Second vertex.
-   */
   virtual void remove_edge(int u, int v) = 0;
-
-  /**
-   * @brief Removes a vertex and all its incident edges.
-   * @param v The vertex to be removed.
-   */
   virtual void remove_vertex(int v) = 0;
 
-  /**
-   * @brief Returns a set of all vertices in the graph.
-   * @return A set containing all vertices.
-   */
-  virtual std::unordered_set<int> get_vertices() const = 0;
-
-  /**
-   * @brief Prints the graph structure.
-   */
+  [[nodiscard]] virtual const BitSet &neighbors(int v) const = 0;
+  virtual void for_each_vertex(const VertexCallback &func) const = 0;
+  virtual void for_each_edge(const EdgeCallback &func) const = 0;
+  virtual void for_each_neighbor(int v, const VertexCallback &func) const = 0;
+  [[nodiscard]] virtual std::unordered_set<int> get_vertices() const = 0;
   virtual void print() const = 0;
 };
 
-/**
- * @brief Implementation of BitGraph using an adjacency list with bitsets.
- *
- * This class represents a graph where each vertex maintains a bitset to
- * indicate its adjacent vertices, optimizing memory usage compared to
- * standard adjacency lists.
- */
-class BitListGraph : public BitGraph {
+class BitMatrixGraph : public Graph {
 private:
-  /// Adjacency list representation using bitsets
-  std::unordered_map<int, boost::dynamic_bitset<>> adj_list;
+  std::vector<BitSet> adjacency_matrix;
 
 public:
-  /**
-   * @brief Constructs a BitListGraph with a given number of vertices.
-   * @param n Number of vertices.
-   */
-  explicit BitListGraph(int n);
+  explicit BitMatrixGraph(int n);
+  ~BitMatrixGraph() override = default;
 
-  int size() const override;
-  int degree(int v) const override;
-  int max_degree() const override;
-  int min_degree() const override;
-
-  bool contains(int u, int v) const override;
-  bool contains(int v) const override;
+  [[nodiscard]] size_t size() const noexcept override;
+  [[nodiscard]] int degree(int v) const override;
+  [[nodiscard]] std::pair<int, int> degree_range() const noexcept override;
+  [[nodiscard]] bool contains(int u, int v) const noexcept override;
+  [[nodiscard]] bool contains(int v) const noexcept override;
 
   void add_edge(int u, int v) override;
   void remove_edge(int u, int v) override;
   void remove_vertex(int v) override;
 
-  std::unordered_set<int> get_vertices() const override;
+  [[nodiscard]] const BitSet &neighbors(int v) const override;
+  void for_each_vertex(const VertexCallback &func) const override;
+  void for_each_edge(const EdgeCallback &func) const override;
+  void for_each_neighbor(int v, const VertexCallback &func) const override;
+  [[nodiscard]] std::unordered_set<int> get_vertices() const override;
   void print() const override;
 };
 
-/**
- * @brief Implementation of BitGraph using an adjacency matrix with bitsets.
- *
- * This class represents a graph where edges are stored in a bitset matrix,
- * optimizing space compared to a traditional boolean matrix.
- */
-class BitMatrixGraph : public BitGraph {
+class BitListGraph : public Graph {
 private:
-  /// Adjacency matrix representation using bitsets
-  std::vector<boost::dynamic_bitset<>> adj_matrix;
+  std::vector<BitSet> adjacency_lists;
+  BitSet active_vertices;
 
 public:
-  /**
-   * @brief Constructs a BitMatrixGraph with a given number of vertices.
-   * @param n Number of vertices.
-   */
-  explicit BitMatrixGraph(int n);
+  explicit BitListGraph(int n);
+  ~BitListGraph() override = default;
 
-  int size() const override;
-  int degree(int v) const override;
-  int max_degree() const override;
-  int min_degree() const override;
-
-  bool contains(int u, int v) const override;
-  bool contains(int v) const override;
+  [[nodiscard]] size_t size() const noexcept override;
+  [[nodiscard]] int degree(int v) const override;
+  [[nodiscard]] std::pair<int, int> degree_range() const noexcept override;
+  [[nodiscard]] bool contains(int u, int v) const noexcept override;
+  [[nodiscard]] bool contains(int v) const noexcept override;
 
   void add_edge(int u, int v) override;
   void remove_edge(int u, int v) override;
   void remove_vertex(int v) override;
 
-  std::unordered_set<int> get_vertices() const override;
+  [[nodiscard]] const BitSet &neighbors(int v) const override;
+  void for_each_vertex(const VertexCallback &func) const override;
+  void for_each_edge(const EdgeCallback &func) const override;
+  void for_each_neighbor(int v, const VertexCallback &func) const override;
+  [[nodiscard]] std::unordered_set<int> get_vertices() const override;
   void print() const override;
 };
