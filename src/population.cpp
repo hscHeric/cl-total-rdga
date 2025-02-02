@@ -12,7 +12,7 @@ Population::Population(unsigned size,
 }
 
 void Population::evolve(const Selection &selector, const Crossover &crossover,
-                        DenseGraph &graph) {
+                        Graph &graph) {
   std::vector<Chromosome> new_population;
   while (new_population.size() < _size) {
 

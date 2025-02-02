@@ -1,5 +1,4 @@
 #include "../include/chromosome.hpp"
-#include "../include/dense_graph.hpp"
 
 #include <boost/dynamic_bitset/dynamic_bitset.hpp>
 #include <iostream>
@@ -14,29 +13,11 @@ Chromosome::Chromosome(unsigned size, int value) {
   _genes2.resize(size, 0);
 
   if (value == 0) {
-    _genes0.set(); // set all bits in this bitset to 1
-
-    /*for(int i = 0; i < _size; ++i) {
-        _genes0[i] = 1;
-        _genes1[i] = 0;
-        _genes2[i] = 0;
-    }*/
+    _genes0.set();
   } else if (value == 1) {
-    _genes1.set(); // set all bits in this bitset to 1
-
-    /*for(int i = 0; i < _size; ++i) {
-        _genes0[i] = 0;
-        _genes1[i] = 1;
-        _genes2[i] = 0;
-    }*/
+    _genes1.set();
   } else if (value == 2) {
-    _genes2.set(); // set all bits in this bitset to 1
-
-    /*for(int i = 0; i < _size; ++i) {
-        _genes0[i] = 0;
-        _genes1[i] = 0;
-        _genes2[i] = 1;
-    }*/
+    _genes2.set();
   }
   calculate_fitness();
 }
@@ -91,71 +72,66 @@ std::ostream &operator<<(std::ostream &out, const Chromosome &chr) {
   return out;
 }
 
-void Chromosome::fix(DenseGraph &graph) {
+void Chromosome::fix(Graph &graph) {
   boost::dynamic_bitset<> already_dominated;
   already_dominated.resize(this->size(), 0);
+
   for (size_t u = 0; u < this->size(); ++u) {
-    if (this->get_value(u) == LABEL_ZERO && already_dominated[u] == 0) {
+    if (this->get_value(u) == LABEL_ZERO && !already_dominated[u]) {
       unsigned short num_active = 0;
       bool has_neighbor_with_label_two = false;
-      int vertex_with_label_one = 0;
-      auto neighbors = graph.get_neighbors_bitset(u);
-      int index_neighbor = 0;
-      for (size_t w = 0; w < neighbors.size(); ++w) {
-        if (neighbors[w] == 1) {
-          index_neighbor = w;
-          if (this->get_value(w) == LABEL_ONE) {
-            num_active++;
-            vertex_with_label_one = w;
-          } else if (this->get_value(w) == LABEL_TWO) {
-            num_active++;
-            has_neighbor_with_label_two = true;
-            break;
-          }
+      int vertex_with_label_one = -1;
+      int last_neighbor = -1;
+
+      // Process each neighbor of vertex u
+      graph.for_each_neighbor(u, [&](int w) {
+        last_neighbor = w;
+        if (this->get_value(w) == LABEL_ONE) {
+          num_active++;
+          vertex_with_label_one = w;
+        } else if (this->get_value(w) == LABEL_TWO) {
+          num_active++;
+          has_neighbor_with_label_two = true;
         }
-      }
-      if (num_active == 0) {
-        this->set_value(index_neighbor, LABEL_TWO);
-      } else {
-        if (!has_neighbor_with_label_two) {
-          this->set_value(vertex_with_label_one, LABEL_TWO);
-        }
+      });
+
+      if (num_active == 0 && last_neighbor != -1) {
+        this->set_value(last_neighbor, LABEL_TWO);
+      } else if (!has_neighbor_with_label_two && vertex_with_label_one != -1) {
+        this->set_value(vertex_with_label_one, LABEL_TWO);
       }
       already_dominated[u] = 1;
     } else if (this->get_value(u) == LABEL_TWO) {
       unsigned short num_active = 0;
-      auto neighbors = graph.get_neighbors_bitset(u);
-      int index_neighbor = 0;
-      for (size_t w = 0; w < neighbors.size(); ++w) {
-        if (neighbors[w] == 1) {
-          index_neighbor = w;
-          already_dominated[w] = 1;
-          if (this->get_value(w) >= LABEL_ONE) {
+      int last_neighbor = -1;
 
-            num_active++;
-          }
+      graph.for_each_neighbor(u, [&](int w) {
+        last_neighbor = w;
+        already_dominated[w] = 1;
+        if (this->get_value(w) >= LABEL_ONE) {
+          num_active++;
         }
-      }
-      if (num_active == 0) {
-        this->set_value(index_neighbor, LABEL_ONE);
+      });
+
+      if (num_active == 0 && last_neighbor != -1) {
+        this->set_value(last_neighbor, LABEL_ONE);
       }
     } else if (this->get_value(u) == LABEL_ONE) {
       unsigned short num_active = 0;
-      auto neighbors = graph.get_neighbors_bitset(u);
-      int index_neighbor = 0;
-      for (size_t w = 0; w < neighbors.size(); ++w) {
-        if (neighbors[w] == 1) {
-          index_neighbor = w;
-          if (this->get_value(w) >= LABEL_ONE) {
-            num_active++;
-            break;
-          }
+      int last_neighbor = -1;
+
+      graph.for_each_neighbor(u, [&](int w) {
+        last_neighbor = w;
+        if (this->get_value(w) >= LABEL_ONE) {
+          num_active++;
         }
-      }
-      if (num_active == 0) {
-        this->set_value(index_neighbor, LABEL_ONE);
+      });
+
+      if (num_active == 0 && last_neighbor != -1) {
+        this->set_value(last_neighbor, LABEL_ONE);
       }
     }
   }
+
   this->calculate_fitness();
 }

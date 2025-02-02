@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../include/dense_graph.hpp"
+#include "../include/bit_graph.hpp"
 #include <boost/dynamic_bitset/dynamic_bitset.hpp>
 
 #define LABEL_ZERO 0
@@ -61,5 +61,10 @@ public:
    */
   friend std::ostream &operator<<(std::ostream &out, const Chromosome &chr);
 
-  void fix(DenseGraph &graph);
+  /**
+   * @brief Transform the chromosome into a valid solution for Total Roman
+   Domination
+   * @param graph The graph to fix the solution for
+   */
+  void fix(Graph &graph);
 };

@@ -1,7 +1,8 @@
+#include "bit_graph.hpp"
 #include "chromosome.hpp"
-#include "dense_graph.hpp"
 
-Chromosome h1(DenseGraph &graph);
-Chromosome h2(DenseGraph &graph);
-Chromosome h3(DenseGraph &graph);
-Chromosome h5(DenseGraph &graph);
+Chromosome h1(Graph &graph);
+Chromosome h2(Graph &graph);
+Chromosome h3(Graph &graph);
+Chromosome h4(Graph &graph);
+Chromosome h5(Graph &graph);

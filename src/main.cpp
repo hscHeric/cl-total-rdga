@@ -5,9 +5,9 @@
 #include <unordered_map>
 #include <vector>
 
+#include "../include/bit_graph.hpp"
 #include "../include/chromosome.hpp"
 #include "../include/crossover.hpp"
-#include "../include/dense_graph.hpp"
 #include "../include/heuristics.hpp"
 #include "../include/population.hpp"
 #include "../include/selection.hpp"
@@ -94,23 +94,32 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
   return params;
 }
 
-DenseGraph load_graph_from_file(const std::string &file_path) {
+Graph *load_graph_from_file(const std::string &file_path) {
   std::ifstream file(file_path);
   if (!file) {
     std::cerr << "Error: Cannot open file " << file_path << std::endl;
     exit(1);
   }
 
-  int num_vertices;
-  if (!(file >> num_vertices) || num_vertices <= 0) {
+  int num_vertices, num_edges;
+  if (!(file >> num_vertices >> num_edges) || num_vertices <= 0) {
     std::cerr << "Error: Invalid number of vertices in file " << file_path
               << std::endl;
     exit(1);
   }
 
-  DenseGraph graph(num_vertices);
-  std::unordered_map<int, bool>
-      valid_vertices; // Para garantir que os vértices são válidos
+  double density = (2.0 * num_edges) / (num_vertices * (num_vertices - 1));
+
+  Graph *graph;
+  if (density > 0.5) {
+    std::cout << "Using BitMatrixGraph (Dense Graph Representation)\n";
+    graph = new BitMatrixGraph(num_vertices);
+  } else {
+    std::cout << "Using BitListGraph (Sparse Graph Representation)\n";
+    graph = new BitListGraph(num_vertices);
+  }
+
+  std::unordered_map<int, bool> valid_vertices;
 
   int u, v;
   while (file >> u >> v) {
@@ -118,24 +127,23 @@ DenseGraph load_graph_from_file(const std::string &file_path) {
       continue;
     }
 
-    if (u != v) {
-      graph.addEdge(u, v);
+    if (u != v) { // Evita laços
+      graph->add_edge(u, v);
       valid_vertices[u] = true;
       valid_vertices[v] = true;
     }
   }
 
-  // Verificar se o grafo contém pelo menos um nó válido
   if (valid_vertices.empty()) {
     std::cerr << "Error: The graph has no valid edges or nodes." << std::endl;
+    delete graph;
     exit(1);
   }
 
   return graph;
 }
 
-void execute_trial(size_t trial, DenseGraph &graph,
-                   const AlgorithmParams &params,
+void execute_trial(size_t trial, Graph &graph, const AlgorithmParams &params,
                    std::vector<TrialResult> &results) {
   auto start_time = std::chrono::high_resolution_clock::now();
 
@@ -144,9 +152,8 @@ void execute_trial(size_t trial, DenseGraph &graph,
   initial_population.push_back(h3(graph));
   initial_population.push_back(h5(graph));
 
-  for (size_t i = 0; i < static_cast<size_t>(graph.getVertexCount() /
-                                             params.population_factor);
-       ++i) {
+  for (size_t i = 0;
+       i < static_cast<size_t>(graph.order() / params.population_factor); ++i) {
     initial_population.push_back(h1(graph));
   }
 
@@ -178,28 +185,24 @@ void execute_trial(size_t trial, DenseGraph &graph,
                               end_time - start_time)
                               .count();
 
-  // Extrair apenas o nome do arquivo (removendo o caminho)
   std::string file_name =
       params.file_path.substr(params.file_path.find_last_of("/\\") + 1);
-
-  // Remover a extensão ".txt" se existir
   size_t dot_pos = file_name.find_last_of(".");
   if (dot_pos != std::string::npos && file_name.substr(dot_pos) == ".txt") {
     file_name = file_name.substr(0, dot_pos);
   }
 
-  results.push_back({file_name, static_cast<size_t>(graph.getVertexCount()),
-                     static_cast<size_t>(graph.getEdgeCount()),
+  results.push_back({file_name, graph.order(), graph.size() - graph.order(),
                      best_solution.get_fitness(), elapsed_time});
 }
 
 int main(int argc, char *argv[]) {
   AlgorithmParams params = parse_args(argc, argv);
 
-  DenseGraph graph = load_graph_from_file(params.file_path);
-
-  if (graph.getVertexCount() == 0) {
+  Graph *graph = load_graph_from_file(params.file_path);
+  if (graph->order() == 0) {
     std::cerr << "Error: The graph has no nodes." << std::endl;
+    delete graph;
     return 1;
   }
 
@@ -207,10 +210,11 @@ int main(int argc, char *argv[]) {
   results.reserve(params.trials);
 
   for (size_t trial = 0; trial < params.trials; ++trial) {
-    execute_trial(trial, graph, params, results);
+    execute_trial(trial, *graph, params, results);
   }
 
   write_results_to_csv(results, params.output_file);
 
+  delete graph;
   return 0;
 }
