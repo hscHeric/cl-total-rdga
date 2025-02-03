@@ -150,6 +150,7 @@ void execute_trial(size_t trial, Graph &graph, const AlgorithmParams &params,
   std::vector<Chromosome> initial_population;
   initial_population.push_back(h2(graph));
   initial_population.push_back(h3(graph));
+  initial_population.push_back(h4(graph));
   initial_population.push_back(h5(graph));
 
   for (size_t i = 0;

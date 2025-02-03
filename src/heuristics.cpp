@@ -10,8 +10,7 @@ int get_random_int(int ini, int last) {
 }
 
 Graph *create_graph_copy(const Graph &original) {
-  Graph *copy = new BitListGraph(
-      original.order()); // Using BitListGraph as default implementation
+  Graph *copy = new BitListGraph(original.order());
 
   original.for_each_edge([&](int u, int v) { copy->add_edge(u, v); });
 
@@ -20,8 +19,7 @@ Graph *create_graph_copy(const Graph &original) {
 
 Chromosome h1(Graph &graph) {
   Chromosome chromosome(graph.order());
-  auto temp_graph =
-      create_graph_copy(graph); // Assume we have this utility function
+  auto temp_graph = create_graph_copy(graph);
 
   while (temp_graph->size() > 0) {
     auto unvisited = temp_graph->get_vertices();
@@ -48,7 +46,6 @@ Chromosome h1(Graph &graph) {
 
     temp_graph->remove_vertex(selected_vertex);
 
-    // Handle isolated vertices
     unvisited = temp_graph->get_vertices();
     for (int v : unvisited) {
       if (temp_graph->degree(v) == 0) {
@@ -75,7 +72,6 @@ Chromosome h2(Graph &graph) {
   Graph *temp_graph = create_graph_copy(graph);
 
   while (temp_graph->size() > 0) {
-    // Find vertex with maximum degree
     int max_degree = -1;
     int max_degree_vertex = -1;
     temp_graph->for_each_vertex([&](int v) {
@@ -105,7 +101,6 @@ Chromosome h2(Graph &graph) {
 
     temp_graph->remove_vertex(max_degree_vertex);
 
-    // Handle isolated vertices
     auto unvisited = temp_graph->get_vertices();
     for (int v : unvisited) {
       if (temp_graph->degree(v) == 0) {
@@ -142,7 +137,6 @@ Chromosome h3(Graph &graph) {
   Graph *temp_graph = create_graph_copy(graph);
 
   while (temp_graph->size() > 0) {
-    // Find vertex with maximum degree
     int max_degree = -1;
     int max_degree_vertex = -1;
     temp_graph->for_each_vertex([&](int v) {
@@ -158,7 +152,6 @@ Chromosome h3(Graph &graph) {
 
     chromosome.set_value(max_degree_vertex, LABEL_TWO);
 
-    // Find neighbor with maximum degree
     struct NeighborInfo {
       int vertex;
       int degree;
@@ -189,7 +182,6 @@ Chromosome h3(Graph &graph) {
 
     temp_graph->remove_vertex(max_degree_vertex);
 
-    // Handle isolated vertices
     auto unvisited = temp_graph->get_vertices();
     for (int v : unvisited) {
       if (temp_graph->degree(v) == 0) {
@@ -229,13 +221,12 @@ Chromosome h3(Graph &graph) {
   chromosome.calculate_fitness();
   return chromosome;
 }
+
 Chromosome h4(Graph &graph) {
   Chromosome chromosome(graph.order());
-  Graph *temp_graph =
-      create_graph_copy(graph); // Cria uma cópia do grafo original
+  Graph *temp_graph = create_graph_copy(graph);
 
   while (temp_graph->size() > 0) {
-    // Passo 3: Encontre o vértice com o maior grau
     int max_degree = -1;
     int max_degree_vertex = -1;
     temp_graph->for_each_vertex([&](int v) {
@@ -247,12 +238,10 @@ Chromosome h4(Graph &graph) {
     });
 
     if (max_degree_vertex == -1)
-      break; // Se não há mais vértices, saia do loop
+      break;
 
-    // Passo 4: Atribua rótulo 2 ao vértice de maior grau
     chromosome.set_value(max_degree_vertex, LABEL_TWO);
 
-    // Passo 5: Encontre o vizinho de maior grau e atribua rótulo 1
     int max_neighbor_degree = -1;
     int max_neighbor_vertex = -1;
     temp_graph->for_each_neighbor(max_degree_vertex, [&](int neighbor) {
@@ -265,80 +254,101 @@ Chromosome h4(Graph &graph) {
 
     if (max_neighbor_vertex != -1) {
       chromosome.set_value(max_neighbor_vertex, LABEL_ONE);
+
+      temp_graph->for_each_neighbor(max_degree_vertex, [&](int neighbor) {
+        if (neighbor != max_neighbor_vertex) {
+          chromosome.set_value(neighbor, LABEL_ZERO);
+          temp_graph->remove_vertex(neighbor);
+        }
+      });
+
+      bool has_positive_neighbor = false;
+      temp_graph->for_each_neighbor(max_neighbor_vertex, [&](int neighbor) {
+        if (chromosome.get_value(neighbor) > 0) {
+          has_positive_neighbor = true;
+        }
+      });
+
+      if (!has_positive_neighbor) {
+        temp_graph->for_each_neighbor(max_neighbor_vertex, [&](int neighbor) {
+          if (!has_positive_neighbor && neighbor != max_degree_vertex &&
+              chromosome.get_value(neighbor) == 0) {
+            chromosome.set_value(neighbor, LABEL_ONE);
+            has_positive_neighbor = true;
+          }
+        });
+      }
+
+      temp_graph->remove_vertex(max_neighbor_vertex);
     }
 
-    // Passo 6: Atribua rótulo 0 aos demais vizinhos
-    temp_graph->for_each_neighbor(max_degree_vertex, [&](int neighbor) {
-      if (neighbor != max_neighbor_vertex) {
-        chromosome.set_value(neighbor, LABEL_ZERO);
-      }
-    });
-
-    // Passo 7: Remova o vértice e seus vizinhos do grafo temporário
     temp_graph->remove_vertex(max_degree_vertex);
-    temp_graph->for_each_neighbor(max_degree_vertex, [&](int neighbor) {
-      temp_graph->remove_vertex(neighbor);
-    });
 
-    // Passo 8: Verifique vértices isolados
-    auto unvisited = temp_graph->get_vertices();
-    std::unordered_set<int> isolated_vertices;
-
-    for (int v : unvisited) {
-      if (temp_graph->degree(v) == 0) {
-        isolated_vertices.insert(v);
+    auto vertices = temp_graph->get_vertices();
+    std::vector<int> to_process;
+    for (int v : vertices) {
+      if (temp_graph->degree(v) <= 1) {
+        to_process.push_back(v);
       }
     }
 
-    if (!isolated_vertices.empty()) {
-      // Passo 9: Seja S o conjunto de vértices isolados
-      std::unordered_set<int> S = isolated_vertices;
-
-      // Passo 10: Seja N(S) o conjunto de vizinhos de S no grafo original
-      std::unordered_set<int> N_S;
-      for (int v : S) {
-        graph.for_each_neighbor(v, [&](int neighbor) { N_S.insert(neighbor); });
-      }
-
-      // Passo 11: Para cada z em N(S) com pelo menos dois vizinhos em S
-      for (int z : N_S) {
-        int count = 0;
-        graph.for_each_neighbor(z, [&](int neighbor) {
-          if (S.count(neighbor)) {
-            count++;
+    for (int v : to_process) {
+      if (temp_graph->contains(v)) {
+        bool has_label_two_neighbor = false;
+        graph.for_each_neighbor(v, [&](int neighbor) {
+          if (chromosome.get_value(neighbor) == LABEL_TWO) {
+            has_label_two_neighbor = true;
           }
         });
 
-        if (count >= 2) {
-          chromosome.set_value(z, LABEL_TWO);
-          graph.for_each_neighbor(z, [&](int neighbor) {
-            if (S.count(neighbor)) {
-              chromosome.set_value(neighbor, LABEL_ZERO);
+        if (!has_label_two_neighbor) {
+          std::vector<int> uncovered_neighbors;
+          graph.for_each_neighbor(v, [&](int neighbor) {
+            if (chromosome.get_value(neighbor) == 0) {
+              uncovered_neighbors.push_back(neighbor);
             }
           });
-        }
-      }
 
-      // Passo 12: Pinte os demais vértices em N(S) com rótulo 2
-      for (int z : N_S) {
-        if (chromosome.get_value(z) == LABEL_UNDEFINED) {
-          chromosome.set_value(z, LABEL_TWO);
-        }
-      }
+          if (!uncovered_neighbors.empty()) {
+            int best_neighbor = uncovered_neighbors[0];
+            int max_degree = graph.degree(best_neighbor);
 
-      // Passo 13: Pinte com rótulo 0 os vértices em S que não foram pintados
-      for (int v : S) {
-        if (chromosome.get_value(v) == LABEL_UNDEFINED) {
+            for (size_t i = 1; i < uncovered_neighbors.size(); i++) {
+              int curr_degree = graph.degree(uncovered_neighbors[i]);
+              if (curr_degree > max_degree) {
+                max_degree = curr_degree;
+                best_neighbor = uncovered_neighbors[i];
+              }
+            }
+
+            chromosome.set_value(best_neighbor, LABEL_TWO);
+            chromosome.set_value(v, LABEL_ZERO);
+          } else {
+            chromosome.set_value(v, LABEL_TWO);
+          }
+        } else {
           chromosome.set_value(v, LABEL_ZERO);
         }
-      }
 
-      // Passo 14: Remova todos os vértices de S do grafo temporário
-      for (int v : S) {
         temp_graph->remove_vertex(v);
       }
     }
   }
+
+  graph.for_each_vertex([&](int v) {
+    if (chromosome.get_value(v) == LABEL_ONE) {
+      bool has_positive_neighbor = false;
+      graph.for_each_neighbor(v, [&](int neighbor) {
+        if (chromosome.get_value(neighbor) > 0) {
+          has_positive_neighbor = true;
+        }
+      });
+
+      if (!has_positive_neighbor) {
+        chromosome.set_value(v, LABEL_TWO);
+      }
+    }
+  });
 
   delete temp_graph;
   chromosome.calculate_fitness();

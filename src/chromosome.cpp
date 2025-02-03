@@ -83,7 +83,6 @@ void Chromosome::fix(Graph &graph) {
       int vertex_with_label_one = -1;
       int last_neighbor = -1;
 
-      // Process each neighbor of vertex u
       graph.for_each_neighbor(u, [&](int w) {
         last_neighbor = w;
         if (this->get_value(w) == LABEL_ONE) {

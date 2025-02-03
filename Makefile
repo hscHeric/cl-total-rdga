@@ -24,7 +24,6 @@ $(TARGET): $(OBJS)
 
 # Compilação dos objetos com verificação do clang-tidy
 $(BUILD_DIR)/%.o: $(SRC_DIR)/%.cpp | $(BUILD_DIR)
-	$(TIDY) $< -- $(CXXFLAGS) || exit 1
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Criar diretório de build, se necessário

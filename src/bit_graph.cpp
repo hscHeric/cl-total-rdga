@@ -130,7 +130,6 @@ void BitMatrixGraph::print() const {
   }
 }
 
-// BitListGraph Implementation
 BitListGraph::BitListGraph(int n) : Graph(n) {
   adjacency_lists.resize(n, BitSet(n));
   active_vertices = BitSet(n);
@@ -175,7 +174,7 @@ void BitListGraph::add_edge(int u, int v) {
   if (u == v)
     throw std::invalid_argument("Self-loops are not allowed in simple graphs");
 
-  if (!adjacency_lists[u].test(v)) { // Prevent multiple edges
+  if (!adjacency_lists[u].test(v)) {
     adjacency_lists[u].set(v);
     adjacency_lists[v].set(u);
     edge_count++;
@@ -197,7 +196,6 @@ void BitListGraph::remove_vertex(int v) {
   if (!contains(v))
     return;
 
-  // Remove all edges incident to v
   for (size_t u = adjacency_lists[v].find_first(); u != BitSet::npos;
        u = adjacency_lists[v].find_next(u)) {
     adjacency_lists[u].reset(v);
@@ -224,7 +222,6 @@ void BitListGraph::for_each_vertex(const VertexCallback &func) const {
 void BitListGraph::for_each_edge(const EdgeCallback &func) const {
   for (size_t u = active_vertices.find_first(); u != BitSet::npos;
        u = active_vertices.find_next(u)) {
-    // Only iterate over v > u to avoid counting edges twice
     for (size_t v = adjacency_lists[u].find_first(); v != BitSet::npos;
          v = adjacency_lists[u].find_next(v)) {
       if (v > u && active_vertices.test(v))
