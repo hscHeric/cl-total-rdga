@@ -1,4 +1,5 @@
 #include <chrono>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
@@ -30,6 +31,67 @@ struct TrialResult {
   int fitness;
   uint64_t elapsed_micros;
 };
+
+bool validate_total_roman_domination(const Chromosome &chr, Graph &graph,
+                                     const std::string &heuristic_name) {
+  if (chr.size() != graph.order()) {
+    std::cerr << "[" << heuristic_name
+              << "] Error: Chromosome size does not match graph order\n";
+    return false;
+  }
+
+  bool is_valid = true;
+  graph.for_each_vertex([&](int v) {
+    int label = chr.get_value(v);
+
+    if (label < 0 || label > 2) {
+      std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
+                << " has invalid label " << label << "\n";
+      is_valid = false;
+      return;
+    }
+
+    if (label == 0) {
+      bool has_label_two_neighbor = false;
+      graph.for_each_neighbor(v, [&](int neighbor) {
+        if (chr.get_value(neighbor) == 2) {
+          has_label_two_neighbor = true;
+        }
+      });
+
+      if (!has_label_two_neighbor) {
+        std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
+                  << " has label 0 but no neighbor with label 2\n";
+        is_valid = false;
+        return;
+      }
+    }
+
+    if (label == 1 || label == 2) {
+      bool has_positive_neighbor = false;
+      graph.for_each_neighbor(v, [&](int neighbor) {
+        if (chr.get_value(neighbor) > 0) {
+          has_positive_neighbor = true;
+        }
+      });
+
+      if (!has_positive_neighbor) {
+        std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
+                  << " has label " << label
+                  << " but no neighbor with positive label\n";
+        is_valid = false;
+        return;
+      }
+    }
+  });
+
+  if (is_valid) {
+    std::cout << "[" << heuristic_name << "] Solution is valid\n";
+  } else {
+    std::cout << "[" << heuristic_name << "] Solution is invalid\n";
+  }
+  return is_valid;
+}
 
 void write_results_to_csv(const std::vector<TrialResult> &results,
                           const std::string &output_file) {
@@ -152,6 +214,40 @@ void execute_trial(size_t trial, Graph &graph, const AlgorithmParams &params,
   initial_population.push_back(h3(graph));
   initial_population.push_back(h4(graph));
   initial_population.push_back(h5(graph));
+
+  auto h2_solution = h2(graph);
+  if (!validate_total_roman_domination(h2_solution, graph, "H2")) {
+    std::cerr << "H2 generated an invalid solution\n";
+  }
+  initial_population.push_back(h2_solution);
+
+  auto h3_solution = h3(graph);
+  if (!validate_total_roman_domination(h3_solution, graph, "H3")) {
+    std::cerr << "H3 generated an invalid solution\n";
+  }
+  initial_population.push_back(h3_solution);
+
+  auto h4_solution = h4(graph);
+  if (!validate_total_roman_domination(h4_solution, graph, "H4")) {
+    std::cerr << "H4 generated an invalid solution\n";
+  }
+  initial_population.push_back(h4_solution);
+
+  auto h5_solution = h5(graph);
+  if (!validate_total_roman_domination(h5_solution, graph, "H5")) {
+    std::cerr << "H5 generated an invalid solution\n";
+  }
+  initial_population.push_back(h5_solution);
+
+  // H1 (random solutions)
+  for (size_t i = 0;
+       i < static_cast<size_t>(graph.order() / params.population_factor); ++i) {
+    auto h1_solution = h1(graph);
+    if (!validate_total_roman_domination(h1_solution, graph, "H1")) {
+      std::cerr << "H1 generated an invalid solution\n";
+    }
+    initial_population.push_back(h1_solution);
+  }
 
   for (size_t i = 0;
        i < static_cast<size_t>(graph.order() / params.population_factor); ++i) {
