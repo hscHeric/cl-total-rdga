@@ -1,17 +1,12 @@
-#include <chrono>
-#include <cstdlib>
+#include "Chromosome.hpp"
+#include "Graph.hpp"
+#include "HeuristicGenerators.hpp"
+#include "ListGraph.hpp"
+#include "MatrixGraph.hpp"
+#include <cstddef>
+#include <cstdint>
 #include <fstream>
-#include <iostream>
 #include <string>
-#include <unordered_map>
-#include <vector>
-
-#include "../include/bit_graph.hpp"
-#include "../include/chromosome.hpp"
-#include "../include/crossover.hpp"
-#include "../include/heuristics.hpp"
-#include "../include/population.hpp"
-#include "../include/selection.hpp"
 
 struct AlgorithmParams {
   size_t max_stagnant = 100;
@@ -32,85 +27,67 @@ struct TrialResult {
   uint64_t elapsed_micros;
 };
 
-bool validate_total_roman_domination(const Chromosome &chr, Graph &graph,
-                                     const std::string &heuristic_name) {
-  if (chr.size() != graph.order()) {
-    std::cerr << "[" << heuristic_name
-              << "] Error: Chromosome size does not match graph order\n";
-    return false;
+Graph *load_graph(const std::string &filename, double density_threshold = 0.5) {
+  std::ifstream file(filename);
+  if (!file.is_open()) {
+    throw std::runtime_error("Não foi possível abrir o arquivo: " + filename);
   }
 
-  bool is_valid = true;
-  graph.for_each_vertex([&](int v) {
-    int label = chr.get_value(v);
+  int num_vertices, num_edges;
+  file >> num_vertices >> num_edges;
 
-    if (label < 0 || label > 2) {
-      std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
-                << " has invalid label " << label << "\n";
-      is_valid = false;
-      return;
-    }
+  // Primeira passagem para encontrar o maior índice de vértice
+  int max_vertex_index = -1;
+  std::vector<std::pair<int, int>> edges;
 
-    if (label == 0) {
-      bool has_label_two_neighbor = false;
-      graph.for_each_neighbor(v, [&](int neighbor) {
-        if (chr.get_value(neighbor) == 2) {
-          has_label_two_neighbor = true;
-        }
-      });
+  int u, v;
+  file.clear();
+  file.seekg(0);                     // Volta ao início do arquivo
+  file >> num_vertices >> num_edges; // Pula o cabeçalho novamente
 
-      if (!has_label_two_neighbor) {
-        std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
-                  << " has label 0 but no neighbor with label 2\n";
-        is_valid = false;
-        return;
-      }
-    }
+  while (file >> u >> v) {
+    max_vertex_index = std::max(max_vertex_index, std::max(u, v));
+    edges.push_back({u, v});
+  }
 
-    if (label == 1 || label == 2) {
-      bool has_positive_neighbor = false;
-      graph.for_each_neighbor(v, [&](int neighbor) {
-        if (chr.get_value(neighbor) > 0) {
-          has_positive_neighbor = true;
-        }
-      });
+  int actual_vertices = max_vertex_index + 1;
 
-      if (!has_positive_neighbor) {
-        std::cerr << "[" << heuristic_name << "] Error: Vertex " << v
-                  << " has label " << label
-                  << " but no neighbor with positive label\n";
-        is_valid = false;
-        return;
-      }
-    }
-  });
+  double max_edges = (actual_vertices * (actual_vertices - 1)) / 2.0;
+  double density =
+      (max_edges > 0) ? (static_cast<double>(num_edges) / max_edges) : 0.0;
 
-  if (is_valid) {
-    std::cout << "[" << heuristic_name << "] Solution is valid\n";
+  Graph *graph;
+  if (density < density_threshold) {
+    graph = new ListGraph(actual_vertices);
   } else {
-    std::cout << "[" << heuristic_name << "] Solution is invalid\n";
-  }
-  return is_valid;
-}
-
-void write_results_to_csv(const std::vector<TrialResult> &results,
-                          const std::string &output_file) {
-  std::ofstream file(output_file, std::ios::app);
-  if (!file) {
-    std::cerr << "Failed to open output file: " << output_file << std::endl;
-    return;
+    graph = new MatrixGraph(actual_vertices);
   }
 
-  if (file.tellp() == 0) {
-    file << "graph_name,graph_order,graph_size,fitness_value,elapsed_time("
-            "microsecond)\n";
+  // Adiciona as arestas
+  std::unordered_set<std::string> edge_set;
+  for (const auto &edge : edges) {
+    u = edge.first;
+    v = edge.second;
+
+    if (u == v)
+      continue;
+
+    std::string edgeKey = (u < v) ? std::to_string(u) + "_" + std::to_string(v)
+                                  : std::to_string(v) + "_" + std::to_string(u);
+
+    if (edge_set.find(edgeKey) == edge_set.end()) {
+      try {
+        graph->add_edge(u, v);
+        edge_set.insert(edgeKey);
+      } catch (const std::exception &e) {
+        std::cerr << "Aviso: " << e.what() << " para aresta (" << u << ", " << v
+                  << ")\n";
+      }
+    }
   }
 
-  for (const auto &result : results) {
-    file << result.graph_name << "," << result.node_count << ","
-         << result.edge_count << "," << result.fitness << ","
-         << result.elapsed_micros << "\n";
-  }
+  file.close();
+  return graph;
 }
 
 AlgorithmParams parse_args(int argc, char *argv[]) {
@@ -156,162 +133,52 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
   return params;
 }
 
-Graph *load_graph_from_file(const std::string &file_path) {
-  std::ifstream file(file_path);
-  if (!file) {
-    std::cerr << "Error: Cannot open file " << file_path << std::endl;
-    exit(1);
-  }
+bool valid_totalrd(const Graph *graph, const Chromosome &chromosome) {
+  bool isValid = true;
+  graph->for_each_vertex([&](int v) {
+    int label = chromosome.get_value(v);
+    bool hasValidNeighbor = false;
 
-  int num_vertices, num_edges;
-  if (!(file >> num_vertices >> num_edges) || num_vertices <= 0) {
-    std::cerr << "Error: Invalid number of vertices in file " << file_path
-              << std::endl;
-    exit(1);
-  }
+    graph->for_each_neighbor(v, [&](int neighbor) {
+      int neighborLabel = chromosome.get_value(neighbor);
 
-  double density = (2.0 * num_edges) / (num_vertices * (num_vertices - 1));
+      if (label == 0 && neighborLabel == 2) {
+        hasValidNeighbor = true;
+      }
+      if ((label == 1 || label == 2) &&
+          (neighborLabel == 1 || neighborLabel == 2)) {
+        hasValidNeighbor = true;
+      }
+    });
 
-  Graph *graph;
-  if (density > 0.5) {
-    std::cout << "Using BitMatrixGraph (Dense Graph Representation)\n";
-    graph = new BitMatrixGraph(num_vertices);
-  } else {
-    std::cout << "Using BitListGraph (Sparse Graph Representation)\n";
-    graph = new BitListGraph(num_vertices);
-  }
-
-  std::unordered_map<int, bool> valid_vertices;
-
-  int u, v;
-  while (file >> u >> v) {
-    if (u < 0 || u >= num_vertices || v < 0 || v >= num_vertices) {
-      continue;
+    if ((label == 0 && !hasValidNeighbor) ||
+        ((label == 1 || label == 2) && !hasValidNeighbor)) {
+      // std::cerr << "Erro: vértice " << v << " (rótulo " << label
+      //           << ") não atende aos critérios de dominância.\n";
+      isValid = false;
     }
+  });
 
-    if (u != v) { // Evita laços
-      graph->add_edge(u, v);
-      valid_vertices[u] = true;
-      valid_vertices[v] = true;
-    }
-  }
-
-  if (valid_vertices.empty()) {
-    std::cerr << "Error: The graph has no valid edges or nodes." << std::endl;
-    delete graph;
-    exit(1);
-  }
-
-  return graph;
-}
-
-void execute_trial(size_t trial, Graph &graph, const AlgorithmParams &params,
-                   std::vector<TrialResult> &results) {
-  auto start_time = std::chrono::high_resolution_clock::now();
-
-  std::vector<Chromosome> initial_population;
-  initial_population.push_back(h2(graph));
-  initial_population.push_back(h3(graph));
-  initial_population.push_back(h4(graph));
-  initial_population.push_back(h5(graph));
-
-  auto h2_solution = h2(graph);
-  if (!validate_total_roman_domination(h2_solution, graph, "H2")) {
-    std::cerr << "H2 generated an invalid solution\n";
-  }
-  initial_population.push_back(h2_solution);
-
-  auto h3_solution = h3(graph);
-  if (!validate_total_roman_domination(h3_solution, graph, "H3")) {
-    std::cerr << "H3 generated an invalid solution\n";
-  }
-  initial_population.push_back(h3_solution);
-
-  auto h4_solution = h4(graph);
-  if (!validate_total_roman_domination(h4_solution, graph, "H4")) {
-    std::cerr << "H4 generated an invalid solution\n";
-  }
-  initial_population.push_back(h4_solution);
-
-  auto h5_solution = h5(graph);
-  if (!validate_total_roman_domination(h5_solution, graph, "H5")) {
-    std::cerr << "H5 generated an invalid solution\n";
-  }
-  initial_population.push_back(h5_solution);
-
-  // H1 (random solutions)
-  for (size_t i = 0;
-       i < static_cast<size_t>(graph.order() / params.population_factor); ++i) {
-    auto h1_solution = h1(graph);
-    if (!validate_total_roman_domination(h1_solution, graph, "H1")) {
-      std::cerr << "H1 generated an invalid solution\n";
-    }
-    initial_population.push_back(h1_solution);
-  }
-
-  for (size_t i = 0;
-       i < static_cast<size_t>(graph.order() / params.population_factor); ++i) {
-    initial_population.push_back(h1(graph));
-  }
-
-  Population population(initial_population.size(), initial_population);
-  SinglePoint crossover(params.crossover_rate);
-  KTournamentSelection selector(params.tournament_size);
-
-  Chromosome best_solution = population.get_best_chromosome();
-  size_t stagnant_generations = 0;
-
-  for (size_t generation = 0; generation < params.generations; ++generation) {
-    population.evolve(selector, crossover, graph);
-    Chromosome new_best_solution = population.get_best_chromosome();
-
-    if (new_best_solution.get_fitness() < best_solution.get_fitness()) {
-      best_solution = new_best_solution;
-      stagnant_generations = 0;
-    } else {
-      stagnant_generations++;
-    }
-
-    if (stagnant_generations >= params.max_stagnant) {
-      break;
-    }
-  }
-
-  auto end_time = std::chrono::high_resolution_clock::now();
-  uint64_t elapsed_time = std::chrono::duration_cast<std::chrono::microseconds>(
-                              end_time - start_time)
-                              .count();
-
-  std::string file_name =
-      params.file_path.substr(params.file_path.find_last_of("/\\") + 1);
-  size_t dot_pos = file_name.find_last_of(".");
-  if (dot_pos != std::string::npos && file_name.substr(dot_pos) == ".txt") {
-    file_name = file_name.substr(0, dot_pos);
-  }
-
-  results.push_back({file_name, graph.order(), graph.size() - graph.order(),
-                     best_solution.get_fitness(), elapsed_time});
+  return isValid;
 }
 
 int main(int argc, char *argv[]) {
-  AlgorithmParams params = parse_args(argc, argv);
+  auto params = parse_args(argc, argv);
+  auto graph = load_graph(params.file_path);
+  HeuristicGenerators heuristicHandle;
 
-  Graph *graph = load_graph_from_file(params.file_path);
   if (graph->order() == 0) {
     std::cerr << "Error: The graph has no nodes." << std::endl;
     delete graph;
     return 1;
   }
 
-  std::vector<TrialResult> results;
-  results.reserve(params.trials);
+  // Gerar uma solução usando h1
+  Chromosome solution = heuristicHandle.h1(*graph);
 
-  for (size_t trial = 0; trial < params.trials; ++trial) {
-    execute_trial(trial, *graph, params, results);
-  }
-
-  write_results_to_csv(results, params.output_file);
-
+  // Verificar se a solução é válida
+  auto a = valid_totalrd(graph, solution);
+  std::cout << a << "\n";
   delete graph;
   return 0;
 }
