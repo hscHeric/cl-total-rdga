@@ -39,14 +39,15 @@ std::unique_ptr<Graph> createOptimalGraph(int numVertices, double density) {
   }
 }
 
-std::unique_ptr<Graph> load_graph(const std::string &filename) {
+std::unique_ptr<Graph> load_and_normalize_graph(const std::string &filename) {
   std::ifstream file(filename);
   if (!file.is_open()) {
     throw std::runtime_error("Não foi possível abrir o arquivo: " + filename);
   }
 
+  // Primeira passagem: coletar todos os vértices únicos
   std::set<int> vertices;
-  std::vector<std::pair<int, int>> validEdges;
+  std::vector<std::pair<int, int>> edges;
   std::string line;
 
   while (std::getline(file, line)) {
@@ -55,12 +56,10 @@ std::unique_ptr<Graph> load_graph(const std::string &filename) {
     if (!(iss >> u >> v)) {
       continue;
     }
-
     vertices.insert(u);
     vertices.insert(v);
-
     if (u != v) {
-      validEdges.emplace_back(u, v);
+      edges.emplace_back(u, v);
     }
   }
 
@@ -68,34 +67,81 @@ std::unique_ptr<Graph> load_graph(const std::string &filename) {
     throw std::runtime_error("Nenhum vértice encontrado na entrada");
   }
 
-  int maxVertex = *vertices.rbegin();
-  int numVertices = maxVertex + 1;
+  // Identificar lacunas nos IDs de vértices
+  std::vector<int> missing_vertices;
+  if (!vertices.empty()) {
+    int min_vertex = *vertices.begin();
+    int max_vertex = *vertices.rbegin();
 
-  std::set<std::pair<int, int>> uniqueEdges;
-  for (const auto &edge : validEdges) {
-    int u = edge.first;
-    int v = edge.second;
-    if (u > v)
-      std::swap(u, v); // Normaliza a aresta
-    uniqueEdges.insert({u, v});
+    for (int i = min_vertex; i <= max_vertex; i++) {
+      if (vertices.find(i) == vertices.end()) {
+        missing_vertices.push_back(i);
+      }
+    }
   }
 
-  double maxPossibleEdges = numVertices * (numVertices - 1) / 2.0;
-  double density = uniqueEdges.size() / maxPossibleEdges;
+  std::unordered_map<int, int> id_map;
+  int new_id = 0;
+  for (int original_id : vertices) {
+    id_map[original_id] = new_id++;
+  }
 
-  std::cout << "Estatísticas do grafo:" << std::endl;
-  std::cout << "  Vértices: " << numVertices << std::endl;
-  std::cout << "  Arestas únicas: " << uniqueEdges.size() << std::endl;
+  int num_vertices = vertices.size();
+  double max_possible_edges = num_vertices * (num_vertices - 1) / 2.0;
+  std::set<std::pair<int, int>> unique_edges;
+
+  for (const auto &edge : edges) {
+    int norm_u = id_map[edge.first];
+    int norm_v = id_map[edge.second];
+    if (norm_u > norm_v) {
+      std::swap(norm_u, norm_v);
+    }
+    unique_edges.insert({norm_u, norm_v});
+  }
+
+  double density = unique_edges.size() / max_possible_edges;
+
+  // Imprimir estatísticas
+  std::cout << "Estatísticas do grafo normalizado:" << std::endl;
+  std::cout << "  Vértices originais: " << vertices.size() << std::endl;
+  std::cout << "  Intervalo original: [" << *vertices.begin() << ", "
+            << *vertices.rbegin() << "]" << std::endl;
+
+  if (!missing_vertices.empty()) {
+    std::cout << "  Vértices faltantes: ";
+    for (size_t i = 0; i < missing_vertices.size(); i++) {
+      std::cout << missing_vertices[i];
+      if (i < missing_vertices.size() - 1) {
+        std::cout << ", ";
+      }
+    }
+    std::cout << std::endl;
+    std::cout << "  Total de lacunas: " << missing_vertices.size() << std::endl;
+  } else {
+    std::cout << "  Não há lacunas na numeração dos vértices" << std::endl;
+  }
+
+  std::cout << "  Mapeamento aplicado: ";
+  for (const auto &[orig, norm] : id_map) {
+    std::cout << orig << "->" << norm << " ";
+  }
+  std::cout << std::endl;
+  std::cout << "  Vértices normalizados: " << num_vertices << std::endl;
+  std::cout << "  Arestas únicas: " << unique_edges.size() << std::endl;
   std::cout << "  Densidade: " << density << std::endl;
   std::cout << "  Implementação selecionada: "
             << (density > 0.3 ? "MatrixGraph" : "ListGraph") << std::endl;
 
-  std::unique_ptr<Graph> graph = createOptimalGraph(numVertices, density);
+  // Criar grafo com implementação adequada
+  std::unique_ptr<Graph> graph;
+  if (density > 0.3) {
+    graph = std::make_unique<MatrixGraph>(num_vertices);
+  } else {
+    graph = std::make_unique<ListGraph>(num_vertices);
+  }
 
-  file.clear();
-  file.seekg(0, std::ios::beg);
-
-  for (const auto &edge : uniqueEdges) {
+  // Adicionar arestas normalizadas
+  for (const auto &edge : unique_edges) {
     graph->add_edge(edge.first, edge.second);
   }
 
@@ -170,7 +216,7 @@ bool valid_totalrd(const Graph *graph, const Chromosome &chromosome) {
 
 int main(int argc, char *argv[]) {
   auto params = parse_args(argc, argv);
-  auto graph = load_graph(params.file_path);
+  auto graph = load_and_normalize_graph(params.file_path);
   HeuristicGenerators heuristicHandle;
 
   if (graph->order() == 0) {
