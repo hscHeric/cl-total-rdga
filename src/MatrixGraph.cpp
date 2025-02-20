@@ -1,95 +1,123 @@
 #include "MatrixGraph.hpp"
+#include <algorithm>
+#include <stdexcept>
 
 MatrixGraph::MatrixGraph(int n) : Graph(n) {
-  for (int i = 0; i < n; ++i) {
-    _adjList[i];
-    _adjList[i].resize(n);
+  // Inicializa o grafo com n vértices numerados de 0 a n-1
+  for (int i = 0; i < n; i++) {
+    _adjList[i] = BitSet(n);
   }
 }
 
-int MatrixGraph::order() const noexcept {
-  return static_cast<int>(_adjList.size());
-}
+int MatrixGraph::order() const noexcept { return _adjList.size(); }
 
 int MatrixGraph::size() const noexcept {
-  int edgeCount = 0;
-  for (const auto &p : _adjList) {
-    edgeCount += p.second.count();
+  int count = 0;
+  for (const auto &[_, bitset] : _adjList) {
+    count += bitset.count();
   }
-  return edgeCount / 2;
+  // Cada aresta é contada duas vezes (uma para cada extremidade)
+  return count / 2;
 }
 
 int MatrixGraph::degree(int v) const {
-  // já lança uma exceção se não existir o vértice v no std::unordered_map
+  if (!contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
+  }
   return _adjList.at(v).count();
 }
 
 std::pair<int, int> MatrixGraph::degree_range() const noexcept {
-  int min_degree = order();
+  if (_adjList.empty()) {
+    return {0, 0};
+  }
+
+  int min_degree = std::numeric_limits<int>::max();
   int max_degree = 0;
 
-  for (const auto &p : _adjList) {
-    int current_degree = degree(p.first);
-    min_degree = std::min(min_degree, current_degree);
-    max_degree = std::max(max_degree, current_degree);
+  for (const auto &[_, bitset] : _adjList) {
+    int deg = bitset.count();
+    min_degree = std::min(min_degree, deg);
+    max_degree = std::max(max_degree, deg);
   }
+
   return {min_degree, max_degree};
 }
 
 bool MatrixGraph::contains(int u, int v) const noexcept {
-  if (contains(u) && contains(v)) {
-    // já lança uma exceção se não tiver o vértice u
-    return (_adjList.at(u)[v] == 1) ? true : false;
-  } else {
+  if (!contains(u) || !contains(v)) {
     return false;
   }
+
+  return _adjList.at(u)[v];
 }
 
 bool MatrixGraph::contains(int v) const noexcept {
-  return _adjList.count(v) != 0;
+  return _adjList.find(v) != _adjList.end();
 }
 
 void MatrixGraph::add_edge(int u, int v) {
-  if (!contains(u) || !contains(v)) {
-    throw std::out_of_range("Endpoints of edge are not in the graph");
-  }
-
+  // Ignora self-loops
   if (u == v) {
-    throw std::invalid_argument("Self-loops are not allowed in simple graphs");
+    return;
   }
 
-  _adjList[u][v] = 1;
-  _adjList[v][u] = 1;
+  // Verifica se os vértices existem
+  if (!contains(u) || !contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
+  }
+
+  // Adiciona a aresta (nos dois sentidos, já que é um grafo não direcionado)
+  _adjList[u][v] = true;
+  _adjList[v][u] = true;
 }
 
 void MatrixGraph::remove_edge(int u, int v) {
-  // já lança exceção se não tiver u ou v
-  _adjList.at(u)[v] = 0;
-  _adjList.at(v)[u] = 0;
+  if (!contains(u) || !contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
+  }
+
+  // Remove a aresta (nos dois sentidos)
+  _adjList[u][v] = false;
+  _adjList[v][u] = false;
 }
 
 void MatrixGraph::remove_vertex(int v) {
-  if (contains(v)) {
-    for (unsigned i = 0; i < _adjList[v].size(); ++i) {
-      if (_adjList[v][i] == 1) {
-        _adjList.at(i)[v] = 0;
-      }
-    }
-    _adjList.erase(v);
+  if (!contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
   }
+
+  // Remove todas as arestas incidentes em v
+  for (auto &[vertex, bitset] : _adjList) {
+    if (vertex != v) {
+      bitset[v] = false;
+    }
+  }
+
+  // Remove o vértice v
+  _adjList.erase(v);
 }
 
 void MatrixGraph::for_each_vertex(const VertexCallback &func) const {
-  for (const auto &p : _adjList) {
-    func(p.first);
+  for (const auto &[vertex, _] : _adjList) {
+    func(vertex);
   }
 }
 
 void MatrixGraph::for_each_edge(const EdgeCallback &func) const {
-  for (const auto &par : _adjList) {
-    for (size_t v = par.first + 1; v < par.second.size(); ++v) {
-      if (contains(par.first, v)) {
-        func(par.first, v);
+  std::unordered_set<std::pair<int, int>, PairHash> processed_edges;
+
+  for (const auto &[u, bitset] : _adjList) {
+    for (size_t v = 0; v < bitset.size(); ++v) {
+      if (bitset[v]) {
+        // Garante que cada aresta seja processada apenas uma vez
+        auto edge = std::make_pair(std::min(u, static_cast<int>(v)),
+                                   std::max(u, static_cast<int>(v)));
+
+        if (processed_edges.find(edge) == processed_edges.end()) {
+          func(u, static_cast<int>(v));
+          processed_edges.insert(edge);
+        }
       }
     }
   }
@@ -97,27 +125,36 @@ void MatrixGraph::for_each_edge(const EdgeCallback &func) const {
 
 void MatrixGraph::for_each_neighbor(int v, const VertexCallback &func) const {
   if (!contains(v)) {
-    throw std::out_of_range("Vertex not found");
+    throw std::runtime_error("Vertex does not exist");
   }
 
-  for (size_t u = _adjList.at(v).find_first(); u != BitSet::npos;
-       u = _adjList.at(v).find_next(u)) {
-    func(u);
+  const BitSet &bitset = _adjList.at(v);
+  for (size_t i = 0; i < bitset.size(); ++i) {
+    if (bitset[i]) {
+      func(static_cast<int>(i));
+    }
   }
 }
 
 std::unordered_set<int> MatrixGraph::get_vertices() const {
   std::unordered_set<int> vertices;
-  for (const auto &p : _adjList) {
-    vertices.insert(p.first);
+  for (const auto &[vertex, _] : _adjList) {
+    vertices.insert(vertex);
   }
   return vertices;
 }
 
 void MatrixGraph::print() const {
-  for (auto it = _adjList.cbegin(); it != _adjList.cend(); ++it) {
-    std::cout << it->first << ": ";
-    std::cout << it->second;
-    std::cout << '\n';
+  std::cout << "MatrixGraph: " << order() << " vertices, " << size()
+            << " edges\n";
+
+  for (const auto &[u, bitset] : _adjList) {
+    std::cout << u << ": ";
+    for (size_t v = 0; v < bitset.size(); ++v) {
+      if (bitset[v]) {
+        std::cout << v << " ";
+      }
+    }
+    std::cout << "\n";
   }
 }

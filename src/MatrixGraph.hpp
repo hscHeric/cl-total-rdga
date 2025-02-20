@@ -1,6 +1,8 @@
 #pragma once
 #include "Graph.hpp"
 
+// Estrutura auxiliar para hash de pares
+
 class MatrixGraph : public Graph {
 private:
   std::unordered_map<int, BitSet> _adjList;

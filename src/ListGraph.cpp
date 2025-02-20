@@ -1,35 +1,46 @@
 #include "ListGraph.hpp"
+#include <algorithm>
+#include <stdexcept>
 
 ListGraph::ListGraph(int n) : Graph(n) {
-  for (int i = 0; i < n; ++i) {
-    _adjList[i];
+  // Inicializa o grafo com n vértices numerados de 0 a n-1
+  for (int i = 0; i < n; i++) {
+    _adjList[i] = std::vector<int>();
   }
 }
 
 int ListGraph::order() const noexcept { return _adjList.size(); }
 
 int ListGraph::size() const noexcept {
-  size_t total = 0;
-  for (const auto &p : _adjList) {
-    total += p.second.size();
+  int count = 0;
+  for (const auto &[vertex, neighbors] : _adjList) {
+    count += neighbors.size();
   }
-  return static_cast<int>(total) / 2;
+  // Cada aresta é contada duas vezes (uma para cada extremidade)
+  return count / 2;
 }
 
 int ListGraph::degree(int v) const {
-  // já lança uma exceção se não tiver o vértice v
+  if (!contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
+  }
   return _adjList.at(v).size();
 }
 
 std::pair<int, int> ListGraph::degree_range() const noexcept {
-  int min_degree = order();
+  if (_adjList.empty()) {
+    return {0, 0};
+  }
+
+  int min_degree = std::numeric_limits<int>::max();
   int max_degree = 0;
 
-  for (const auto &p : _adjList) {
-    int current_degree = degree(p.first);
-    min_degree = std::min(min_degree, current_degree);
-    max_degree = std::max(max_degree, current_degree);
+  for (const auto &[vertex, neighbors] : _adjList) {
+    int deg = neighbors.size();
+    min_degree = std::min(min_degree, deg);
+    max_degree = std::max(max_degree, deg);
   }
+
   return {min_degree, max_degree};
 }
 
@@ -37,100 +48,117 @@ bool ListGraph::contains(int u, int v) const noexcept {
   if (!contains(u) || !contains(v)) {
     return false;
   }
-  for (const int &w : _adjList.at(u)) {
-    if (w == v)
-      return true;
-  }
-  return false;
+
+  // Verifica se v está na lista de adjacência de u
+  const auto &neighbors = _adjList.at(u);
+  return std::find(neighbors.begin(), neighbors.end(), v) != neighbors.end();
 }
 
 bool ListGraph::contains(int v) const noexcept {
-  return _adjList.count(v) != 0;
+  return _adjList.find(v) != _adjList.end();
 }
 
 void ListGraph::add_edge(int u, int v) {
-  if (!contains(u) || !contains(v)) {
-    throw std::out_of_range("Endpoints of edge are not in the graph");
-  }
-
+  // Ignora self-loops
   if (u == v) {
-    throw std::invalid_argument("Self-loops are not allowed in simple graphs");
+    return;
   }
 
-  if (!contains(u, v)) { // não adiciona arestas repetidas
-    _adjList[u].push_back(v);
-    _adjList[v].push_back(u);
+  // Verifica se os vértices existem
+  if (!contains(u) || !contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
   }
+
+  // Ignora arestas múltiplas (verifica se a aresta já existe)
+  if (contains(u, v)) {
+    return;
+  }
+
+  // Adiciona a aresta (nos dois sentidos, já que é um grafo não direcionado)
+  _adjList[u].push_back(v);
+  _adjList[v].push_back(u);
 }
 
 void ListGraph::remove_edge(int u, int v) {
-  if (contains(u, v)) {
-    for (auto it = _adjList[u].begin(); it != _adjList[u].end(); ++it) {
-      if (*it == v) {
-        _adjList[u].erase(it);
-        break;
-      }
-    }
-    for (auto it = _adjList[v].begin(); it != _adjList[v].end(); ++it) {
-      if (*it == u) {
-        _adjList[v].erase(it);
-        break;
-      }
-    }
+  if (!contains(u) || !contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
   }
+
+  // Remove v da lista de adjacência de u
+  auto &u_neighbors = _adjList[u];
+  u_neighbors.erase(std::remove(u_neighbors.begin(), u_neighbors.end(), v),
+                    u_neighbors.end());
+
+  // Remove u da lista de adjacência de v
+  auto &v_neighbors = _adjList[v];
+  v_neighbors.erase(std::remove(v_neighbors.begin(), v_neighbors.end(), u),
+                    v_neighbors.end());
 }
 
 void ListGraph::remove_vertex(int v) {
-  if (contains(v)) {
-    for (const int &w : _adjList[v]) {
-      for (auto it = _adjList[w].begin(); it != _adjList[w].end(); ++it) {
-        if (*it == v) {
-          _adjList[w].erase(it);
-          break;
-        }
-      }
-    }
-    _adjList.erase(v);
+  if (!contains(v)) {
+    throw std::runtime_error("Vertex does not exist");
   }
+
+  // Remove todas as arestas incidentes em v
+  for (auto &[vertex, neighbors] : _adjList) {
+    if (vertex != v) {
+      neighbors.erase(std::remove(neighbors.begin(), neighbors.end(), v),
+                      neighbors.end());
+    }
+  }
+
+  // Remove o vértice v
+  _adjList.erase(v);
 }
 
 void ListGraph::for_each_vertex(const VertexCallback &func) const {
-  for (const auto &par : _adjList) {
-    func(par.first);
+  for (const auto &[vertex, _] : _adjList) {
+    func(vertex);
   }
 }
 
 void ListGraph::for_each_edge(const EdgeCallback &func) const {
-  for (const auto &par : _adjList) {
-    for (const auto &neighbor : par.second) {
-      func(par.first, neighbor);
+  std::unordered_set<std::pair<int, int>, PairHash> processed_edges;
+
+  for (const auto &[u, neighbors] : _adjList) {
+    for (int v : neighbors) {
+      // Garante que cada aresta seja processada apenas uma vez
+      auto edge1 = std::make_pair(std::min(u, v), std::max(u, v));
+      if (processed_edges.find(edge1) == processed_edges.end()) {
+        func(u, v);
+        processed_edges.insert(edge1);
+      }
     }
   }
 }
 
 void ListGraph::for_each_neighbor(int v, const VertexCallback &func) const {
   if (!contains(v)) {
-    throw std::out_of_range("Vertex not found");
+    throw std::runtime_error("Vertex does not exist");
   }
-  for (auto it = _adjList.at(v).begin(); it != _adjList.at(v).end(); ++it) {
-    func(*it);
+
+  for (int neighbor : _adjList.at(v)) {
+    func(neighbor);
   }
 }
 
 std::unordered_set<int> ListGraph::get_vertices() const {
   std::unordered_set<int> vertices;
-  for (const auto &p : _adjList) {
-    vertices.insert(p.first);
+  for (const auto &[vertex, _] : _adjList) {
+    vertices.insert(vertex);
   }
   return vertices;
 }
 
 void ListGraph::print() const {
-  for (auto it = _adjList.begin(); it != _adjList.end(); ++it) {
-    std::cout << it->first << ": ";
-    for (auto it2 = it->second.begin(); it2 != it->second.end(); ++it2) {
-      std::cout << *it2 << " ";
+  std::cout << "ListGraph: " << order() << " vertices, " << size()
+            << " edges\n";
+  for (const auto &[vertex, neighbors] : _adjList) {
+    std::cout << vertex << ": ";
+    for (int neighbor : neighbors) {
+      std::cout << neighbor << " ";
     }
-    std::cout << '\n';
+    std::cout << "\n";
   }
 }

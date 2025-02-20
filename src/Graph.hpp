@@ -11,6 +11,15 @@ using BitSet = boost::dynamic_bitset<>;
 using VertexCallback = std::function<void(int)>;
 using EdgeCallback = std::function<void(int, int)>;
 
+struct PairHash {
+  template <class T1, class T2>
+  std::size_t operator()(const std::pair<T1, T2> &p) const {
+    auto h1 = std::hash<T1>{}(p.first);
+    auto h2 = std::hash<T2>{}(p.second);
+    return h1 ^ (h2 << 1);
+  }
+};
+
 /**
  * @brief Os grafos herdados desta classe possuem n vértices. Essa quantidade n
  * é informada no construtor da classe, quando o grafo é instanciado. Ademais, n

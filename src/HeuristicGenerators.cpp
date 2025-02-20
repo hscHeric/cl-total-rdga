@@ -70,54 +70,80 @@ HeuristicGenerators::getIsolatedVertices(const Graph &graph) {
 }
 
 Chromosome HeuristicGenerators::h1(const Graph &graph) {
-  Chromosome chromosome(graph.order());
+  // 1. Criar uma cópia do grafo G original
+  std::unique_ptr<Graph> H(copyGraph(graph));
 
-  std::unique_ptr<Graph> h(copyGraph(graph));
+  // Inicializar o cromossomo com o tamanho igual à ordem do grafo e valor
+  // padrão 0
+  Chromosome chromosome(graph.order(), 0);
 
-  while (h->size() > 0 || !h->get_vertices().empty()) {
-    int v = h->choose_rng();
+  // 2. Enquanto tiver vértices em H faça
+  while (H->order() > 0) {
+    // 3. Escolha aleatoriamente um vértice v qualquer de H
+    int v = H->choose_rng();
 
+    // 4. Faça f(v) = 2
     chromosome.set_value(v, LABEL_TWO);
-    std::vector<int> neighbors;
-    h->for_each_neighbor(v, [&neighbors](int w) { neighbors.push_back(w); });
 
+    // Armazenar vizinhos de v para processamento e remoção posterior
+    std::vector<int> neighbors;
+    H->for_each_neighbor(
+        v, [&neighbors](int neighbor) { neighbors.push_back(neighbor); });
+
+    // 5. Pegue um vizinho u de v e faça f(u) = 1 (o primeiro da lista de
+    // adjacência)
     if (!neighbors.empty()) {
       int u = neighbors[0];
       chromosome.set_value(u, LABEL_ONE);
 
-      for (size_t i = 1; i < neighbors.size(); i++) {
+      // 6. Para todos os demais vizinhos w de v faça f(w) = 0
+      for (size_t i = 1; i < neighbors.size(); ++i) {
         chromosome.set_value(neighbors[i], LABEL_ZERO);
       }
     }
 
-    h->remove_vertex(v);
+    // 7. Remova do grafo H o vértice v e todos os seus vizinhos
     for (int neighbor : neighbors) {
-      if (h->contains(neighbor)) {
-        h->remove_vertex(neighbor);
+      if (H->contains(neighbor)) {
+        H->remove_vertex(neighbor);
       }
     }
+    if (H->contains(v)) {
+      H->remove_vertex(v);
+    }
 
-    auto isolatedVertices = getIsolatedVertices(*h);
+    // 8. Enquanto houver vértice isolado z em H faça
+    auto isolatedVertices = getIsolatedVertices(*H);
     while (!isolatedVertices.empty()) {
-      auto z = *isolatedVertices.begin();
+      // Pega um vértice isolado qualquer
+      int z = *isolatedVertices.begin();
+
+      // 9. Faça f(z) = 1
       chromosome.set_value(z, LABEL_ONE);
 
-      int x = -1;
-      graph.for_each_neighbor(z, [&x](int neighbor) {
-        if (x == -1) {
-          x = neighbor;
-        }
-      });
+      // 10. Seja x um vizinho qualquer de z no grafo G
+      std::vector<int> g_neighbors;
+      graph.for_each_neighbor(
+          z, [&g_neighbors](int neighbor) { g_neighbors.push_back(neighbor); });
 
-      if (x != -1) {
+      if (!g_neighbors.empty()) {
+        // Escolhe um vizinho qualquer (o primeiro)
+        int x = g_neighbors[0];
+
+        // 11. Mude a cor do vértice x para f(x) = 1
         chromosome.set_value(x, LABEL_ONE);
       }
 
-      h->remove_vertex(z);
-      isolatedVertices = getIsolatedVertices(*h);
+      // 12. Remova z do grafo H
+      H->remove_vertex(z);
+
+      // Atualize a lista de vértices isolados
+      isolatedVertices = getIsolatedVertices(*H);
     }
   }
 
+  // Calcula o fitness do cromossomo antes de retorná-lo
   chromosome.calculate_fitness();
+
   return chromosome;
 }

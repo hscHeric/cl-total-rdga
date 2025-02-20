@@ -5,7 +5,10 @@
 #include "MatrixGraph.hpp"
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <fstream>
+#include <memory>
+#include <set>
 #include <string>
 
 struct AlgorithmParams {
@@ -27,66 +30,75 @@ struct TrialResult {
   uint64_t elapsed_micros;
 };
 
-Graph *load_graph(const std::string &filename, double density_threshold = 0.5) {
+std::unique_ptr<Graph> createOptimalGraph(int numVertices, double density) {
+  // eficiente Para grafos esparsos, ListGraph é melhor
+  if (density > 0.3) {
+    return std::make_unique<MatrixGraph>(numVertices);
+  } else {
+    return std::make_unique<ListGraph>(numVertices);
+  }
+}
+
+std::unique_ptr<Graph> load_graph(const std::string &filename) {
   std::ifstream file(filename);
   if (!file.is_open()) {
     throw std::runtime_error("Não foi possível abrir o arquivo: " + filename);
   }
 
-  int num_vertices, num_edges;
-  file >> num_vertices >> num_edges;
+  std::set<int> vertices;
+  std::vector<std::pair<int, int>> validEdges;
+  std::string line;
 
-  // Primeira passagem para encontrar o maior índice de vértice
-  int max_vertex_index = -1;
-  std::vector<std::pair<int, int>> edges;
-
-  int u, v;
-  file.clear();
-  file.seekg(0);                     // Volta ao início do arquivo
-  file >> num_vertices >> num_edges; // Pula o cabeçalho novamente
-
-  while (file >> u >> v) {
-    max_vertex_index = std::max(max_vertex_index, std::max(u, v));
-    edges.push_back({u, v});
-  }
-
-  int actual_vertices = max_vertex_index + 1;
-
-  double max_edges = (actual_vertices * (actual_vertices - 1)) / 2.0;
-  double density =
-      (max_edges > 0) ? (static_cast<double>(num_edges) / max_edges) : 0.0;
-
-  Graph *graph;
-  if (density < density_threshold) {
-    graph = new ListGraph(actual_vertices);
-  } else {
-    graph = new MatrixGraph(actual_vertices);
-  }
-
-  // Adiciona as arestas
-  std::unordered_set<std::string> edge_set;
-  for (const auto &edge : edges) {
-    u = edge.first;
-    v = edge.second;
-
-    if (u == v)
+  while (std::getline(file, line)) {
+    std::istringstream iss(line);
+    int u, v;
+    if (!(iss >> u >> v)) {
       continue;
+    }
 
-    std::string edgeKey = (u < v) ? std::to_string(u) + "_" + std::to_string(v)
-                                  : std::to_string(v) + "_" + std::to_string(u);
+    vertices.insert(u);
+    vertices.insert(v);
 
-    if (edge_set.find(edgeKey) == edge_set.end()) {
-      try {
-        graph->add_edge(u, v);
-        edge_set.insert(edgeKey);
-      } catch (const std::exception &e) {
-        std::cerr << "Aviso: " << e.what() << " para aresta (" << u << ", " << v
-                  << ")\n";
-      }
+    if (u != v) {
+      validEdges.emplace_back(u, v);
     }
   }
 
-  file.close();
+  if (vertices.empty()) {
+    throw std::runtime_error("Nenhum vértice encontrado na entrada");
+  }
+
+  int maxVertex = *vertices.rbegin();
+  int numVertices = maxVertex + 1;
+
+  std::set<std::pair<int, int>> uniqueEdges;
+  for (const auto &edge : validEdges) {
+    int u = edge.first;
+    int v = edge.second;
+    if (u > v)
+      std::swap(u, v); // Normaliza a aresta
+    uniqueEdges.insert({u, v});
+  }
+
+  double maxPossibleEdges = numVertices * (numVertices - 1) / 2.0;
+  double density = uniqueEdges.size() / maxPossibleEdges;
+
+  std::cout << "Estatísticas do grafo:" << std::endl;
+  std::cout << "  Vértices: " << numVertices << std::endl;
+  std::cout << "  Arestas únicas: " << uniqueEdges.size() << std::endl;
+  std::cout << "  Densidade: " << density << std::endl;
+  std::cout << "  Implementação selecionada: "
+            << (density > 0.3 ? "MatrixGraph" : "ListGraph") << std::endl;
+
+  std::unique_ptr<Graph> graph = createOptimalGraph(numVertices, density);
+
+  file.clear();
+  file.seekg(0, std::ios::beg);
+
+  for (const auto &edge : uniqueEdges) {
+    graph->add_edge(edge.first, edge.second);
+  }
+
   return graph;
 }
 
@@ -101,6 +113,7 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
               << "  --generations VALUE\n"
               << "  --population VALUE\n"
               << "  --tournament VALUE\n"
+
               << "  --trials VALUE\n"
               << "  --output FILE\n";
     exit(1);
@@ -134,32 +147,25 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
 }
 
 bool valid_totalrd(const Graph *graph, const Chromosome &chromosome) {
-  bool isValid = true;
-  graph->for_each_vertex([&](int v) {
+  for (int v : graph->get_vertices()) {
     int label = chromosome.get_value(v);
     bool hasValidNeighbor = false;
 
     graph->for_each_neighbor(v, [&](int neighbor) {
-      int neighborLabel = chromosome.get_value(neighbor);
-
-      if (label == 0 && neighborLabel == 2) {
-        hasValidNeighbor = true;
-      }
-      if ((label == 1 || label == 2) &&
-          (neighborLabel == 1 || neighborLabel == 2)) {
+      int neighbor_label = chromosome.get_value(neighbor);
+      if ((label == 0 && neighbor_label == 2) ||
+          (label > 0 && neighbor_label > 0)) {
         hasValidNeighbor = true;
       }
     });
 
-    if ((label == 0 && !hasValidNeighbor) ||
-        ((label == 1 || label == 2) && !hasValidNeighbor)) {
-      // std::cerr << "Erro: vértice " << v << " (rótulo " << label
-      //           << ") não atende aos critérios de dominância.\n";
-      isValid = false;
+    if (!hasValidNeighbor) {
+      std::cout << "Solução inválida: vértice " << v << " com f(v) = " << label
+                << " não possui vizinho válido." << std::endl;
+      return false;
     }
-  });
-
-  return isValid;
+  }
+  return true;
 }
 
 int main(int argc, char *argv[]) {
@@ -169,16 +175,15 @@ int main(int argc, char *argv[]) {
 
   if (graph->order() == 0) {
     std::cerr << "Error: The graph has no nodes." << std::endl;
-    delete graph;
     return 1;
   }
 
-  // Gerar uma solução usando h1
-  Chromosome solution = heuristicHandle.h1(*graph);
+  auto solution = heuristicHandle.h1(*graph);
+  auto is_valid = valid_totalrd(graph.get(), solution);
 
-  // Verificar se a solução é válida
-  auto a = valid_totalrd(graph, solution);
-  std::cout << a << "\n";
-  delete graph;
-  return 0;
+  if (is_valid) {
+    std::cout << "A solução é válida" << "\n";
+  } else {
+    std::cout << "A solução não é válida" << "\n";
+  }
 }
