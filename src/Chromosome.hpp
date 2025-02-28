@@ -66,5 +66,5 @@ public:
    Domination
    * @param graph The graph to fix the solution for
    */
-  void fix(Graph &graph);
+  void fix(const Graph &graph);
 };

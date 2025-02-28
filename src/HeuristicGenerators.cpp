@@ -4,6 +4,7 @@
 #include "ListGraph.hpp"
 #include "MatrixGraph.hpp"
 #include <memory>
+#include <set>
 #include <vector>
 
 Graph *HeuristicGenerators::copyGraph(const Graph &graph) {
@@ -294,6 +295,122 @@ Chromosome HeuristicGenerators::h3(const Graph &graph) {
       isolatedVertices = getIsolatedVertices(*H);
     }
   }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
+// Chromosome HeuristicGenerators::h4(const Graph &graph) {
+//   std::unique_ptr<Graph> H(copyGraph(graph));
+//   Chromosome chromosome(graph.order(), 0);
+//
+//   while (H->order() > 0) {
+//     // Encontrar o vértice v com maior grau
+//     int v = -1;
+//     int maxDegree = -1;
+//     H->for_each_vertex([&H, &v, &maxDegree](int vertex) {
+//       int currentDegree = H->degree(vertex);
+//       if (currentDegree > maxDegree) {
+//         maxDegree = currentDegree;
+//         v = vertex;
+//       }
+//     });
+//     chromosome.set_value(v, LABEL_TWO);
+//
+//     // Pegar todos os vizinhos de v
+//     std::vector<int> neighbors;
+//     H->for_each_neighbor(
+//         v, [&neighbors](int neighbor) { neighbors.push_back(neighbor); });
+//
+//     if (!neighbors.empty()) {
+//       // A diferença: escolher o vizinho u com o maior grau para receber
+//       label 1 int u = -1; int maxNeighborDegree = -1; for (int neighbor :
+//       neighbors) {
+//         int neighborDegree = H->degree(neighbor);
+//         if (neighborDegree > maxNeighborDegree) {
+//           maxNeighborDegree = neighborDegree;
+//           u = neighbor;
+//         }
+//       }
+//
+//       // Atribuir label 1 ao vizinho com maior grau
+//       chromosome.set_value(u, LABEL_ONE);
+//
+//       // Restante dos vizinhos recebem label 0
+//       for (int neighbor : neighbors) {
+//         if (neighbor != u) {
+//           chromosome.set_value(neighbor, LABEL_ZERO);
+//         }
+//       }
+//     }
+//
+//     // Remover do grafo H o vértice v e todos os seus vizinhos
+//     for (int neighbor : neighbors) {
+//       if (H->contains(neighbor)) {
+//         H->remove_vertex(neighbor);
+//       }
+//     }
+//     if (H->contains(v)) {
+//       H->remove_vertex(v);
+//     }
+//
+//     auto isolated_vertices = getIsolatedVertices(*H);
+//     while (!isolated_vertices.empty()) {
+//       std::set<int> S(isolated_vertices.begin(), isolated_vertices.end());
+//       std::set<int> N_S;
+//
+//       for (auto s : S) {
+//         graph.for_each_neighbor(s,
+//                                 [&N_S](int neighbor) { N_S.insert(neighbor);
+//                                 });
+//       }
+//
+//       for (int z : N_S) {
+//         int count = 0;
+//         graph.for_each_neighbor(z, [&S, &count](int neighbor) {
+//           if (S.count(neighbor))
+//             count++;
+//         });
+//
+//         if (count >= 2) {
+//           chromosome.set_value(z, LABEL_TWO);
+//           graph.for_each_neighbor(z, [&chromosome, &S](int neighbor) {
+//             if (S.count(neighbor)) {
+//               chromosome.set_value(neighbor, LABEL_ZERO);
+//             }
+//           });
+//         }
+//       }
+//
+//       // Atribuir rótulo 2 aos vértices restantes de N(S)
+//       for (int z : N_S) {
+//         if (chromosome.get_value(z) == LABEL_ZERO) {
+//           chromosome.set_value(z, LABEL_TWO);
+//         }
+//       }
+//
+//       // Atribuir rótulo 0 aos vértices restantes de S
+//       for (int s : S) {
+//         if (chromosome.get_value(s) == LABEL_ZERO) {
+//           chromosome.set_value(s, LABEL_ZERO);
+//         }
+//       }
+//
+//       // Remover S de H
+//       for (int s : S) {
+//         H->remove_vertex(s);
+//       }
+//
+//       isolated_vertices = getIsolatedVertices(*H);
+//     }
+//   }
+//
+//   chromosome.calculate_fitness();
+//   return chromosome;
+// }
+
+Chromosome HeuristicGenerators::h5(const Graph &graph) {
+  Chromosome chromosome(graph.order(), 1);
 
   chromosome.calculate_fitness();
   return chromosome;

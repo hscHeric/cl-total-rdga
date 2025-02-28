@@ -71,7 +71,7 @@ std::ostream &operator<<(std::ostream &out, const Chromosome &chr) {
   return out;
 }
 
-void Chromosome::fix(Graph &graph) {
+void Chromosome::fix(const Graph &graph) {
   boost::dynamic_bitset<> already_dominated;
   already_dominated.resize(this->size(), 0);
 
