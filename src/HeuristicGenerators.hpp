@@ -12,7 +12,6 @@ public:
 
 private:
   static Graph *copyGraph(const Graph &graph);
-  static int getVertexWithHighestDegree(const Graph &graph);
   static bool isIsolatedVertex(const Graph &graph, int vertex);
   static std::unordered_set<int> getIsolatedVertices(const Graph &graph);
   static double calculateGraphDensity(const Graph &graph);

@@ -224,12 +224,54 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
-  auto solution = heuristicHandle.h1(*graph);
-  auto is_valid = valid_totalrd(graph.get(), solution);
-
-  if (is_valid) {
-    std::cout << "A solução é válida" << "\n";
+  // Test h1 heuristic
+  std::cout << "Testing h1 heuristic:\n";
+  auto solution_h1 = heuristicHandle.h1(*graph);
+  auto is_valid_h1 = valid_totalrd(graph.get(), solution_h1);
+  std::cout << "Solution h1 fitness: " << solution_h1.get_fitness()
+            << std::endl;
+  if (is_valid_h1) {
+    std::cout << "h1 solution is valid\n";
   } else {
-    std::cout << "A solução não é válida" << "\n";
+    std::cout << "h1 solution is not valid\n";
   }
+
+  // Test h2 heuristic
+  std::cout << "\nTesting h2 heuristic:\n";
+  auto solution_h2 = heuristicHandle.h2(*graph);
+  auto is_valid_h2 = valid_totalrd(graph.get(), solution_h2);
+  std::cout << "Solution h2 fitness: " << solution_h2.get_fitness()
+            << std::endl;
+  if (is_valid_h2) {
+    std::cout << "h2 solution is valid\n";
+  } else {
+    std::cout << "h2 solution is not valid\n";
+  }
+
+  std::cout << "\nTesting h3 heuristic:\n";
+  auto solution_h3 = heuristicHandle.h2(*graph);
+  auto is_valid_h3 = valid_totalrd(graph.get(), solution_h2);
+  std::cout << "Solution h3 fitness: " << solution_h2.get_fitness()
+            << std::endl;
+  if (is_valid_h3) {
+    std::cout << "h3 solution is valid\n";
+  } else {
+    std::cout << "h3 solution is not valid\n";
+  }
+
+  // Compare both solutions
+  std::cout << "\nComparison:\n";
+  if (solution_h1.get_fitness() < solution_h2.get_fitness()) {
+    std::cout << "h1 found a better solution\n";
+  } else if (solution_h1.get_fitness() > solution_h2.get_fitness()) {
+    std::cout << "h2 found a better solution\n";
+  } else if (solution_h3.get_fitness() < solution_h2.get_fitness() &&
+             solution_h3.get_fitness() < solution_h1.get_fitness()) {
+    std::cout << "h3 found a better solution\n";
+
+  } else {
+    std::cout << "Both heuristics found solutions with equal fitness\n";
+  }
+
+  return 0;
 }
