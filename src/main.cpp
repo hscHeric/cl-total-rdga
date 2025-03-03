@@ -36,7 +36,7 @@ struct TrialResult {
 
 std::unique_ptr<Graph> createOptimalGraph(int numVertices, double density) {
   // eficiente Para grafos esparsos, ListGraph é melhor
-  if (density > 0.3) {
+  if (density > 0.5) {
     return std::make_unique<MatrixGraph>(numVertices);
   } else {
     return std::make_unique<ListGraph>(numVertices);
