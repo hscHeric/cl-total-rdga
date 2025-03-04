@@ -32,6 +32,8 @@ struct TrialResult {
   uint64_t elapsed_micros;
   bool matches_heuristic;
   std::string matched_heuristic;
+  bool is_valid;
+  bool density;
 };
 
 std::unique_ptr<Graph> createOptimalGraph(int numVertices, double density) {
@@ -138,7 +140,7 @@ std::unique_ptr<Graph> load_and_normalize_graph(const std::string &filename) {
 
   // Criar grafo com implementação adequada
   std::unique_ptr<Graph> graph;
-  if (density > 0.3) {
+  if (density > 0.5) {
     graph = std::make_unique<MatrixGraph>(num_vertices);
   } else {
     graph = std::make_unique<ListGraph>(num_vertices);
@@ -239,7 +241,8 @@ void ensure_csv_header(const std::string &filename) {
   if (!file_exists) {
     file.open(filename);
     file << "graph_name,graph_order,graph_size,fitness_value,elapsed_time("
-            "microsecond),matches_heuristic,heuristic_matched\n";
+            "microsecond),matches_heuristic,heuristic_matched,is_valid,"
+            "density\n";
   } else {
     file.open(filename, std::ios::app);
   }
@@ -253,7 +256,9 @@ void write_result_to_csv(const std::string &filename,
        << result.edge_count << "," << result.fitness << ","
        << result.elapsed_micros << ","
        << (result.matches_heuristic ? "yes" : "no") << ","
-       << result.matched_heuristic << "\n";
+       << result.matched_heuristic << "," << (result.is_valid ? "yes" : "no")
+       << ","                     // Nova coluna: is_valid
+       << result.density << "\n"; // Nova coluna: density
   file.close();
 }
 
@@ -359,6 +364,9 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
     std::cout << "A solução encontrada é válida." << std::endl;
   }
 
+  double density = static_cast<double>(graph->size()) /
+                   (graph->order() * (graph->order() - 1) / 2.0);
+
   std::filesystem::path input_path(params.file_path);
   TrialResult result;
   result.graph_name = input_path.filename().string();
@@ -368,7 +376,8 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   result.elapsed_micros = elapsed.count();
   result.matches_heuristic = matches_heuristic;
   result.matched_heuristic = matched_heuristic;
-
+  result.is_valid = is_valid;
+  result.density = density;
   return result;
 }
 
