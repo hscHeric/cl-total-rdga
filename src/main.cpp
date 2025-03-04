@@ -109,35 +109,36 @@ std::unique_ptr<Graph> load_and_normalize_graph(const std::string &filename) {
   double density = unique_edges.size() / max_possible_edges;
 
   // Imprimir estatísticas
-  std::cout << "Estatísticas do grafo normalizado:" << std::endl;
-  std::cout << "  Vértices originais: " << vertices.size() << std::endl;
-  std::cout << "  Intervalo original: [" << *vertices.begin() << ", "
-            << *vertices.rbegin() << "]" << std::endl;
+  // std::cout << "Estatísticas do grafo normalizado:" << std::endl;
+  // std::cout << "  Vértices originais: " << vertices.size() << std::endl;
+  // std::cout << "  Intervalo original: [" << *vertices.begin() << ", "
+  //    << *vertices.rbegin() << "]" << std::endl;
 
   if (!missing_vertices.empty()) {
-    std::cout << "  Vértices faltantes: ";
+    // std::cout << "  Vértices faltantes: ";
     for (size_t i = 0; i < missing_vertices.size(); i++) {
-      std::cout << missing_vertices[i];
+      // std::cout << missing_vertices[i];
       if (i < missing_vertices.size() - 1) {
-        std::cout << ", ";
+        // std::cout << ", ";
       }
     }
-    std::cout << std::endl;
-    std::cout << "  Total de lacunas: " << missing_vertices.size() << std::endl;
+    // std::cout << std::endl;
+    // std::cout << "  Total de lacunas: " << missing_vertices.size() <<
+    // std::endl;
   } else {
-    std::cout << "  Não há lacunas na numeração dos vértices" << std::endl;
+    // std::cout << "  Não há lacunas na numeração dos vértices" << std::endl;
   }
 
-  std::cout << "  Mapeamento aplicado: ";
+  //  std::cout << "  Mapeamento aplicado: ";
   for (const auto &[orig, norm] : id_map) {
-    std::cout << orig << "->" << norm << " ";
+    //  std::cout << orig << "->" << norm << " ";
   }
-  std::cout << std::endl;
-  std::cout << "  Vértices normalizados: " << num_vertices << std::endl;
-  std::cout << "  Arestas únicas: " << unique_edges.size() << std::endl;
-  std::cout << "  Densidade: " << density << std::endl;
-  std::cout << "  Implementação selecionada: "
-            << (density > 0.3 ? "MatrixGraph" : "ListGraph") << std::endl;
+  // std::cout << std::endl;
+  // std::cout << "  Vértices normalizados: " << num_vertices << std::endl;
+  // std::cout << "  Arestas únicas: " << unique_edges.size() << std::endl;
+  // std::cout << "  Densidade: " << density << std::endl;
+  // std::cout << "  Implementação selecionada: "
+  //        << (density > 0.3 ? "MatrixGraph" : "ListGraph") << std::endl;
 
   // Criar grafo com implementação adequada
   std::unique_ptr<Graph> graph;
@@ -172,7 +173,7 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
     exit(1);
   }
 
-  params.file_path = argv[1];
+  params.file_path = argv[4];
 
   for (int i = 2; i < argc; i++) {
     std::string arg = argv[i];
@@ -191,8 +192,8 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
     } else if (arg == "--output" && i + 1 < argc) {
       params.output_file = argv[++i];
     } else {
-      std::cerr << "Unknown argument: " << arg << std::endl;
-      exit(1);
+      //     std::cerr << "Unknown argument: " << arg << std::endl;
+      //   exit(1);
     }
   }
 
@@ -213,8 +214,9 @@ bool valid_totalrd(const Graph *graph, const Chromosome &chromosome) {
     });
 
     if (!hasValidNeighbor) {
-      std::cout << "Solução inválida: vértice " << v << " com f(v) = " << label
-                << " não possui vizinho válido." << std::endl;
+      // std::cout << "Solução inválida: vértice " << v << " com f(v) = " <<
+      // label
+      //         << " não possui vizinho válido." << std::endl;
       return false;
     }
   }
@@ -327,8 +329,8 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
       best_chromosome = *best_it;
       stagnant_generations = 0;
 
-      std::cout << "Nova melhor solução na geração " << generation
-                << ": fitness = " << best_fitness << std::endl;
+      // std::cout << "Nova melhor solução na geração " << generation
+      //         << ": fitness = " << best_fitness << std::endl;
     } else {
       stagnant_generations++;
     }
@@ -340,9 +342,10 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
       end_time - start_time);
 
-  std::cout << "Algoritmo genético concluído após " << generation << " gerações"
-            << std::endl;
-  std::cout << "Melhor fitness: " << best_fitness << std::endl;
+  // std::cout << "Algoritmo genético concluído após " << generation << "
+  // gerações"
+  //         << std::endl;
+  // std::cout << "Melhor fitness: " << best_fitness << std::endl;
 
   bool matches_heuristic = false;
   std::string matched_heuristic = "none";
@@ -367,10 +370,10 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   // Verificar se a solução é válida
   bool is_valid = valid_totalrd(graph.get(), best_chromosome);
   if (!is_valid) {
-    std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
-              << std::endl;
+    // std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
+    //         << std::endl;
   } else {
-    std::cout << "A solução encontrada é válida." << std::endl;
+    // std::cout << "A solução encontrada é válida." << std::endl;
   }
 
   double density = static_cast<double>(graph->size()) /
@@ -393,104 +396,8 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
 int main(int argc, char *argv[]) {
   auto params = parse_args(argc, argv);
 
-  ensure_csv_header(params.output_file);
-
   auto graph = load_and_normalize_graph(params.file_path);
+  auto result = run_genetic_algorithm(graph, params);
 
-  for (size_t trial = 0; trial < params.trials; ++trial) {
-    std::cout << "\n===== Executando trial " << (trial + 1) << " de "
-              << params.trials << " =====\n"
-              << std::endl;
-
-    auto result = run_genetic_algorithm(graph, params);
-
-    std::cout << "\nResultado do trial " << (trial + 1) << ":" << std::endl;
-    std::cout << "  Nome do grafo: " << result.graph_name << std::endl;
-    std::cout << "  Ordem (vértices): " << result.node_count << std::endl;
-    std::cout << "  Tamanho (arestas): " << result.edge_count << std::endl;
-    std::cout << "  Fitness: " << result.fitness << std::endl;
-    std::cout << "  Tempo (microssegundos): " << result.elapsed_micros
-              << std::endl;
-    std::cout << "  Corresponde a heurística: "
-              << (result.matches_heuristic ? "Sim" : "Não");
-    if (result.matches_heuristic) {
-      std::cout << " (" << result.matched_heuristic << ")";
-    }
-    std::cout << std::endl;
-
-    // Escrever no CSV
-    write_result_to_csv(params.output_file, result);
-  }
-
-  std::cout << "\nTodos os resultados foram salvos em: " << params.output_file
-            << std::endl;
-
-  return 0;
-  // if (graph->order() == 0) {
-  //   std::cerr << "Error: The graph has no nodes." << std::endl;
-  //   return 1;
-  // }
-  //
-  // // Test h1 heuristic
-  // std::cout << "Testing h1 heuristic:\n";
-  // auto solution_h1 = heuristicHandle.h1(*graph);
-  // auto is_valid_h1 = valid_totalrd(graph.get(), solution_h1);
-  // std::cout << "Solution h1 fitness: " << solution_h1.get_fitness()
-  //           << std::endl;
-  // std::cout << (is_valid_h1 ? "h1 solution is valid\n"
-  //                           : "h1 solution is not valid\n");
-  //
-  // // Test h2 heuristic
-  // std::cout << "\nTesting h2 heuristic:\n";
-  // auto solution_h2 = heuristicHandle.h2(*graph);
-  // auto is_valid_h2 = valid_totalrd(graph.get(), solution_h2);
-  // std::cout << "Solution h2 fitness: " << solution_h2.get_fitness()
-  //           << std::endl;
-  // std::cout << (is_valid_h2 ? "h2 solution is valid\n"
-  //                           : "h2 solution is not valid\n");
-  //
-  // // Test h3 heuristic
-  // std::cout << "\nTesting h3 heuristic:\n";
-  // auto solution_h3 = heuristicHandle.h3(*graph);
-  // auto is_valid_h3 = valid_totalrd(graph.get(), solution_h3);
-  // std::cout << "Solution h3 fitness: " << solution_h3.get_fitness()
-  //           << std::endl;
-  // std::cout << (is_valid_h3 ? "h3 solution is valid\n"
-  //                           : "h3 solution is not valid\n");
-  //
-  // // Test h4 heuristic
-  // std::cout << "\nTesting h4 heuristic:\n";
-  // auto solution_h4 = heuristicHandle.h4(*graph);
-  // auto is_valid_h4 = valid_totalrd(graph.get(), solution_h4);
-  // std::cout << "Solution h4 fitness: " << solution_h4.get_fitness()
-  //           << std::endl;
-  // std::cout << (is_valid_h4 ? "h4 solution is valid\n"
-  //                           : "h4 solution is not valid\n");
-  //
-  // // Test h5 heuristic
-  // std::cout << "\nTesting h5 heuristic:\n";
-  // auto solution_h5 = heuristicHandle.h5(*graph);
-  // auto is_valid_h5 = valid_totalrd(graph.get(), solution_h5);
-  // std::cout << "Solution h5 fitness: " << solution_h5.get_fitness()
-  //           << std::endl;
-  // std::cout << (is_valid_h5 ? "h5 solution is valid\n"
-  //                           : "h5 solution is not valid\n");
-  //
-  // // Compare solutions
-  // std::cout << "\nComparison:\n";
-  // std::vector<std::pair<std::string, double>> heuristics = {
-  //     {"h1", solution_h1.get_fitness()},
-  //     {"h2", solution_h2.get_fitness()},
-  //     {"h3", solution_h3.get_fitness()},
-  //     {"h4", solution_h4.get_fitness()},
-  //     {"h5", solution_h5.get_fitness()}};
-  //
-  // auto best_solution = *std::min_element(
-  //     heuristics.begin(), heuristics.end(),
-  //     [](const auto &a, const auto &b) { return a.second < b.second; });
-  //
-  // std::cout << best_solution.first << " found the best solution with fitness
-  // "
-  //           << best_solution.second << "\n";
-  //
+  std::cout << result.fitness << std::endl;
 }
