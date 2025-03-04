@@ -9,6 +9,7 @@
 #include <cstdio>
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 #include <memory>
 #include <set>
 #include <string>
@@ -272,14 +273,22 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   auto heuristic_h1 = heuristicHandle.h1(*graph);
   auto heuristic_h2 = heuristicHandle.h2(*graph);
   auto heuristic_h3 = heuristicHandle.h3(*graph);
-  // auto heuristic_h4 = heuristicHandle.h4(*graph);
+  auto heuristic_h4 = heuristicHandle.h4(*graph);
   auto heuristic_h5 = heuristicHandle.h5(*graph);
+
+  // auto is_valid_h4 = valid_totalrd(graph.get(), heuristic_h4);
+  //
+  // if (is_valid_h4) {
+  //   std::cout << "A h4 é válida\n";
+  // } else {
+  //   std::cout << "a h4 não é valida\n";
+  // }
 
   std::vector<Chromosome> initialChromosomes;
   initialChromosomes.push_back(heuristic_h1);
   initialChromosomes.push_back(heuristic_h2);
   initialChromosomes.push_back(heuristic_h3);
-  // initialChromosomes.push_back(heuristic_h4);
+  initialChromosomes.push_back(heuristic_h4);
   initialChromosomes.push_back(heuristic_h5);
 
   while (initialChromosomes.size() < pop_size) {
@@ -347,9 +356,9 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   } else if (chromosomes_equal(best_chromosome, heuristic_h3)) {
     matches_heuristic = true;
     matched_heuristic = "h3";
-    // } else if (chromosomes_equal(best_chromosome, heuristic_h4)) {
-    //   matches_heuristic = true;
-    //   matched_heuristic = "h4";
+  } else if (chromosomes_equal(best_chromosome, heuristic_h4)) {
+    matches_heuristic = true;
+    matched_heuristic = "h4";
   } else if (chromosomes_equal(best_chromosome, heuristic_h5)) {
     matches_heuristic = true;
     matched_heuristic = "h5";

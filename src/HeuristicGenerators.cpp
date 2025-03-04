@@ -409,6 +409,97 @@ Chromosome HeuristicGenerators::h3(const Graph &graph) {
 //   return chromosome;
 // }
 
+Chromosome HeuristicGenerators::h4(const Graph &graph) {
+  std::unique_ptr<Graph> H(copyGraph(graph));
+  Chromosome chromosome(graph.order(), 0);
+
+  while (H->order() > 0) {
+    int v = -1;
+    int maxDegree = -1;
+    H->for_each_vertex([&H, &v, &maxDegree](int vertex) {
+      int currentDegree = H->degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
+      }
+    });
+
+    chromosome.set_value(v, LABEL_TWO);
+
+    std::vector<int> neighbors;
+    H->for_each_neighbor(
+        v, [&neighbors](int neighbor) { neighbors.push_back(neighbor); });
+
+    std::sort(neighbors.begin(), neighbors.end(),
+              [&H](int a, int b) { return H->degree(b) < H->degree(a); });
+
+    if (!neighbors.empty()) {
+      chromosome.set_value(neighbors[0], LABEL_ONE);
+
+      for (size_t i = 1; i < neighbors.size(); ++i) {
+        chromosome.set_value(neighbors[i], LABEL_ZERO);
+      }
+    }
+
+    for (int neighbor : neighbors) {
+      if (H->contains(neighbor)) {
+        H->remove_vertex(neighbor);
+      }
+    }
+    if (H->contains(v)) {
+      H->remove_vertex(v);
+    }
+
+    while (true) {
+      auto isolatedVertices = getIsolatedVertices(*H);
+      if (isolatedVertices.empty()) {
+        break;
+      }
+
+      std::set<int> neighborSet;
+      for (int s : isolatedVertices) {
+        graph.for_each_neighbor(
+            s, [&neighborSet](int neighbor) { neighborSet.insert(neighbor); });
+      }
+      std::vector<int> neighbors(neighborSet.begin(), neighborSet.end());
+
+      for (int z : neighbors) {
+        int isolatedNeighborCount = 0;
+        for (int s : isolatedVertices) {
+          if (graph.contains(s, z)) {
+            isolatedNeighborCount++;
+          }
+        }
+
+        if (isolatedNeighborCount >= 2) {
+          chromosome.set_value(z, LABEL_TWO);
+
+          for (int s : isolatedVertices) {
+            if (graph.contains(s, z)) {
+              chromosome.set_value(s, LABEL_ZERO);
+            }
+          }
+        } else {
+          chromosome.set_value(z, LABEL_TWO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        if (chromosome.get_value(s) == LABEL_ZERO) {
+          chromosome.set_value(s, LABEL_ZERO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        H->remove_vertex(s);
+      }
+    }
+  }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
 Chromosome HeuristicGenerators::h5(const Graph &graph) {
   Chromosome chromosome(graph.order(), 1);
 
