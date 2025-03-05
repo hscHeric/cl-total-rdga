@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+saylr1.txt,238,445,168,5865734,no,none,yes,1
+saylr1.txt,238,445,175,6993392,no,none,yes,1
+saylr1.txt,238,445,169,6024068,no,none,yes,1
+saylr1.txt,238,445,168,6147777,no,none,yes,1
+saylr1.txt,238,445,168,6311996,no,none,yes,1
+saylr1.txt,238,445,166,6923471,no,none,yes,1
+saylr1.txt,238,445,171,6487673,no,none,yes,1
+saylr1.txt,238,445,173,5911754,no,none,yes,1
+saylr1.txt,238,445,170,5520031,no,none,yes,1
+saylr1.txt,238,445,176,4642735,yes,h3,yes,1

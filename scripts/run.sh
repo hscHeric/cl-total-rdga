@@ -22,8 +22,24 @@ skipped_graphs=0
 processed_graphs=0
 start_total_time=$(date +%s)
 
-# Iterar sobre todos os arquivos *.txt nas subpastas de INPUT_DIR
-find "$INPUT_DIR" -type f -name "*.txt" | while read -r graph_file; do
+# Criar um array para armazenar os arquivos e seus números de linhas
+declare -a files
+
+# Coletar os arquivos e contar as linhas
+while IFS= read -r graph_file; do
+  num_lines=$(wc -l <"$graph_file")
+  files+=("$num_lines:$graph_file")
+done < <(find "$INPUT_DIR" -type f -name "*.txt")
+
+# Ordenar os arquivos pelo número de linhas
+IFS=$'\n' sorted_files=($(sort -n <<<"${files[*]}"))
+unset IFS
+
+# Processar os arquivos na ordem ordenada
+for entry in "${sorted_files[@]}"; do
+  num_lines=${entry%%:*}
+  graph_file=${entry#*:}
+
   # Extrair o caminho relativo ao diretório de entrada
   relative_path="${graph_file#$INPUT_DIR}"
 
@@ -44,9 +60,6 @@ find "$INPUT_DIR" -type f -name "*.txt" | while read -r graph_file; do
     skipped_graphs=$((skipped_graphs + 1))
     continue
   fi
-
-  # Contar o número de linhas do arquivo
-  num_lines=$(wc -l <"$graph_file")
 
   # Atualizar estatísticas
   total_graphs=$((total_graphs + 1))

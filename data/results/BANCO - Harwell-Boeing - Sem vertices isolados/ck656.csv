@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+ck656.txt,656,1628,431,51476483,no,none,yes,1
+ck656.txt,656,1628,431,64712941,no,none,yes,1
+ck656.txt,656,1628,431,60232465,no,none,yes,1
+ck656.txt,656,1628,433,51041323,no,none,yes,1
+ck656.txt,656,1628,430,56758121,no,none,yes,1
+ck656.txt,656,1628,434,51442886,no,none,yes,1
+ck656.txt,656,1628,435,51817741,no,none,yes,1
+ck656.txt,656,1628,435,55675642,no,none,yes,1
+ck656.txt,656,1628,432,61555669,no,none,yes,1
+ck656.txt,656,1628,439,54859048,no,none,yes,1

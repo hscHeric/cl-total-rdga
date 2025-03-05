@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+M20PI_n.txt,1182,1198,1152,193735046,no,none,yes,1
+M20PI_n.txt,1182,1198,1139,202755772,no,none,yes,1
+M20PI_n.txt,1182,1198,1137,194007853,no,none,yes,1
+M20PI_n.txt,1182,1198,1138,191875225,no,none,yes,1
+M20PI_n.txt,1182,1198,1143,188804612,no,none,yes,1
+M20PI_n.txt,1182,1198,1143,197603135,no,none,yes,1
+M20PI_n.txt,1182,1198,1156,193160035,no,none,yes,1
+M20PI_n.txt,1182,1198,1142,190252693,no,none,yes,1
+M20PI_n.txt,1182,1198,1137,197080263,no,none,yes,1
+M20PI_n.txt,1182,1198,1142,190396053,no,none,yes,1

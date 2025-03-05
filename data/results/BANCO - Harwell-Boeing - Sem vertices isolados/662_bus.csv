@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+662_bus.txt,662,906,519,42444955,yes,h3,yes,1
+662_bus.txt,662,906,507,54001771,no,none,yes,1
+662_bus.txt,662,906,519,42305309,yes,h3,yes,1
+662_bus.txt,662,906,505,53775438,no,none,yes,1
+662_bus.txt,662,906,508,54411531,no,none,yes,1
+662_bus.txt,662,906,512,63734871,no,none,yes,1
+662_bus.txt,662,906,509,56420527,no,none,yes,1
+662_bus.txt,662,906,509,52528192,no,none,yes,1
+662_bus.txt,662,906,507,64960223,no,none,yes,1
+662_bus.txt,662,906,518,51832445,no,none,yes,1

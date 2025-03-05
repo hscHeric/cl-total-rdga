@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+gre_216a.txt,216,660,117,5444837,no,none,yes,1
+gre_216a.txt,216,660,114,5751991,no,none,yes,1
+gre_216a.txt,216,660,113,6052068,no,none,yes,1
+gre_216a.txt,216,660,123,5487054,no,none,yes,1
+gre_216a.txt,216,660,121,5869893,no,none,yes,1
+gre_216a.txt,216,660,108,5765892,no,none,yes,1
+gre_216a.txt,216,660,121,5472372,no,none,yes,1
+gre_216a.txt,216,660,116,5332600,no,none,yes,1
+gre_216a.txt,216,660,115,5853130,no,none,yes,1
+gre_216a.txt,216,660,119,5534123,no,none,yes,1

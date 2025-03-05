@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+jgl009.txt,9,32,3,95835,yes,h2,yes,1
+jgl009.txt,9,32,3,95488,yes,h2,yes,1
+jgl009.txt,9,32,3,95504,yes,h2,yes,1
+jgl009.txt,9,32,3,95291,yes,h2,yes,1
+jgl009.txt,9,32,3,95844,yes,h2,yes,1
+jgl009.txt,9,32,3,94964,yes,h2,yes,1
+jgl009.txt,9,32,3,95815,yes,h1,yes,1
+jgl009.txt,9,32,3,95851,yes,h2,yes,1
+jgl009.txt,9,32,3,95516,yes,h1,yes,1
+jgl009.txt,9,32,3,95633,yes,h1,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+olm100.txt,100,197,51,1603622,no,none,yes,1
+olm100.txt,100,197,50,1427960,no,none,yes,1
+olm100.txt,100,197,50,1425570,no,none,yes,1
+olm100.txt,100,197,50,1511277,no,none,yes,1
+olm100.txt,100,197,50,1398503,no,none,yes,1
+olm100.txt,100,197,50,1392503,no,none,yes,1
+olm100.txt,100,197,50,1392386,no,none,yes,1
+olm100.txt,100,197,50,1454464,no,none,yes,1
+olm100.txt,100,197,51,1381495,no,none,yes,1
+olm100.txt,100,197,50,1345186,no,none,yes,1

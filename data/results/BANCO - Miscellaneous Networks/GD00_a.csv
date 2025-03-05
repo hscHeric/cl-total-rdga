@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GD00_a.txt,352,384,258,11391809,no,none,yes,1
+GD00_a.txt,352,384,259,12668091,no,none,yes,1
+GD00_a.txt,352,384,271,10030470,yes,h4,yes,1
+GD00_a.txt,352,384,258,12351156,no,none,yes,1
+GD00_a.txt,352,384,254,12858941,no,none,yes,1
+GD00_a.txt,352,384,265,11985458,no,none,yes,1
+GD00_a.txt,352,384,256,12624556,no,none,yes,1
+GD00_a.txt,352,384,257,12206783,no,none,yes,1
+GD00_a.txt,352,384,257,12045304,no,none,yes,1
+GD00_a.txt,352,384,254,12628565,no,none,yes,1

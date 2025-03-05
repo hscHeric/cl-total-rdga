@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+G11.txt,800,1600,527,69341635,no,none,yes,1
+G11.txt,800,1600,528,69614455,no,none,yes,1
+G11.txt,800,1600,531,66378737,no,none,yes,1
+G11.txt,800,1600,528,69521114,no,none,yes,1
+G11.txt,800,1600,533,58691942,yes,h3,yes,1
+G11.txt,800,1600,527,77148634,no,none,yes,1
+G11.txt,800,1600,529,70094238,no,none,yes,1
+G11.txt,800,1600,529,69567991,no,none,yes,1
+G11.txt,800,1600,531,68398518,no,none,yes,1
+G11.txt,800,1600,528,66977733,no,none,yes,1

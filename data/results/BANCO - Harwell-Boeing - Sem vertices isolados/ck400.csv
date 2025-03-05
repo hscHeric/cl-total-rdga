@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+ck400.txt,400,1244,223,17848664,no,none,yes,1
+ck400.txt,400,1244,218,20938191,no,none,yes,1
+ck400.txt,400,1244,219,20636920,no,none,yes,1
+ck400.txt,400,1244,216,19816203,no,none,yes,1
+ck400.txt,400,1244,224,20154445,no,none,yes,1
+ck400.txt,400,1244,220,19999792,no,none,yes,1
+ck400.txt,400,1244,219,21072877,no,none,yes,1
+ck400.txt,400,1244,218,19392000,no,none,yes,1
+ck400.txt,400,1244,216,20623158,no,none,yes,1
+ck400.txt,400,1244,219,18474579,no,none,yes,1

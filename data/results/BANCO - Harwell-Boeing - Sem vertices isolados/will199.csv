@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+will199.txt,199,660,101,3688494,yes,h3,yes,1
+will199.txt,199,660,101,3629861,yes,h3,yes,1
+will199.txt,199,660,101,3592652,yes,h3,yes,1
+will199.txt,199,660,101,3727176,yes,h3,yes,1
+will199.txt,199,660,101,3616075,yes,h3,yes,1
+will199.txt,199,660,101,3625110,yes,h3,yes,1
+will199.txt,199,660,101,3649872,yes,h3,yes,1
+will199.txt,199,660,101,3663524,yes,h3,yes,1
+will199.txt,199,660,101,3579477,yes,h3,yes,1
+will199.txt,199,660,101,3607735,yes,h3,yes,1

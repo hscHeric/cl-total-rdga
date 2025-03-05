@@ -128,10 +128,10 @@ std::unique_ptr<Graph> load_and_normalize_graph(const std::string &filename) {
     std::cout << "  Não há lacunas na numeração dos vértices" << std::endl;
   }
 
-  std::cout << "  Mapeamento aplicado: ";
-  for (const auto &[orig, norm] : id_map) {
-    std::cout << orig << "->" << norm << " ";
-  }
+  // std::cout << "  Mapeamento aplicado: ";
+  // for (const auto &[orig, norm] : id_map) {
+  //   std::cout << orig << "->" << norm << " ";
+  // }
   std::cout << std::endl;
   std::cout << "  Vértices normalizados: " << num_vertices << std::endl;
   std::cout << "  Arestas únicas: " << unique_edges.size() << std::endl;

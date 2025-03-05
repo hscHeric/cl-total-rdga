@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Tina_DisCog.txt,11,36,5,120185,yes,h2,yes,1
+Tina_DisCog.txt,11,36,4,121683,no,none,yes,1
+Tina_DisCog.txt,11,36,4,125203,no,none,yes,1
+Tina_DisCog.txt,11,36,5,119705,yes,h2,yes,1
+Tina_DisCog.txt,11,36,5,122108,yes,h2,yes,1
+Tina_DisCog.txt,11,36,5,119183,yes,h2,yes,1
+Tina_DisCog.txt,11,36,5,119009,yes,h2,yes,1
+Tina_DisCog.txt,11,36,4,122901,no,none,yes,1
+Tina_DisCog.txt,11,36,5,120441,yes,h2,yes,1
+Tina_DisCog.txt,11,36,5,118977,yes,h2,yes,1

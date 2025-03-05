@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GlossGT.txt,67,118,42,994877,no,none,yes,1
+GlossGT.txt,67,118,39,1013104,no,none,yes,1
+GlossGT.txt,67,118,38,1041500,no,none,yes,1
+GlossGT.txt,67,118,41,972360,no,none,yes,1
+GlossGT.txt,67,118,41,1000517,no,none,yes,1
+GlossGT.txt,67,118,37,1035650,no,none,yes,1
+GlossGT.txt,67,118,42,936985,no,none,yes,1
+GlossGT.txt,67,118,42,972803,no,none,yes,1
+GlossGT.txt,67,118,38,1050896,no,none,yes,1
+GlossGT.txt,67,118,38,1030654,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Tina_AskCog.txt,11,27,5,119647,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120011,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120560,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120107,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,119839,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,119744,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120201,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120128,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120963,yes,h3,yes,1
+Tina_AskCog.txt,11,27,5,120073,yes,h3,yes,1

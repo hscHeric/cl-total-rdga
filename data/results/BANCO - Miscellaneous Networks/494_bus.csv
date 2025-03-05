@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+494_bus.txt,494,586,406,30433061,no,none,yes,1
+494_bus.txt,494,586,411,28859191,no,none,yes,1
+494_bus.txt,494,586,421,28065076,no,none,yes,1
+494_bus.txt,494,586,398,28944166,no,none,yes,1
+494_bus.txt,494,586,419,30351731,no,none,yes,1
+494_bus.txt,494,586,423,30643378,no,none,yes,1
+494_bus.txt,494,586,420,29057062,no,none,yes,1
+494_bus.txt,494,586,424,30349143,no,none,yes,1
+494_bus.txt,494,586,430,28841019,no,none,yes,1
+494_bus.txt,494,586,405,30291127,no,none,yes,1

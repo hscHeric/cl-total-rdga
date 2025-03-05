@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+tub100.txt,100,148,75,1470758,no,none,yes,1
+tub100.txt,100,148,75,1460748,no,none,yes,1
+tub100.txt,100,148,76,1408739,no,none,yes,1
+tub100.txt,100,148,76,1460079,no,none,yes,1
+tub100.txt,100,148,75,1640941,no,none,yes,1
+tub100.txt,100,148,75,1509201,no,none,yes,1
+tub100.txt,100,148,75,1490079,no,none,yes,1
+tub100.txt,100,148,76,1477528,no,none,yes,1
+tub100.txt,100,148,75,1406550,no,none,yes,1
+tub100.txt,100,148,73,1596170,no,none,yes,1

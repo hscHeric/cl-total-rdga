@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GD96_a.txt,1096,1677,912,152459837,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,151367887,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,150807525,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,150561682,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,151136387,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,150277844,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,149747449,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,150248267,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,151367797,yes,h3,yes,1
+GD96_a.txt,1096,1677,912,151397931,yes,h3,yes,1

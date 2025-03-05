@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+rgg010.txt,10,45,3,110255,yes,h1,yes,1
+rgg010.txt,10,45,3,110080,yes,h1,yes,1
+rgg010.txt,10,45,3,109671,yes,h1,yes,1
+rgg010.txt,10,45,3,109284,yes,h1,yes,1
+rgg010.txt,10,45,3,110314,yes,h1,yes,1
+rgg010.txt,10,45,3,110935,yes,h1,yes,1
+rgg010.txt,10,45,3,110219,yes,h1,yes,1
+rgg010.txt,10,45,3,110423,yes,h1,yes,1
+rgg010.txt,10,45,3,110117,yes,h1,yes,1
+rgg010.txt,10,45,3,110037,yes,h1,yes,1

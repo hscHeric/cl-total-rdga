@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+lshp_406.txt,406,1155,209,20009022,no,none,yes,1
+lshp_406.txt,406,1155,220,17366987,no,none,yes,1
+lshp_406.txt,406,1155,216,19344926,no,none,yes,1
+lshp_406.txt,406,1155,211,19984294,no,none,yes,1
+lshp_406.txt,406,1155,213,19085200,no,none,yes,1
+lshp_406.txt,406,1155,215,18807825,no,none,yes,1
+lshp_406.txt,406,1155,213,21319783,no,none,yes,1
+lshp_406.txt,406,1155,214,19371310,no,none,yes,1
+lshp_406.txt,406,1155,217,18601628,no,none,yes,1
+lshp_406.txt,406,1155,217,18395739,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+dwt__245.txt,245,608,145,6821111,no,none,yes,1
+dwt__245.txt,245,608,146,7216192,no,none,yes,1
+dwt__245.txt,245,608,144,6826481,no,none,yes,1
+dwt__245.txt,245,608,145,7087065,no,none,yes,1
+dwt__245.txt,245,608,140,7180239,no,none,yes,1
+dwt__245.txt,245,608,143,7800527,no,none,yes,1
+dwt__245.txt,245,608,143,6829024,no,none,yes,1
+dwt__245.txt,245,608,143,7057073,no,none,yes,1
+dwt__245.txt,245,608,143,6939932,no,none,yes,1
+dwt__245.txt,245,608,140,7101906,no,none,yes,1

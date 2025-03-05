@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+tols340.txt,340,1649,153,9061931,yes,h2,yes,1
+tols340.txt,340,1649,153,8094905,yes,h2,yes,1
+tols340.txt,340,1649,153,8892949,yes,h2,yes,1
+tols340.txt,340,1649,153,8950534,yes,h2,yes,1
+tols340.txt,340,1649,153,7690357,yes,h2,yes,1
+tols340.txt,340,1649,153,8925019,yes,h2,yes,1
+tols340.txt,340,1649,153,7686307,yes,h2,yes,1
+tols340.txt,340,1649,153,8165063,yes,h2,yes,1
+tols340.txt,340,1649,153,7725289,yes,h2,yes,1
+tols340.txt,340,1649,153,8943553,yes,h2,yes,1

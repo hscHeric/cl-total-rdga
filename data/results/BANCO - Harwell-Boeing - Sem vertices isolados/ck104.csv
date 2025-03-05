@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+ck104.txt,104,444,34,1498592,no,none,yes,1
+ck104.txt,104,444,33,1542165,no,none,yes,1
+ck104.txt,104,444,35,1563781,no,none,yes,1
+ck104.txt,104,444,35,1623967,no,none,yes,1
+ck104.txt,104,444,35,1595016,no,none,yes,1
+ck104.txt,104,444,34,1630774,no,none,yes,1
+ck104.txt,104,444,35,1572818,no,none,yes,1
+ck104.txt,104,444,35,1579789,no,none,yes,1
+ck104.txt,104,444,34,1606617,no,none,yes,1
+ck104.txt,104,444,35,1475169,no,none,yes,1

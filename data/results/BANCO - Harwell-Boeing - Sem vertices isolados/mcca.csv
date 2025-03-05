@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+mcca.txt,180,1680,94,4134217,no,none,yes,1
+mcca.txt,180,1680,93,4463566,no,none,yes,1
+mcca.txt,180,1680,94,4291196,no,none,yes,1
+mcca.txt,180,1680,93,4168791,no,none,yes,1
+mcca.txt,180,1680,93,3978911,no,none,yes,1
+mcca.txt,180,1680,93,4103882,no,none,yes,1
+mcca.txt,180,1680,94,4093922,no,none,yes,1
+mcca.txt,180,1680,93,4301822,no,none,yes,1
+mcca.txt,180,1680,93,4631492,no,none,yes,1
+mcca.txt,180,1680,93,4088187,no,none,yes,1

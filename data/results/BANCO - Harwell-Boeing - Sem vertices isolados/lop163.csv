@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+lop163.txt,163,598,62,3598997,no,none,yes,1
+lop163.txt,163,598,58,3726993,no,none,yes,1
+lop163.txt,163,598,62,3466081,no,none,yes,1
+lop163.txt,163,598,66,3617858,no,none,yes,1
+lop163.txt,163,598,61,3548638,no,none,yes,1
+lop163.txt,163,598,58,3800190,no,none,yes,1
+lop163.txt,163,598,61,3749330,no,none,yes,1
+lop163.txt,163,598,64,3629533,no,none,yes,1
+lop163.txt,163,598,61,3785389,no,none,yes,1
+lop163.txt,163,598,59,3696449,no,none,yes,1

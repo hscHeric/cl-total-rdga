@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+qh768.txt,768,1322,523,57570235,yes,h3,yes,1
+qh768.txt,768,1322,523,57827335,yes,h3,yes,1
+qh768.txt,768,1322,523,58179581,yes,h3,yes,1
+qh768.txt,768,1322,523,57442490,yes,h3,yes,1
+qh768.txt,768,1322,523,57606575,yes,h3,yes,1
+qh768.txt,768,1322,523,57547627,yes,h3,yes,1
+qh768.txt,768,1322,520,74573034,no,none,yes,1
+qh768.txt,768,1322,510,80349589,no,none,yes,1
+qh768.txt,768,1322,523,58288238,yes,h3,yes,1
+qh768.txt,768,1322,519,72520014,no,none,yes,1

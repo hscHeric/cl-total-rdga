@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Harvard500.txt,500,2043,89,21620817,no,none,yes,1
+Harvard500.txt,500,2043,77,22400390,no,none,yes,1
+Harvard500.txt,500,2043,79,21384135,no,none,yes,1
+Harvard500.txt,500,2043,84,22145841,no,none,yes,1
+Harvard500.txt,500,2043,79,21316047,no,none,yes,1
+Harvard500.txt,500,2043,75,21572810,no,none,yes,1
+Harvard500.txt,500,2043,78,22939471,no,none,yes,1
+Harvard500.txt,500,2043,82,22557571,no,none,yes,1
+Harvard500.txt,500,2043,81,21482479,no,none,yes,1
+Harvard500.txt,500,2043,85,22331528,no,none,yes,1

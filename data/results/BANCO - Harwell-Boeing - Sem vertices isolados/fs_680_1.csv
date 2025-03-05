@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fs_680_1.txt,680,1464,420,34462811,yes,h4,yes,1
+fs_680_1.txt,680,1464,361,38009824,no,none,yes,1
+fs_680_1.txt,680,1464,420,36120650,yes,h4,yes,1
+fs_680_1.txt,680,1464,360,41075156,no,none,yes,1
+fs_680_1.txt,680,1464,420,36272485,yes,h4,yes,1
+fs_680_1.txt,680,1464,362,38916044,no,none,yes,1
+fs_680_1.txt,680,1464,360,38503755,no,none,yes,1
+fs_680_1.txt,680,1464,353,42393042,no,none,yes,1
+fs_680_1.txt,680,1464,420,35470106,yes,h4,yes,1
+fs_680_1.txt,680,1464,387,43769995,no,none,yes,1

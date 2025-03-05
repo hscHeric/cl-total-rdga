@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+johnson8-4-4.txt,70,1855,4,964208,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,979902,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,938786,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,934301,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,934394,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,942329,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,955052,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,937023,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,944343,no,none,yes,1
+johnson8-4-4.txt,70,1855,4,948942,no,none,yes,1

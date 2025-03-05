@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+CSphd.txt,1882,1740,1317,629410692,no,none,yes,1
+CSphd.txt,1882,1740,1313,617430972,no,none,yes,1
+CSphd.txt,1882,1740,1327,554808806,yes,h4,yes,1
+CSphd.txt,1882,1740,1312,641232323,no,none,yes,1
+CSphd.txt,1882,1740,1327,558096355,yes,h4,yes,1
+CSphd.txt,1882,1740,1309,621484757,no,none,yes,1
+CSphd.txt,1882,1740,1312,613105811,no,none,yes,1
+CSphd.txt,1882,1740,1310,630470484,no,none,yes,1
+CSphd.txt,1882,1740,1310,616178039,no,none,yes,1
+CSphd.txt,1882,1740,1316,658985649,no,none,yes,1

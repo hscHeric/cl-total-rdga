@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+rw136.txt,136,373,71,2427452,no,none,yes,1
+rw136.txt,136,373,70,2419457,no,none,yes,1
+rw136.txt,136,373,70,2338430,no,none,yes,1
+rw136.txt,136,373,71,2660249,no,none,yes,1
+rw136.txt,136,373,66,2569437,no,none,yes,1
+rw136.txt,136,373,66,2636743,no,none,yes,1
+rw136.txt,136,373,71,2313926,no,none,yes,1
+rw136.txt,136,373,69,2427132,no,none,yes,1
+rw136.txt,136,373,73,2564579,no,none,yes,1
+rw136.txt,136,373,68,2541887,no,none,yes,1

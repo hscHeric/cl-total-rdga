@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fs_183_3.txt,183,701,43,3942764,no,none,yes,1
+fs_183_3.txt,183,701,44,4220494,no,none,yes,1
+fs_183_3.txt,183,701,49,4106319,no,none,yes,1
+fs_183_3.txt,183,701,45,4014085,no,none,yes,1
+fs_183_3.txt,183,701,46,4211404,no,none,yes,1
+fs_183_3.txt,183,701,44,3934368,no,none,yes,1
+fs_183_3.txt,183,701,47,3994808,no,none,yes,1
+fs_183_3.txt,183,701,45,3976654,no,none,yes,1
+fs_183_3.txt,183,701,46,3905147,no,none,yes,1
+fs_183_3.txt,183,701,44,4102260,no,none,yes,1

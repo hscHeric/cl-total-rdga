@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+curtis54.txt,54,124,26,753503,no,none,yes,1
+curtis54.txt,54,124,24,778709,no,none,yes,1
+curtis54.txt,54,124,24,772559,no,none,yes,1
+curtis54.txt,54,124,25,764684,no,none,yes,1
+curtis54.txt,54,124,24,769651,no,none,yes,1
+curtis54.txt,54,124,24,781413,no,none,yes,1
+curtis54.txt,54,124,24,909481,no,none,yes,1
+curtis54.txt,54,124,25,706609,no,none,yes,1
+curtis54.txt,54,124,26,731079,no,none,yes,1
+curtis54.txt,54,124,25,787945,no,none,yes,1

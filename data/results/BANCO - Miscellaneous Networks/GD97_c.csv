@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GD97_c.txt,452,460,94,12109468,yes,h4,yes,1
+GD97_c.txt,452,460,92,13471384,no,none,yes,1
+GD97_c.txt,452,460,94,12163939,yes,h4,yes,1
+GD97_c.txt,452,460,94,12015626,yes,h4,yes,1
+GD97_c.txt,452,460,94,12003752,yes,h4,yes,1
+GD97_c.txt,452,460,92,12733731,no,none,yes,1
+GD97_c.txt,452,460,91,16047681,no,none,yes,1
+GD97_c.txt,452,460,94,12223615,yes,h4,yes,1
+GD97_c.txt,452,460,92,12939523,no,none,yes,1
+GD97_c.txt,452,460,92,13195903,no,none,yes,1

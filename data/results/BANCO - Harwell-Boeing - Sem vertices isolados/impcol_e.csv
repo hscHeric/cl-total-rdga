@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+impcol_e.txt,225,1187,56,7294303,no,none,yes,1
+impcol_e.txt,225,1187,58,6359210,no,none,yes,1
+impcol_e.txt,225,1187,58,6301418,no,none,yes,1
+impcol_e.txt,225,1187,60,6868519,no,none,yes,1
+impcol_e.txt,225,1187,58,6538594,no,none,yes,1
+impcol_e.txt,225,1187,61,6426955,no,none,yes,1
+impcol_e.txt,225,1187,56,6294626,no,none,yes,1
+impcol_e.txt,225,1187,58,5763284,no,none,yes,1
+impcol_e.txt,225,1187,58,6330945,no,none,yes,1
+impcol_e.txt,225,1187,60,5755697,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+rw496.txt,496,1423,280,25603474,no,none,yes,1
+rw496.txt,496,1423,283,23665211,no,none,yes,1
+rw496.txt,496,1423,261,29526518,no,none,yes,1
+rw496.txt,496,1423,281,24214975,no,none,yes,1
+rw496.txt,496,1423,283,25441824,no,none,yes,1
+rw496.txt,496,1423,270,28671754,no,none,yes,1
+rw496.txt,496,1423,283,26353338,no,none,yes,1
+rw496.txt,496,1423,275,25541962,no,none,yes,1
+rw496.txt,496,1423,272,24986502,no,none,yes,1
+rw496.txt,496,1423,280,33994465,no,none,yes,1

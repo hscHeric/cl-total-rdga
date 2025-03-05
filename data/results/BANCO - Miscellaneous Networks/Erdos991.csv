@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Erdos991.txt,454,1417,281,31445096,no,none,yes,1
+Erdos991.txt,454,1417,302,27401631,no,none,yes,1
+Erdos991.txt,454,1417,302,30672432,no,none,yes,1
+Erdos991.txt,454,1417,300,30299946,no,none,yes,1
+Erdos991.txt,454,1417,285,29979130,no,none,yes,1
+Erdos991.txt,454,1417,302,30361636,no,none,yes,1
+Erdos991.txt,454,1417,291,29808631,no,none,yes,1
+Erdos991.txt,454,1417,306,29373657,no,none,yes,1
+Erdos991.txt,454,1417,302,29659400,no,none,yes,1
+Erdos991.txt,454,1417,308,28005392,no,none,yes,1

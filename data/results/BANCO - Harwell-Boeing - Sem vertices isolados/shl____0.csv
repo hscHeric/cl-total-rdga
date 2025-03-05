@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+shl____0.txt,663,1682,282,53817585,no,none,yes,1
+shl____0.txt,663,1682,268,54375242,no,none,yes,1
+shl____0.txt,663,1682,271,51317767,no,none,yes,1
+shl____0.txt,663,1682,286,39661328,yes,h3,yes,1
+shl____0.txt,663,1682,286,39259628,yes,h3,yes,1
+shl____0.txt,663,1682,280,54379972,no,none,yes,1
+shl____0.txt,663,1682,286,38633270,yes,h3,yes,1
+shl____0.txt,663,1682,286,39731255,yes,h3,yes,1
+shl____0.txt,663,1682,265,49455657,no,none,yes,1
+shl____0.txt,663,1682,267,50579754,no,none,yes,1

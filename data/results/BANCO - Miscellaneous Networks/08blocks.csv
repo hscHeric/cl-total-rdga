@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+08blocks.txt,300,576,24,7337076,yes,h2,yes,1
+08blocks.txt,300,576,24,7372448,yes,h2,yes,1
+08blocks.txt,300,576,24,7427007,yes,h2,yes,1
+08blocks.txt,300,576,24,7410639,yes,h2,yes,1
+08blocks.txt,300,576,24,7395443,yes,h2,yes,1
+08blocks.txt,300,576,24,7438513,yes,h2,yes,1
+08blocks.txt,300,576,24,7422777,yes,h2,yes,1
+08blocks.txt,300,576,24,7442759,yes,h2,yes,1
+08blocks.txt,300,576,24,7434042,yes,h2,yes,1
+08blocks.txt,300,576,24,7432884,yes,h2,yes,1

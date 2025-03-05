@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+tols90.txt,90,1449,3,1414859,yes,h2,yes,1
+tols90.txt,90,1449,3,1444061,yes,h2,yes,1
+tols90.txt,90,1449,3,1402694,yes,h2,yes,1
+tols90.txt,90,1449,3,1408059,yes,h2,yes,1
+tols90.txt,90,1449,3,1412077,yes,h2,yes,1
+tols90.txt,90,1449,3,1405711,yes,h2,yes,1
+tols90.txt,90,1449,3,1399121,yes,h2,yes,1
+tols90.txt,90,1449,3,1401415,yes,h2,yes,1
+tols90.txt,90,1449,3,1423476,yes,h1,yes,1
+tols90.txt,90,1449,3,1404978,yes,h2,yes,1

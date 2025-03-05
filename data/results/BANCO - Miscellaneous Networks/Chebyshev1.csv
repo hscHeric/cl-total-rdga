@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Chebyshev1.txt,261,1542,3,4842173,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4719906,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4687302,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4749211,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4693047,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4671269,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4791272,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4680959,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4689825,yes,h2,yes,1
+Chebyshev1.txt,261,1542,3,4769219,yes,h2,yes,1

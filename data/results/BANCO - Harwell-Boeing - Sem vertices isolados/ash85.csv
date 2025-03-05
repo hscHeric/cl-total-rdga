@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+ash85.txt,85,219,43,1391748,no,none,yes,1
+ash85.txt,85,219,41,1347412,no,none,yes,1
+ash85.txt,85,219,43,1315758,no,none,yes,1
+ash85.txt,85,219,42,1401088,no,none,yes,1
+ash85.txt,85,219,44,1277289,no,none,yes,1
+ash85.txt,85,219,44,1280367,no,none,yes,1
+ash85.txt,85,219,42,1325111,no,none,yes,1
+ash85.txt,85,219,44,1314254,no,none,yes,1
+ash85.txt,85,219,42,1301130,no,none,yes,1
+ash85.txt,85,219,44,1372533,no,none,yes,1

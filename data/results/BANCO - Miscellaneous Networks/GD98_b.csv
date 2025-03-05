@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GD98_b.txt,121,132,89,1632158,yes,h4,yes,1
+GD98_b.txt,121,132,87,1843262,no,none,yes,1
+GD98_b.txt,121,132,87,1877446,no,none,yes,1
+GD98_b.txt,121,132,89,1797722,yes,h4,yes,1
+GD98_b.txt,121,132,87,1890210,no,none,yes,1
+GD98_b.txt,121,132,87,1982057,no,none,yes,1
+GD98_b.txt,121,132,87,1753029,no,none,yes,1
+GD98_b.txt,121,132,88,1615074,no,none,yes,1
+GD98_b.txt,121,132,87,1716564,no,none,yes,1
+GD98_b.txt,121,132,89,1610731,yes,h4,yes,1

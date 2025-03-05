@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+lund_a.txt,147,1151,32,2679924,no,none,yes,1
+lund_a.txt,147,1151,33,2659184,no,none,yes,1
+lund_a.txt,147,1151,31,3265505,no,none,yes,1
+lund_a.txt,147,1151,31,2842261,no,none,yes,1
+lund_a.txt,147,1151,33,2799041,no,none,yes,1
+lund_a.txt,147,1151,31,2602882,no,none,yes,1
+lund_a.txt,147,1151,32,2836351,no,none,yes,1
+lund_a.txt,147,1151,33,2567663,no,none,yes,1
+lund_a.txt,147,1151,32,2910015,no,none,yes,1
+lund_a.txt,147,1151,32,2795625,no,none,yes,1

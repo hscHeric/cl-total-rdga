@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Ragusa16.txt,24,58,14,282066,no,none,yes,1
+Ragusa16.txt,24,58,13,297697,no,none,yes,1
+Ragusa16.txt,24,58,12,288382,no,none,yes,1
+Ragusa16.txt,24,58,13,286135,no,none,yes,1
+Ragusa16.txt,24,58,14,287064,no,none,yes,1
+Ragusa16.txt,24,58,13,276736,no,none,yes,1
+Ragusa16.txt,24,58,13,276563,no,none,yes,1
+Ragusa16.txt,24,58,13,288423,no,none,yes,1
+Ragusa16.txt,24,58,12,284933,no,none,yes,1
+Ragusa16.txt,24,58,13,280853,no,none,yes,1

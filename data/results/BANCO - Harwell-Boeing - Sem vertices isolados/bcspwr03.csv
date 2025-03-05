@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+bcspwr03.txt,118,179,84,2162460,no,none,yes,1
+bcspwr03.txt,118,179,82,2069082,no,none,yes,1
+bcspwr03.txt,118,179,82,1974469,no,none,yes,1
+bcspwr03.txt,118,179,86,2025313,no,none,yes,1
+bcspwr03.txt,118,179,82,2348989,no,none,yes,1
+bcspwr03.txt,118,179,80,2355988,no,none,yes,1
+bcspwr03.txt,118,179,80,2423849,no,none,yes,1
+bcspwr03.txt,118,179,78,2308228,no,none,yes,1
+bcspwr03.txt,118,179,84,2062976,no,none,yes,1
+bcspwr03.txt,118,179,84,2054947,no,none,yes,1

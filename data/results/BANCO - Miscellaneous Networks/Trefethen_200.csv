@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Trefethen_200.txt,200,1345,55,6848224,no,none,yes,1
+Trefethen_200.txt,200,1345,57,5284511,no,none,yes,1
+Trefethen_200.txt,200,1345,59,5276379,no,none,yes,1
+Trefethen_200.txt,200,1345,59,5062002,no,none,yes,1
+Trefethen_200.txt,200,1345,55,5460684,no,none,yes,1
+Trefethen_200.txt,200,1345,56,5695440,no,none,yes,1
+Trefethen_200.txt,200,1345,58,5421129,no,none,yes,1
+Trefethen_200.txt,200,1345,56,5256246,no,none,yes,1
+Trefethen_200.txt,200,1345,54,5481442,no,none,yes,1
+Trefethen_200.txt,200,1345,59,5011244,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+rdb200.txt,200,460,127,4941043,no,none,yes,1
+rdb200.txt,200,460,124,4688648,no,none,yes,1
+rdb200.txt,200,460,125,4903428,no,none,yes,1
+rdb200.txt,200,460,123,4895040,no,none,yes,1
+rdb200.txt,200,460,123,4932010,no,none,yes,1
+rdb200.txt,200,460,124,4717265,no,none,yes,1
+rdb200.txt,200,460,123,4641877,no,none,yes,1
+rdb200.txt,200,460,126,4726168,no,none,yes,1
+rdb200.txt,200,460,126,4892808,no,none,yes,1
+rdb200.txt,200,460,125,4865300,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+GD06_theory.txt,101,190,20,1475157,no,none,yes,1
+GD06_theory.txt,101,190,20,1401722,no,none,yes,1
+GD06_theory.txt,101,190,20,1435265,no,none,yes,1
+GD06_theory.txt,101,190,22,1447755,no,none,yes,1
+GD06_theory.txt,101,190,20,1427411,no,none,yes,1
+GD06_theory.txt,101,190,20,1421948,no,none,yes,1
+GD06_theory.txt,101,190,20,1398892,no,none,yes,1
+GD06_theory.txt,101,190,20,1381678,no,none,yes,1
+GD06_theory.txt,101,190,20,1392058,no,none,yes,1
+GD06_theory.txt,101,190,20,1438959,no,none,yes,1

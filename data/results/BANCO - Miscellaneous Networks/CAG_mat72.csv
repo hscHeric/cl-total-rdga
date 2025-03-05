@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+CAG_mat72.txt,72,678,11,849429,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,858975,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,850865,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,847618,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,848035,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,847736,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,848877,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,846512,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,855755,yes,h2,yes,1
+CAG_mat72.txt,72,678,11,848841,yes,h2,yes,1

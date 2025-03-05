@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+MANN-a9.txt,45,918,4,514405,no,none,yes,1
+MANN-a9.txt,45,918,4,509302,no,none,yes,1
+MANN-a9.txt,45,918,4,513264,no,none,yes,1
+MANN-a9.txt,45,918,4,510840,no,none,yes,1
+MANN-a9.txt,45,918,4,511700,no,none,yes,1
+MANN-a9.txt,45,918,4,510249,no,none,yes,1
+MANN-a9.txt,45,918,4,511187,no,none,yes,1
+MANN-a9.txt,45,918,4,510020,no,none,yes,1
+MANN-a9.txt,45,918,4,513669,no,none,yes,1
+MANN-a9.txt,45,918,4,510471,no,none,yes,1

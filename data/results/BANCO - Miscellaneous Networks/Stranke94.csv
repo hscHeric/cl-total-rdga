@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Stranke94.txt,10,45,3,109973,yes,h1,yes,1
+Stranke94.txt,10,45,3,109855,yes,h1,yes,1
+Stranke94.txt,10,45,3,110141,yes,h1,yes,1
+Stranke94.txt,10,45,3,109988,yes,h1,yes,1
+Stranke94.txt,10,45,3,109467,yes,h1,yes,1
+Stranke94.txt,10,45,3,109508,yes,h1,yes,1
+Stranke94.txt,10,45,3,109545,yes,h1,yes,1
+Stranke94.txt,10,45,3,109877,yes,h1,yes,1
+Stranke94.txt,10,45,3,108979,yes,h1,yes,1
+Stranke94.txt,10,45,3,109520,yes,h1,yes,1

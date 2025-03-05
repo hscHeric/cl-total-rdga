@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+pores_1.txt,30,103,11,350591,no,none,yes,1
+pores_1.txt,30,103,11,364894,no,none,yes,1
+pores_1.txt,30,103,11,359861,no,none,yes,1
+pores_1.txt,30,103,12,333071,no,none,yes,1
+pores_1.txt,30,103,11,350780,no,none,yes,1
+pores_1.txt,30,103,11,360232,no,none,yes,1
+pores_1.txt,30,103,11,361363,no,none,yes,1
+pores_1.txt,30,103,11,356656,no,none,yes,1
+pores_1.txt,30,103,11,356519,no,none,yes,1
+pores_1.txt,30,103,11,366221,no,none,yes,1

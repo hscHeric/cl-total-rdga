@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+bcsstk01.txt,48,176,19,539715,yes,h2,yes,1
+bcsstk01.txt,48,176,19,540916,yes,h2,yes,1
+bcsstk01.txt,48,176,19,542815,yes,h2,yes,1
+bcsstk01.txt,48,176,19,542195,yes,h2,yes,1
+bcsstk01.txt,48,176,19,538584,yes,h2,yes,1
+bcsstk01.txt,48,176,19,545859,yes,h2,yes,1
+bcsstk01.txt,48,176,19,540251,yes,h2,yes,1
+bcsstk01.txt,48,176,19,537337,yes,h2,yes,1
+bcsstk01.txt,48,176,19,537610,yes,h2,yes,1
+bcsstk01.txt,48,176,19,536223,yes,h2,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+can__161.txt,161,608,54,2973015,no,none,yes,1
+can__161.txt,161,608,52,3409801,no,none,yes,1
+can__161.txt,161,608,55,3013102,no,none,yes,1
+can__161.txt,161,608,55,3189748,no,none,yes,1
+can__161.txt,161,608,52,3057987,no,none,yes,1
+can__161.txt,161,608,53,3095104,no,none,yes,1
+can__161.txt,161,608,54,3020905,no,none,yes,1
+can__161.txt,161,608,52,3136831,no,none,yes,1
+can__161.txt,161,608,52,2994557,no,none,yes,1
+can__161.txt,161,608,52,3012105,no,none,yes,1

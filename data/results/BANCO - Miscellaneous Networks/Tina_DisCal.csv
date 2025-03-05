@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+Tina_DisCal.txt,11,32,5,121275,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120760,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120867,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120597,no,none,yes,1
+Tina_DisCal.txt,11,32,5,121947,no,none,yes,1
+Tina_DisCal.txt,11,32,5,121149,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120964,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120093,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120467,no,none,yes,1
+Tina_DisCal.txt,11,32,5,120593,no,none,yes,1

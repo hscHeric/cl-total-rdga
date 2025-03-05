@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+olm500.txt,500,997,252,19032719,no,none,yes,1
+olm500.txt,500,997,250,20067166,no,none,yes,1
+olm500.txt,500,997,251,19374873,no,none,yes,1
+olm500.txt,500,997,255,17319191,yes,h2,yes,1
+olm500.txt,500,997,252,19651174,no,none,yes,1
+olm500.txt,500,997,252,19196834,no,none,yes,1
+olm500.txt,500,997,251,19438285,no,none,yes,1
+olm500.txt,500,997,252,19613147,no,none,yes,1
+olm500.txt,500,997,251,19840686,no,none,yes,1
+olm500.txt,500,997,250,19835936,no,none,yes,1

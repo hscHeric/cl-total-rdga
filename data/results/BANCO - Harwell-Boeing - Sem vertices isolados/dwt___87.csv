@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+dwt___87.txt,87,227,44,1055073,yes,h3,yes,1
+dwt___87.txt,87,227,44,1063737,yes,h3,yes,1
+dwt___87.txt,87,227,43,1303186,no,none,yes,1
+dwt___87.txt,87,227,42,1321256,no,none,yes,1
+dwt___87.txt,87,227,44,1053062,yes,h3,yes,1
+dwt___87.txt,87,227,43,1296418,no,none,yes,1
+dwt___87.txt,87,227,41,1347558,no,none,yes,1
+dwt___87.txt,87,227,42,1340391,no,none,yes,1
+dwt___87.txt,87,227,42,1358394,no,none,yes,1
+dwt___87.txt,87,227,42,1268476,no,none,yes,1

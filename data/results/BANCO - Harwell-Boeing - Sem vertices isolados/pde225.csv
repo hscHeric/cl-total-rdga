@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+pde225.txt,225,420,169,5326325,no,none,yes,1
+pde225.txt,225,420,165,5829766,no,none,yes,1
+pde225.txt,225,420,164,5819721,no,none,yes,1
+pde225.txt,225,420,167,5189214,no,none,yes,1
+pde225.txt,225,420,168,6417305,no,none,yes,1
+pde225.txt,225,420,166,5500437,no,none,yes,1
+pde225.txt,225,420,164,5628846,no,none,yes,1
+pde225.txt,225,420,165,5519204,no,none,yes,1
+pde225.txt,225,420,166,5877368,no,none,yes,1
+pde225.txt,225,420,164,5441893,no,none,yes,1

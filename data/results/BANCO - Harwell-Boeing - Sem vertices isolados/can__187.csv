@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+can__187.txt,187,652,65,3989059,no,none,yes,1
+can__187.txt,187,652,64,3627736,no,none,yes,1
+can__187.txt,187,652,63,3837339,no,none,yes,1
+can__187.txt,187,652,64,3954517,no,none,yes,1
+can__187.txt,187,652,63,3971829,no,none,yes,1
+can__187.txt,187,652,65,3840968,no,none,yes,1
+can__187.txt,187,652,63,3935857,no,none,yes,1
+can__187.txt,187,652,64,3818959,no,none,yes,1
+can__187.txt,187,652,65,3600723,no,none,yes,1
+can__187.txt,187,652,65,3927049,no,none,yes,1

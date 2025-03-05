@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+will57.txt,57,127,23,832826,no,none,yes,1
+will57.txt,57,127,24,778574,no,none,yes,1
+will57.txt,57,127,24,764592,no,none,yes,1
+will57.txt,57,127,23,789850,no,none,yes,1
+will57.txt,57,127,24,822937,no,none,yes,1
+will57.txt,57,127,24,760728,no,none,yes,1
+will57.txt,57,127,23,816760,no,none,yes,1
+will57.txt,57,127,23,817718,no,none,yes,1
+will57.txt,57,127,26,713943,no,none,yes,1
+will57.txt,57,127,23,715002,no,none,yes,1

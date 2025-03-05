@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+odep400a.txt,400,402,398,13190320,no,none,yes,1
+odep400a.txt,400,402,398,13108701,no,none,yes,1
+odep400a.txt,400,402,398,13233211,no,none,yes,1
+odep400a.txt,400,402,398,12841803,no,none,yes,1
+odep400a.txt,400,402,398,13065414,no,none,yes,1
+odep400a.txt,400,402,398,13269771,no,none,yes,1
+odep400a.txt,400,402,398,12848951,no,none,yes,1
+odep400a.txt,400,402,398,12945357,no,none,yes,1
+odep400a.txt,400,402,398,13377923,no,none,yes,1
+odep400a.txt,400,402,398,13990368,no,none,yes,1
