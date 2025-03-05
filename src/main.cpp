@@ -270,6 +270,7 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   size_t pop_size =
       static_cast<size_t>(graph->order() * params.population_factor);
 
+  auto start_time = std::chrono::high_resolution_clock::now();
   auto heuristic_h1 = heuristicHandle.h1(*graph);
   auto heuristic_h2 = heuristicHandle.h2(*graph);
   auto heuristic_h3 = heuristicHandle.h3(*graph);
@@ -294,8 +295,6 @@ TrialResult run_genetic_algorithm(const std::unique_ptr<Graph> &graph,
   while (initialChromosomes.size() < pop_size) {
     initialChromosomes.push_back(heuristicHandle.h1(*graph));
   }
-
-  auto start_time = std::chrono::high_resolution_clock::now();
 
   Population population(pop_size, initialChromosomes);
 
