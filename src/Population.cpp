@@ -23,9 +23,10 @@
 
 #include "Population.hpp"
 
+// Population.cpp
 Population::Population(size_t size,
                        const std::vector<Chromosome> &initialChromosomes)
-    : size(size), chromosomes(initialChromosomes) {
+    : chromosomes(initialChromosomes), size(size) {
   if (chromosomes.size() != size) {
     throw std::runtime_error(
         "Initial chromosome count must match population size");
