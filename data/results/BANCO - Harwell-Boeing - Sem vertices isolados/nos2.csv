@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+nos2.txt,957,1590,746,95376236,no,none,yes,1
+nos2.txt,957,1590,747,85760070,yes,h3,yes,1
+nos2.txt,957,1590,747,86786688,yes,h3,yes,1
+nos2.txt,957,1590,747,86451230,yes,h3,yes,1
+nos2.txt,957,1590,747,86397551,yes,h3,yes,1
+nos2.txt,957,1590,747,86298381,yes,h3,yes,1
+nos2.txt,957,1590,745,100971634,no,none,yes,1
+nos2.txt,957,1590,746,100044150,no,none,yes,1
+nos2.txt,957,1590,747,86802439,yes,h3,yes,1
+nos2.txt,957,1590,747,85330939,yes,h3,yes,1

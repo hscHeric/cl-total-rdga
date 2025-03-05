@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+nnc666.txt,666,2148,327,67485520,no,none,yes,1
+nnc666.txt,666,2148,317,71286098,no,none,yes,1
+nnc666.txt,666,2148,317,70513669,no,none,yes,1
+nnc666.txt,666,2148,305,71150940,no,none,yes,1
+nnc666.txt,666,2148,324,69967421,no,none,yes,1
+nnc666.txt,666,2148,324,64961031,no,none,yes,1
+nnc666.txt,666,2148,317,74234738,no,none,yes,1
+nnc666.txt,666,2148,306,64584343,no,none,yes,1
+nnc666.txt,666,2148,295,68663491,no,none,yes,1
+nnc666.txt,666,2148,311,62370856,no,none,yes,1

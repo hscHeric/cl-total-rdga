@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+hor__131.txt,434,2138,164,28493092,no,none,yes,1
+hor__131.txt,434,2138,155,29075408,no,none,yes,1
+hor__131.txt,434,2138,163,25766753,no,none,yes,1
+hor__131.txt,434,2138,159,29300682,no,none,yes,1
+hor__131.txt,434,2138,154,29274218,no,none,yes,1
+hor__131.txt,434,2138,155,30112500,no,none,yes,1
+hor__131.txt,434,2138,157,29185404,no,none,yes,1
+hor__131.txt,434,2138,159,31032563,no,none,yes,1
+hor__131.txt,434,2138,160,27475765,no,none,yes,1
+hor__131.txt,434,2138,162,30613386,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+str____0.txt,363,2446,165,23922329,no,none,yes,1
+str____0.txt,363,2446,159,25728048,no,none,yes,1
+str____0.txt,363,2446,164,26923473,no,none,yes,1
+str____0.txt,363,2446,177,23060008,no,none,yes,1
+str____0.txt,363,2446,173,23174060,no,none,yes,1
+str____0.txt,363,2446,168,24144977,no,none,yes,1
+str____0.txt,363,2446,169,24074587,no,none,yes,1
+str____0.txt,363,2446,178,24279295,no,none,yes,1
+str____0.txt,363,2446,176,22629346,no,none,yes,1
+str____0.txt,363,2446,175,24342707,no,none,yes,1

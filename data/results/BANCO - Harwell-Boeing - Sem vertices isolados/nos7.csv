@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+nos7.txt,729,1944,427,64123001,no,none,yes,1
+nos7.txt,729,1944,433,61041891,no,none,yes,1
+nos7.txt,729,1944,425,65927789,no,none,yes,1
+nos7.txt,729,1944,440,50108842,yes,h3,yes,1
+nos7.txt,729,1944,440,50739795,yes,h3,yes,1
+nos7.txt,729,1944,439,62488205,no,none,yes,1
+nos7.txt,729,1944,435,61439817,no,none,yes,1
+nos7.txt,729,1944,435,61348173,no,none,yes,1
+nos7.txt,729,1944,435,66895006,no,none,yes,1
+nos7.txt,729,1944,428,67520309,no,none,yes,1

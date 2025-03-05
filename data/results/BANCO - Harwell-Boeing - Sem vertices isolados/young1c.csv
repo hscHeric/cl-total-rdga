@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+young1c.txt,841,1624,594,90803294,no,none,yes,1
+young1c.txt,841,1624,599,88786232,no,none,yes,1
+young1c.txt,841,1624,611,68108464,yes,h3,yes,1
+young1c.txt,841,1624,606,76677166,no,none,yes,1
+young1c.txt,841,1624,611,69595134,yes,h3,yes,1
+young1c.txt,841,1624,607,76401173,no,none,yes,1
+young1c.txt,841,1624,602,79650260,no,none,yes,1
+young1c.txt,841,1624,601,80194316,no,none,yes,1
+young1c.txt,841,1624,595,83305257,no,none,yes,1
+young1c.txt,841,1624,594,82626607,no,none,yes,1
