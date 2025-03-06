@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+plat362.txt,362,2712,81,22656844,no,none,yes,1
+plat362.txt,362,2712,82,22653028,no,none,yes,1
+plat362.txt,362,2712,84,22922792,no,none,yes,1
+plat362.txt,362,2712,83,21856362,no,none,yes,1
+plat362.txt,362,2712,82,22123055,no,none,yes,1
+plat362.txt,362,2712,78,22835587,no,none,yes,1
+plat362.txt,362,2712,82,21923368,no,none,yes,1
+plat362.txt,362,2712,84,21993132,no,none,yes,1
+plat362.txt,362,2712,83,21454357,no,none,yes,1
+plat362.txt,362,2712,82,22209863,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+c-fat200-2.txt,200,3235,18,7272928,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7247071,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7381110,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7225017,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7363115,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7311193,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7468702,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7281407,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7236068,yes,h2,yes,1
+c-fat200-2.txt,200,3235,18,7211458,yes,h2,yes,1

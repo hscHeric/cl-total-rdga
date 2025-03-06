@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fs_541_2.txt,541,2466,3,29675995,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29443702,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29265013,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,28924380,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,28991832,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29740100,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29103927,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29040851,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,28541938,yes,h2,yes,1
+fs_541_2.txt,541,2466,3,29224059,yes,h2,yes,1

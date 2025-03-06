@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+str__400.txt,363,3124,158,28790382,no,none,yes,1
+str__400.txt,363,3124,150,28252936,no,none,yes,1
+str__400.txt,363,3124,147,28855490,no,none,yes,1
+str__400.txt,363,3124,147,30115491,no,none,yes,1
+str__400.txt,363,3124,148,26719820,no,none,yes,1
+str__400.txt,363,3124,149,29272845,no,none,yes,1
+str__400.txt,363,3124,144,27078674,no,none,yes,1
+str__400.txt,363,3124,150,26331140,no,none,yes,1
+str__400.txt,363,3124,145,26375334,no,none,yes,1
+str__400.txt,363,3124,149,32213454,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+cdde3.txt,961,1860,695,97944220,yes,h3,yes,1
+cdde3.txt,961,1860,669,123834045,no,none,yes,1
+cdde3.txt,961,1860,670,119523692,no,none,yes,1
+cdde3.txt,961,1860,680,116268747,no,none,yes,1
+cdde3.txt,961,1860,664,124237193,no,none,yes,1
+cdde3.txt,961,1860,670,125820876,no,none,yes,1
+cdde3.txt,961,1860,661,119546233,no,none,yes,1
+cdde3.txt,961,1860,672,117698074,no,none,yes,1
+cdde3.txt,961,1860,685,116090686,no,none,yes,1
+cdde3.txt,961,1860,680,114804826,no,none,yes,1

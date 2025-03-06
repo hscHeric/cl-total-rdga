@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+dwt__503.txt,503,2762,150,28463951,no,none,yes,1
+dwt__503.txt,503,2762,145,29647925,no,none,yes,1
+dwt__503.txt,503,2762,143,30358073,no,none,yes,1
+dwt__503.txt,503,2762,150,27177419,no,none,yes,1
+dwt__503.txt,503,2762,147,28023207,no,none,yes,1
+dwt__503.txt,503,2762,160,32440215,no,none,yes,1
+dwt__503.txt,503,2762,148,28661664,no,none,yes,1
+dwt__503.txt,503,2762,149,27290201,no,none,yes,1
+dwt__503.txt,503,2762,142,34052980,no,none,yes,1
+dwt__503.txt,503,2762,152,27183306,no,none,yes,1

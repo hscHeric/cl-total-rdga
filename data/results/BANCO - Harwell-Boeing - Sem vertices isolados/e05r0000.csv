@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+e05r0000.txt,236,2847,19,5389166,no,none,yes,1
+e05r0000.txt,236,2847,23,5277973,no,none,yes,1
+e05r0000.txt,236,2847,18,5309119,no,none,yes,1
+e05r0000.txt,236,2847,18,5371864,no,none,yes,1
+e05r0000.txt,236,2847,19,5233462,no,none,yes,1
+e05r0000.txt,236,2847,19,5396006,no,none,yes,1
+e05r0000.txt,236,2847,19,5259311,no,none,yes,1
+e05r0000.txt,236,2847,19,5539387,no,none,yes,1
+e05r0000.txt,236,2847,22,5128130,no,none,yes,1
+e05r0000.txt,236,2847,21,5732369,no,none,yes,1
