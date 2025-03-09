@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+C250-9.txt,250,27984,4,24291515,no,none,yes,1
+C250-9.txt,250,27984,4,24326945,no,none,yes,1
+C250-9.txt,250,27984,4,23803570,no,none,yes,1
+C250-9.txt,250,27984,4,31293769,no,none,yes,1
+C250-9.txt,250,27984,4,24158051,no,none,yes,1
+C250-9.txt,250,27984,4,23904259,no,none,yes,1
+C250-9.txt,250,27984,4,24432366,no,none,yes,1
+C250-9.txt,250,27984,4,24592334,no,none,yes,1
+C250-9.txt,250,27984,4,24320669,no,none,yes,1
+C250-9.txt,250,27984,4,24264026,no,none,yes,1

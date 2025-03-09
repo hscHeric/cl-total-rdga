@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+cavity03.txt,317,4237,19,8230592,no,none,yes,1
+cavity03.txt,317,4237,19,8528100,no,none,yes,1
+cavity03.txt,317,4237,19,8052479,no,none,yes,1
+cavity03.txt,317,4237,18,8391958,no,none,yes,1
+cavity03.txt,317,4237,19,8404715,no,none,yes,1
+cavity03.txt,317,4237,19,8328473,no,none,yes,1
+cavity03.txt,317,4237,19,8327446,no,none,yes,1
+cavity03.txt,317,4237,18,8442093,no,none,yes,1
+cavity03.txt,317,4237,19,8154356,no,none,yes,1
+cavity03.txt,317,4237,18,8490391,no,none,yes,1

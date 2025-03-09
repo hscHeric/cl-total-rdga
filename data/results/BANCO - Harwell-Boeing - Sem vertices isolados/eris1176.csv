@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+eris1176.txt,1176,8688,704,201827474,no,none,yes,1
+eris1176.txt,1176,8688,700,217662231,no,none,yes,1
+eris1176.txt,1176,8688,706,205309916,no,none,yes,1
+eris1176.txt,1176,8688,723,199460421,no,none,yes,1
+eris1176.txt,1176,8688,716,194819154,no,none,yes,1
+eris1176.txt,1176,8688,703,198452711,no,none,yes,1
+eris1176.txt,1176,8688,717,206054673,no,none,yes,1
+eris1176.txt,1176,8688,659,240695679,no,none,yes,1
+eris1176.txt,1176,8688,709,206273413,no,none,yes,1
+eris1176.txt,1176,8688,712,194799568,no,none,yes,1

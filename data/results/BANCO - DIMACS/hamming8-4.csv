@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+hamming8-4.txt,256,20864,4,34308254,no,none,yes,1
+hamming8-4.txt,256,20864,4,33528673,no,none,yes,1
+hamming8-4.txt,256,20864,4,34573388,no,none,yes,1
+hamming8-4.txt,256,20864,4,33981998,no,none,yes,1
+hamming8-4.txt,256,20864,4,34400878,no,none,yes,1
+hamming8-4.txt,256,20864,4,34546849,no,none,yes,1
+hamming8-4.txt,256,20864,4,34416599,no,none,yes,1
+hamming8-4.txt,256,20864,4,34709763,no,none,yes,1
+hamming8-4.txt,256,20864,4,34504012,no,none,yes,1
+hamming8-4.txt,256,20864,4,34535734,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+mahindas.txt,1258,7513,677,824611385,no,none,yes,1
+mahindas.txt,1258,7513,678,380352366,no,none,yes,1
+mahindas.txt,1258,7513,669,757580524,no,none,yes,1
+mahindas.txt,1258,7513,668,614632813,no,none,yes,1
+mahindas.txt,1258,7513,715,350475697,yes,h3,yes,1
+mahindas.txt,1258,7513,695,505419896,no,none,yes,1
+mahindas.txt,1258,7513,665,416329288,no,none,yes,1
+mahindas.txt,1258,7513,667,411309052,no,none,yes,1
+mahindas.txt,1258,7513,678,371909108,no,none,yes,1
+mahindas.txt,1258,7513,669,405027704,no,none,yes,1

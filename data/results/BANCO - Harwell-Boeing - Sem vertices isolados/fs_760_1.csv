@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fs_760_1.txt,760,3518,340,57340192,yes,h3,yes,1
+fs_760_1.txt,760,3518,318,68971182,no,none,yes,1
+fs_760_1.txt,760,3518,340,53302321,yes,h3,yes,1
+fs_760_1.txt,760,3518,316,68888458,no,none,yes,1
+fs_760_1.txt,760,3518,340,52956207,yes,h3,yes,1
+fs_760_1.txt,760,3518,318,74895277,no,none,yes,1
+fs_760_1.txt,760,3518,340,52799844,yes,h3,yes,1
+fs_760_1.txt,760,3518,327,69450347,no,none,yes,1
+fs_760_1.txt,760,3518,332,73834068,no,none,yes,1
+fs_760_1.txt,760,3518,326,72717507,no,none,yes,1

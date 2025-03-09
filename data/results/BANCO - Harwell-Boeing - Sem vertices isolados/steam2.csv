@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+steam2.txt,600,6580,91,153376045,no,none,yes,1
+steam2.txt,600,6580,101,107578220,no,none,yes,1
+steam2.txt,600,6580,99,94860749,no,none,yes,1
+steam2.txt,600,6580,93,140087875,no,none,yes,1
+steam2.txt,600,6580,90,112570254,no,none,yes,1
+steam2.txt,600,6580,91,86177139,no,none,yes,1
+steam2.txt,600,6580,87,71252207,no,none,yes,1
+steam2.txt,600,6580,89,73876924,no,none,yes,1
+steam2.txt,600,6580,88,88341844,no,none,yes,1
+steam2.txt,600,6580,93,132852403,no,none,yes,1

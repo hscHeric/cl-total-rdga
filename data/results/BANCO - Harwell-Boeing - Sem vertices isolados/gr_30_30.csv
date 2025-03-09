@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+gr_30_30.txt,900,3422,315,85636802,no,none,yes,1
+gr_30_30.txt,900,3422,302,100356419,no,none,yes,1
+gr_30_30.txt,900,3422,304,93683502,no,none,yes,1
+gr_30_30.txt,900,3422,306,84606554,no,none,yes,1
+gr_30_30.txt,900,3422,301,87201521,no,none,yes,1
+gr_30_30.txt,900,3422,305,96485800,no,none,yes,1
+gr_30_30.txt,900,3422,307,81254486,no,none,yes,1
+gr_30_30.txt,900,3422,303,86243388,no,none,yes,1
+gr_30_30.txt,900,3422,304,85594650,no,none,yes,1
+gr_30_30.txt,900,3422,306,88484958,no,none,yes,1

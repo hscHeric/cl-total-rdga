@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+rbs480a.txt,480,16408,40,61768310,no,none,yes,1
+rbs480a.txt,480,16408,37,48830343,no,none,yes,1
+rbs480a.txt,480,16408,34,53851277,no,none,yes,1
+rbs480a.txt,480,16408,35,45582356,no,none,yes,1
+rbs480a.txt,480,16408,38,57558036,no,none,yes,1
+rbs480a.txt,480,16408,39,53183001,no,none,yes,1
+rbs480a.txt,480,16408,40,55895087,no,none,yes,1
+rbs480a.txt,480,16408,34,47940874,no,none,yes,1
+rbs480a.txt,480,16408,36,48914172,no,none,yes,1
+rbs480a.txt,480,16408,40,71280936,no,none,yes,1

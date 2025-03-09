@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+DK01R.txt,903,5641,280,111316067,no,none,yes,1
+DK01R.txt,903,5641,276,117343908,no,none,yes,1
+DK01R.txt,903,5641,272,115845999,no,none,yes,1
+DK01R.txt,903,5641,276,112700661,no,none,yes,1
+DK01R.txt,903,5641,273,112338976,no,none,yes,1
+DK01R.txt,903,5641,275,117048556,no,none,yes,1
+DK01R.txt,903,5641,273,117302927,no,none,yes,1
+DK01R.txt,903,5641,275,112609475,no,none,yes,1
+DK01R.txt,903,5641,277,112750299,no,none,yes,1
+DK01R.txt,903,5641,273,123440822,no,none,yes,1

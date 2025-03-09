@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+lshp1009.txt,1009,2928,556,147694682,no,none,yes,1
+lshp1009.txt,1009,2928,561,137897052,no,none,yes,1
+lshp1009.txt,1009,2928,558,135750547,no,none,yes,1
+lshp1009.txt,1009,2928,561,139655856,no,none,yes,1
+lshp1009.txt,1009,2928,555,161164069,no,none,yes,1
+lshp1009.txt,1009,2928,551,186683210,no,none,yes,1
+lshp1009.txt,1009,2928,563,147236295,no,none,yes,1
+lshp1009.txt,1009,2928,553,156231328,no,none,yes,1
+lshp1009.txt,1009,2928,555,142585754,no,none,yes,1
+lshp1009.txt,1009,2928,569,149678821,no,none,yes,1

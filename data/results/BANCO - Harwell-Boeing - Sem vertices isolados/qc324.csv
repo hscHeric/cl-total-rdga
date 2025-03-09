@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+qc324.txt,324,13203,8,37424900,no,none,yes,1
+qc324.txt,324,13203,9,38136273,no,none,yes,1
+qc324.txt,324,13203,8,36503654,no,none,yes,1
+qc324.txt,324,13203,9,33413963,no,none,yes,1
+qc324.txt,324,13203,8,44138600,no,none,yes,1
+qc324.txt,324,13203,8,37274393,no,none,yes,1
+qc324.txt,324,13203,8,38694432,no,none,yes,1
+qc324.txt,324,13203,8,38418488,no,none,yes,1
+qc324.txt,324,13203,9,38898046,no,none,yes,1
+qc324.txt,324,13203,8,36079584,no,none,yes,1

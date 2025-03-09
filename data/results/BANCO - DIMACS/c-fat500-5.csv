@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+c-fat500-5.txt,500,23191,16,118709103,no,none,yes,1
+c-fat500-5.txt,500,23191,16,116608581,no,none,yes,1
+c-fat500-5.txt,500,23191,16,118062648,no,none,yes,1
+c-fat500-5.txt,500,23191,16,120013410,no,none,yes,1
+c-fat500-5.txt,500,23191,16,118792383,no,none,yes,1
+c-fat500-5.txt,500,23191,16,120169695,no,none,yes,1
+c-fat500-5.txt,500,23191,16,119797505,no,none,yes,1
+c-fat500-5.txt,500,23191,16,120534244,no,none,yes,1
+c-fat500-5.txt,500,23191,16,118705779,no,none,yes,1
+c-fat500-5.txt,500,23191,16,117843716,no,none,yes,1

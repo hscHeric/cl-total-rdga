@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+san200-0-9-3.txt,200,17910,4,12422819,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,13759600,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,25321692,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,13014243,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,13901711,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,13537092,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,10881891,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,11628180,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,9999408,no,none,yes,1
+san200-0-9-3.txt,200,17910,4,13489085,no,none,yes,1

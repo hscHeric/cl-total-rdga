@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+watt__1.txt,1856,4816,1192,594020966,no,none,yes,1
+watt__1.txt,1856,4816,1193,616754179,no,none,yes,1
+watt__1.txt,1856,4816,1193,622240499,no,none,yes,1
+watt__1.txt,1856,4816,1183,638857388,no,none,yes,1
+watt__1.txt,1856,4816,1186,651126008,no,none,yes,1
+watt__1.txt,1856,4816,1188,698466974,no,none,yes,1
+watt__1.txt,1856,4816,1183,710267826,no,none,yes,1
+watt__1.txt,1856,4816,1184,647203383,no,none,yes,1
+watt__1.txt,1856,4816,1181,634347342,no,none,yes,1
+watt__1.txt,1856,4816,1205,550324642,yes,h3,yes,1

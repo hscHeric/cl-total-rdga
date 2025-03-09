@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+gre_1107.txt,1107,4557,544,141199273,yes,h3,yes,1
+gre_1107.txt,1107,4557,544,140532213,yes,h3,yes,1
+gre_1107.txt,1107,4557,540,198190711,no,none,yes,1
+gre_1107.txt,1107,4557,544,140396563,yes,h3,yes,1
+gre_1107.txt,1107,4557,544,140850350,yes,h3,yes,1
+gre_1107.txt,1107,4557,544,142358057,yes,h3,yes,1
+gre_1107.txt,1107,4557,541,197796362,no,none,yes,1
+gre_1107.txt,1107,4557,544,139547230,yes,h3,yes,1
+gre_1107.txt,1107,4557,544,140919005,yes,h3,yes,1
+gre_1107.txt,1107,4557,544,143771920,yes,h3,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+CAG_mat364.txt,364,10474,19,34138070,no,none,yes,1
+CAG_mat364.txt,364,10474,20,32603009,no,none,yes,1
+CAG_mat364.txt,364,10474,22,39970014,no,none,yes,1
+CAG_mat364.txt,364,10474,18,36642254,no,none,yes,1
+CAG_mat364.txt,364,10474,21,40382236,no,none,yes,1
+CAG_mat364.txt,364,10474,20,40318841,no,none,yes,1
+CAG_mat364.txt,364,10474,20,37977417,no,none,yes,1
+CAG_mat364.txt,364,10474,19,39320082,no,none,yes,1
+CAG_mat364.txt,364,10474,20,24945333,no,none,yes,1
+CAG_mat364.txt,364,10474,18,36264147,no,none,yes,1

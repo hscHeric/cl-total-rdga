@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+jagmesh2.txt,1009,2928,552,145391773,no,none,yes,1
+jagmesh2.txt,1009,2928,557,151640015,no,none,yes,1
+jagmesh2.txt,1009,2928,559,134541642,no,none,yes,1
+jagmesh2.txt,1009,2928,569,131539051,no,none,yes,1
+jagmesh2.txt,1009,2928,565,136213349,no,none,yes,1
+jagmesh2.txt,1009,2928,559,144112296,no,none,yes,1
+jagmesh2.txt,1009,2928,552,154805761,no,none,yes,1
+jagmesh2.txt,1009,2928,561,144099032,no,none,yes,1
+jagmesh2.txt,1009,2928,570,142646989,no,none,yes,1
+jagmesh2.txt,1009,2928,561,151842213,no,none,yes,1

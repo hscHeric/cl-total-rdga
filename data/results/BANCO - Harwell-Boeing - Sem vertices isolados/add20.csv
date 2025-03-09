@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+add20.txt,2395,7462,2241,1381219319,yes,h3,yes,1
+add20.txt,2395,7462,2140,1818156025,no,none,yes,1
+add20.txt,2395,7462,2241,1372555727,yes,h3,yes,1
+add20.txt,2395,7462,2241,1356564828,yes,h3,yes,1
+add20.txt,2395,7462,2201,1663179025,no,none,yes,1
+add20.txt,2395,7462,2241,1357125776,yes,h3,yes,1
+add20.txt,2395,7462,2241,1353384842,yes,h3,yes,1
+add20.txt,2395,7462,2241,1349285829,yes,h3,yes,1
+add20.txt,2395,7462,2241,1358360955,yes,h3,yes,1
+add20.txt,2395,7462,2241,1358079913,yes,h3,yes,1

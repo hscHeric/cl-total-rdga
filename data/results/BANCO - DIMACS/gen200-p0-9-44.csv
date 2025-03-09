@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+gen200-p0-9-44.txt,200,17910,4,10982780,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,11084417,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,9900014,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,9719297,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,9679578,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,9776875,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,9810805,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,11339593,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,10181107,no,none,yes,1
+gen200-p0-9-44.txt,200,17910,4,11416793,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+cubic_2600.txt,2600,3900,2247,1500085316,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1504304015,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1502224733,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1502458540,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1501712259,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1502211791,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1499757768,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1501806241,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1495006948,yes,h3,yes,1
+cubic_2600.txt,2600,3900,2247,1490702124,yes,h3,yes,1

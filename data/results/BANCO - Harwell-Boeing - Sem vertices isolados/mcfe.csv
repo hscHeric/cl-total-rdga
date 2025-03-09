@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+mcfe.txt,765,15358,94,83651890,no,none,yes,1
+mcfe.txt,765,15358,94,84963651,no,none,yes,1
+mcfe.txt,765,15358,94,83811668,no,none,yes,1
+mcfe.txt,765,15358,94,85545794,no,none,yes,1
+mcfe.txt,765,15358,94,85475050,no,none,yes,1
+mcfe.txt,765,15358,94,85961892,no,none,yes,1
+mcfe.txt,765,15358,94,82855877,no,none,yes,1
+mcfe.txt,765,15358,94,82617396,no,none,yes,1
+mcfe.txt,765,15358,94,84592586,no,none,yes,1
+mcfe.txt,765,15358,94,85563045,no,none,yes,1

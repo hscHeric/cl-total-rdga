@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+mbeause.txt,492,36209,4,183167525,no,none,yes,1
+mbeause.txt,492,36209,5,174842632,yes,h2,yes,1
+mbeause.txt,492,36209,4,184947633,no,none,yes,1
+mbeause.txt,492,36209,4,180256267,no,none,yes,1
+mbeause.txt,492,36209,4,161977285,no,none,yes,1
+mbeause.txt,492,36209,4,169496042,no,none,yes,1
+mbeause.txt,492,36209,5,172583954,yes,h2,yes,1
+mbeause.txt,492,36209,5,169343482,yes,h2,yes,1
+mbeause.txt,492,36209,4,188179757,no,none,yes,1
+mbeause.txt,492,36209,5,172385751,yes,h2,yes,1

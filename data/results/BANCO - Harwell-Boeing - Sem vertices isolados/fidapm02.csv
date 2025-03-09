@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fidapm02.txt,537,9352,52,55594218,no,none,yes,1
+fidapm02.txt,537,9352,53,51372749,no,none,yes,1
+fidapm02.txt,537,9352,53,53251699,no,none,yes,1
+fidapm02.txt,537,9352,55,52290670,no,none,yes,1
+fidapm02.txt,537,9352,54,48649631,no,none,yes,1
+fidapm02.txt,537,9352,55,49236510,no,none,yes,1
+fidapm02.txt,537,9352,53,50906488,no,none,yes,1
+fidapm02.txt,537,9352,48,53394946,no,none,yes,1
+fidapm02.txt,537,9352,47,53366092,no,none,yes,1
+fidapm02.txt,537,9352,56,48572236,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+keller4.txt,171,9435,4,7238916,no,none,yes,1
+keller4.txt,171,9435,4,6080613,no,none,yes,1
+keller4.txt,171,9435,4,6129296,no,none,yes,1
+keller4.txt,171,9435,4,6177961,no,none,yes,1
+keller4.txt,171,9435,4,7565217,no,none,yes,1
+keller4.txt,171,9435,4,6263379,no,none,yes,1
+keller4.txt,171,9435,4,6184887,no,none,yes,1
+keller4.txt,171,9435,4,6746058,no,none,yes,1
+keller4.txt,171,9435,4,6221031,no,none,yes,1
+keller4.txt,171,9435,4,6025027,no,none,yes,1
