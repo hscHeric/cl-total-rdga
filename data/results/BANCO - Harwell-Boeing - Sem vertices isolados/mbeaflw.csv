@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+mbeaflw.txt,487,41686,4,214617668,no,none,yes,1
+mbeaflw.txt,487,41686,4,177658448,no,none,yes,1
+mbeaflw.txt,487,41686,4,216718820,no,none,yes,1
+mbeaflw.txt,487,41686,4,219726282,no,none,yes,1
+mbeaflw.txt,487,41686,4,217107529,no,none,yes,1
+mbeaflw.txt,487,41686,4,217614399,no,none,yes,1
+mbeaflw.txt,487,41686,4,219019485,no,none,yes,1
+mbeaflw.txt,487,41686,4,220445110,no,none,yes,1
+mbeaflw.txt,487,41686,4,223087560,no,none,yes,1
+mbeaflw.txt,487,41686,4,215180712,no,none,yes,1

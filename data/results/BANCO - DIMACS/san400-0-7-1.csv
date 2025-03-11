@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+san400-0-7-1.txt,400,55860,6,90804938,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,91314558,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,90206156,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,89386509,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,88791673,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,91308774,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,90623097,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,90045567,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,89745030,no,none,yes,1
+san400-0-7-1.txt,400,55860,6,89343799,no,none,yes,1

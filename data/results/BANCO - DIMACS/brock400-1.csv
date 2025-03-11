@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+brock400-1.txt,400,59723,6,144582306,no,none,yes,1
+brock400-1.txt,400,59723,6,148464903,no,none,yes,1
+brock400-1.txt,400,59723,6,147711458,no,none,yes,1
+brock400-1.txt,400,59723,6,149141625,no,none,yes,1
+brock400-1.txt,400,59723,6,149652122,no,none,yes,1
+brock400-1.txt,400,59723,6,149744162,no,none,yes,1
+brock400-1.txt,400,59723,6,140614255,no,none,yes,1
+brock400-1.txt,400,59723,6,142029986,no,none,yes,1
+brock400-1.txt,400,59723,6,143188652,no,none,yes,1
+brock400-1.txt,400,59723,8,142473114,no,none,yes,1

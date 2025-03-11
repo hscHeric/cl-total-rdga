@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+fidap012.txt,3973,38089,756,5442078424,no,none,yes,1
+fidap012.txt,3973,38089,731,5576339957,no,none,yes,1
+fidap012.txt,3973,38089,747,5497301233,no,none,yes,1
+fidap012.txt,3973,38089,754,5665430285,no,none,yes,1
+fidap012.txt,3973,38089,733,6272544597,no,none,yes,1
+fidap012.txt,3973,38089,719,5739397036,no,none,yes,1
+fidap012.txt,3973,38089,726,5455840772,no,none,yes,1
+fidap012.txt,3973,38089,768,5300112294,no,none,yes,1
+fidap012.txt,3973,38089,758,5264511167,no,none,yes,1
+fidap012.txt,3973,38089,761,5794007405,no,none,yes,1
