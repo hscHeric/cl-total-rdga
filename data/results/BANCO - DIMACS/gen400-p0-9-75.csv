@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+gen400-p0-9-75.txt,400,71820,4,321541283,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,147764069,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,155852318,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,158263821,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,157953074,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,168948341,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,199510973,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,198539832,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,212100923,no,none,yes,1
+gen400-p0-9-75.txt,400,71820,4,185085591,no,none,yes,1

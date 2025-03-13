@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+MANN-a27.txt,378,70551,4,131210710,no,none,yes,1
+MANN-a27.txt,378,70551,4,149349586,no,none,yes,1
+MANN-a27.txt,378,70551,4,141230688,no,none,yes,1
+MANN-a27.txt,378,70551,4,158697242,no,none,yes,1
+MANN-a27.txt,378,70551,4,135571849,no,none,yes,1
+MANN-a27.txt,378,70551,4,151505517,no,none,yes,1
+MANN-a27.txt,378,70551,4,151793934,no,none,yes,1
+MANN-a27.txt,378,70551,4,166554911,no,none,yes,1
+MANN-a27.txt,378,70551,4,134905730,no,none,yes,1
+MANN-a27.txt,378,70551,4,123402203,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+johnson32-2-4.txt,496,107880,6,433215547,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,442165368,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,437151763,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,435737965,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,434784302,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,435082352,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,435186195,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,438651083,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,434942263,no,none,yes,1
+johnson32-2-4.txt,496,107880,6,429782362,no,none,yes,1

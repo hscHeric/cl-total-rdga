@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+C500-9.txt,500,112332,5,458912777,no,none,yes,1
+C500-9.txt,500,112332,4,454548207,no,none,yes,1
+C500-9.txt,500,112332,5,469978218,no,none,yes,1
+C500-9.txt,500,112332,4,470235116,no,none,yes,1
+C500-9.txt,500,112332,5,463332481,no,none,yes,1
+C500-9.txt,500,112332,4,462497779,no,none,yes,1
+C500-9.txt,500,112332,5,465802794,no,none,yes,1
+C500-9.txt,500,112332,5,463596963,no,none,yes,1
+C500-9.txt,500,112332,5,459314595,no,none,yes,1
+C500-9.txt,500,112332,4,459626200,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+brock800-3.txt,800,207333,10,2825005062,no,none,yes,1
+brock800-3.txt,800,207333,10,2069678008,no,none,yes,1
+brock800-3.txt,800,207333,10,2788082335,no,none,yes,1
+brock800-3.txt,800,207333,10,2035513418,no,none,yes,1
+brock800-3.txt,800,207333,10,2813493981,no,none,yes,1
+brock800-3.txt,800,207333,10,2119399127,no,none,yes,1
+brock800-3.txt,800,207333,10,2888734577,no,none,yes,1
+brock800-3.txt,800,207333,10,2882624269,no,none,yes,1
+brock800-3.txt,800,207333,10,2087261607,no,none,yes,1
+brock800-3.txt,800,207333,10,2208686123,no,none,yes,1

@@ -1,0 +1,11 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+p-hat1000-1.txt,1000,122253,30,1540779223,no,none,yes,1
+p-hat1000-1.txt,1000,122253,28,2271543675,no,none,yes,1
+p-hat1000-1.txt,1000,122253,34,1533700923,no,none,yes,1
+p-hat1000-1.txt,1000,122253,29,1361819507,no,none,yes,1
+p-hat1000-1.txt,1000,122253,30,1447944194,no,none,yes,1
+p-hat1000-1.txt,1000,122253,29,1493989092,no,none,yes,1
+p-hat1000-1.txt,1000,122253,30,1643825604,no,none,yes,1
+p-hat1000-1.txt,1000,122253,33,1685054770,no,none,yes,1
+p-hat1000-1.txt,1000,122253,30,1519783953,no,none,yes,1
+p-hat1000-1.txt,1000,122253,30,2170076060,no,none,yes,1
