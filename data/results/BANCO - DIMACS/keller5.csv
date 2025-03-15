@@ -1,3 +1,11 @@
 graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
 keller5.txt,776,225990,4,1996945614,no,none,yes,1
 keller5.txt,776,225990,4,1940480012,no,none,yes,1
+keller5.txt,776,225990,4,2645695142,no,none,yes,1
+keller5.txt,776,225990,4,2414824985,no,none,yes,1
+keller5.txt,776,225990,4,2092245347,no,none,yes,1
+keller5.txt,776,225990,4,2118132633,no,none,yes,1
+keller5.txt,776,225990,4,2437194879,no,none,yes,1
+keller5.txt,776,225990,4,1992012838,no,none,yes,1
+keller5.txt,776,225990,4,1996792781,no,none,yes,1
+keller5.txt,776,225990,4,2008541212,no,none,yes,1

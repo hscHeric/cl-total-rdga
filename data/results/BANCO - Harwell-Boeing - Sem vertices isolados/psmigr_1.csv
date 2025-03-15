@@ -1,0 +1,3 @@
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+psmigr_1.txt,3140,410781,78,23956118617,no,none,yes,1
+psmigr_1.txt,3140,410781,91,23572869513,no,none,yes,1
