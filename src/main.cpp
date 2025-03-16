@@ -373,7 +373,8 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
   HeuristicGenerators heuristicHandle;
 
   size_t pop_size =
-      static_cast<size_t>(graph.order() * params.population_factor);
+      std::max(static_cast<size_t>(graph.order() / params.population_factor),
+               static_cast<size_t>(5)); // Tamanho minimo da população como 5
 
   auto start_time = std::chrono::high_resolution_clock::now();
   auto heuristic_h1 = heuristicHandle.h1_m(graph);
