@@ -403,7 +403,8 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
     if (valid_totalrd_m(graph, heuristic)) {
       std::cout << "[OK] Solução utilizando " << name << " é VÁLIDA\n";
     } else {
-      std::cout << "[ERRO] Solução utilizando " << name << " é INVÁLIDA\n";
+      std::cout << "[ERRO - MatrixGraph] Solução utilizando " << name
+                << " é INVÁLIDA\n";
     }
 
     std::cout << "----------------------------------------\n";
@@ -553,7 +554,8 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
     if (valid_totalrd_l(graph, heuristic)) {
       std::cout << "[OK] Solução utilizando " << name << " é VÁLIDA\n";
     } else {
-      std::cout << "[ERRO] Solução utilizando " << name << " é INVÁLIDA\n";
+      std::cout << "[ERRO - ListGraph] Solução utilizando " << name
+                << " é INVÁLIDA\n";
     }
 
     std::cout << "----------------------------------------\n";
