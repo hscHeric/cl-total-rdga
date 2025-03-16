@@ -14,8 +14,9 @@ Chromosome HeuristicGenerators::h1_l(const ListGraph &graph) {
   Chromosome chromosome(graph.order(), 0);
 
   // 2. Enquanto tiver vértices em H faça
-  // No inicio de cada iteracao desse laço garantimos
-  // que H não tem vértices isolados
+  // Invariante de laço: No inicio de cada iteracao desse laço while,
+  // garantimos que o grafo H não tem vértices isolados. Isso deve ser
+  // verdade antes da primeira iteração e durante as demais.
   while (H.order() > 0) {
     // 3. Escolha aleatoriamente um vértice v qualquer de H
     int v = H.choose_rng();
@@ -24,7 +25,7 @@ Chromosome HeuristicGenerators::h1_l(const ListGraph &graph) {
     chromosome.set_value(v, LABEL_TWO);
 
     // 5. Pegue um vizinho u de v e faça f(u) = 1 (um vizinho aleatório)
-    auto &neighbors = H.get_neighbors(v);
+    const std::vector<int> neighbors = H.get_neighbors(v);
 
     // Gera um motor de números aleatórios
     std::random_device rd;
@@ -37,32 +38,35 @@ Chromosome HeuristicGenerators::h1_l(const ListGraph &graph) {
     int random_index = dist(gen);
     int u = neighbors[random_index];
 
+    // int u = neighbors[0];
     chromosome.set_value(u, LABEL_ONE);
 
     // 6. Para todos os demais vizinhos w de v faça f(w) = 0
-    for (size_t i = 0; i < neighbors.size(); ++i) {
+    for (size_t i = 1; i < neighbors.size(); ++i) {
       if (static_cast<int>(i) != random_index) {
         chromosome.set_value(neighbors[i], LABEL_ZERO);
       }
     }
 
     // 7. Remova do grafo H o vértice v e todos os seus vizinhos
-    for (int j = 0; j < (int)neighbors.size(); ++j) {
-      H.remove_vertex(neighbors[j]);
+    for (const int &neighbor : neighbors) {
+      H.remove_vertex(neighbor);
     }
     H.remove_vertex(v);
 
     // 8. Se restarem vértices isolados em H atribuímos o
     // rótulo 1 a todos eles.
-    auto isolatedVertices = H.get_isolated_vertices();
+    std::unordered_set<int> isolatedVertices = H.get_isolated_vertices();
 
+    // if(!isolatedVertices.empty()) {
     for (const int &z : isolatedVertices) {
       // 9. Faça f(z) = 1
       chromosome.set_value(z, LABEL_ONE);
 
       // 10. Seja x um vizinho de z no grafo G
       // Escolhemos o primeiro na lista de adjacencia
-      auto &g_neighbors = graph.get_neighbors(z);
+      const std::vector<int> &g_neighbors = graph.get_neighbors(z);
+
       int x = g_neighbors[0];
 
       // 11. Mude a cor do vértice x para f(x) = 1
