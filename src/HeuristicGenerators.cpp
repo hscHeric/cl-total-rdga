@@ -2,6 +2,7 @@
 #include "Chromosome.hpp"
 #include "ListGraph.hpp"
 #include "MatrixGraph.hpp"
+#include <set>
 #include <vector>
 
 Chromosome HeuristicGenerators::h1_l(const ListGraph &graph) {
@@ -697,6 +698,393 @@ Chromosome HeuristicGenerators::h2_m(const MatrixGraph &graph) {
       H.remove_vertex(z);
 
       isolatedVertices = H.get_isolated_vertices();
+    }
+  }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
+Chromosome HeuristicGenerators::h3_l(const ListGraph &graph) {
+  ListGraph H(graph);
+
+  Chromosome chromosome(graph.order(), 0);
+
+  while (H.order() > 0) {
+    int v = -1;
+    int maxDegree = -1;
+
+    auto vertices = H.get_vertices();
+    for (int vertex : vertices) {
+      int currentDegree = H.degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
+      }
+    }
+
+    chromosome.set_value(v, LABEL_TWO);
+
+    const std::vector<int> &neighbors = H.get_neighbors(v);
+
+    if (!neighbors.empty()) {
+      int u = -1;
+      int maxNeighborDegree = -1;
+
+      for (int neighbor : neighbors) {
+        int neighborDegree = H.degree(neighbor);
+        if (neighborDegree > maxNeighborDegree) {
+          maxNeighborDegree = neighborDegree;
+          u = neighbor;
+        }
+      }
+
+      chromosome.set_value(u, LABEL_ONE);
+
+      for (int neighbor : neighbors) {
+        if (neighbor != u) {
+          chromosome.set_value(neighbor, LABEL_ZERO);
+        }
+      }
+    }
+
+    std::vector<int> neighbors_copy =
+        neighbors; // Criar cópia para evitar modificar durante iteração
+    for (int neighbor : neighbors_copy) {
+      if (H.contains(neighbor)) {
+        H.remove_vertex(neighbor);
+      }
+    }
+
+    if (H.contains(v)) {
+      H.remove_vertex(v);
+    }
+
+    auto isolatedVertices = H.get_isolated_vertices();
+
+    while (!isolatedVertices.empty()) {
+      int z = *isolatedVertices.begin();
+      chromosome.set_value(z, LABEL_ONE);
+
+      bool hasLabel1Neighbor = false;
+
+      for (int neighbor : graph.get_neighbors(z)) {
+        if (chromosome.get_value(neighbor) == LABEL_ONE) {
+          hasLabel1Neighbor = true;
+          break;
+        }
+      }
+
+      if (!hasLabel1Neighbor) {
+        const std::vector<int> &g_neighbors = graph.get_neighbors(z);
+
+        if (!g_neighbors.empty()) {
+          int x = g_neighbors[0];
+          chromosome.set_value(x, LABEL_ONE);
+        }
+      }
+
+      H.remove_vertex(z);
+      isolatedVertices = H.get_isolated_vertices();
+    }
+  }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+Chromosome HeuristicGenerators::h3_m(const MatrixGraph &graph) {
+  MatrixGraph H(graph);
+  Chromosome chromosome(graph.order(), 0);
+
+  while (H.order() > 0) {
+    int v = -1;
+    int maxDegree = -1;
+
+    auto vertices = H.get_vertices();
+    for (int vertex : vertices) {
+      int currentDegree = H.degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
+      }
+    }
+
+    chromosome.set_value(v, LABEL_TWO);
+
+    const BitSet &neighborBits = H.get_neighbors(v);
+    std::vector<int> neighbors;
+
+    for (size_t i = 0; i < neighborBits.size(); ++i) {
+      if (neighborBits[i]) {
+        neighbors.push_back(static_cast<int>(i));
+      }
+    }
+
+    if (!neighbors.empty()) {
+      int u = -1;
+      int maxNeighborDegree = -1;
+
+      for (int neighbor : neighbors) {
+        int neighborDegree = H.degree(neighbor);
+        if (neighborDegree > maxNeighborDegree) {
+          maxNeighborDegree = neighborDegree;
+          u = neighbor;
+        }
+      }
+
+      chromosome.set_value(u, LABEL_ONE);
+
+      for (int neighbor : neighbors) {
+        if (neighbor != u) {
+          chromosome.set_value(neighbor, LABEL_ZERO);
+        }
+      }
+    }
+
+    std::vector<int> neighbors_copy = neighbors;
+    for (int neighbor : neighbors_copy) {
+      if (H.contains(neighbor)) {
+        H.remove_vertex(neighbor);
+      }
+    }
+
+    if (H.contains(v)) {
+      H.remove_vertex(v);
+    }
+
+    auto isolatedVertices = H.get_isolated_vertices();
+
+    while (!isolatedVertices.empty()) {
+      int z = *isolatedVertices.begin();
+      chromosome.set_value(z, LABEL_ONE);
+
+      bool hasLabel1Neighbor = false;
+      const BitSet &zNeighbors = graph.get_neighbors(z);
+
+      for (size_t i = 0; i < zNeighbors.size(); ++i) {
+        if (zNeighbors[i] &&
+            chromosome.get_value(static_cast<int>(i)) == LABEL_ONE) {
+          hasLabel1Neighbor = true;
+          break;
+        }
+      }
+
+      if (!hasLabel1Neighbor) {
+        const BitSet &gNeighbors = graph.get_neighbors(z);
+
+        for (size_t i = 0; i < gNeighbors.size(); ++i) {
+          if (gNeighbors[i]) {
+            int x = static_cast<int>(i);
+            chromosome.set_value(x, LABEL_ONE);
+            break;
+          }
+        }
+      }
+
+      H.remove_vertex(z);
+      isolatedVertices = H.get_isolated_vertices();
+    }
+  }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
+Chromosome HeuristicGenerators::h4_l(const ListGraph &graph) {
+  ListGraph H(graph);
+
+  Chromosome chromosome(graph.order(), 0);
+
+  while (H.order() > 0) {
+    int v = -1;
+    int maxDegree = -1;
+
+    auto vertices = H.get_vertices();
+    for (int vertex : vertices) {
+      int currentDegree = H.degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
+      }
+    }
+
+    chromosome.set_value(v, LABEL_TWO);
+
+    const std::vector<int> &neighbors = H.get_neighbors(v);
+    std::vector<int> sortedNeighbors = neighbors;
+
+    std::sort(sortedNeighbors.begin(), sortedNeighbors.end(),
+              [&H](int a, int b) { return H.degree(b) < H.degree(a); });
+
+    if (!sortedNeighbors.empty()) {
+      chromosome.set_value(sortedNeighbors[0], LABEL_ONE);
+
+      for (size_t i = 1; i < sortedNeighbors.size(); ++i) {
+        chromosome.set_value(sortedNeighbors[i], LABEL_ZERO);
+      }
+    }
+
+    std::vector<int> neighbors_copy = neighbors;
+    for (int neighbor : neighbors_copy) {
+      if (H.contains(neighbor)) {
+        H.remove_vertex(neighbor);
+      }
+    }
+
+    if (H.contains(v)) {
+      H.remove_vertex(v);
+    }
+
+    while (true) {
+      auto isolatedVertices = H.get_isolated_vertices();
+      if (isolatedVertices.empty()) {
+        break;
+      }
+
+      std::set<int> neighborSet;
+      for (int s : isolatedVertices) {
+        const std::vector<int> &origNeighbors = graph.get_neighbors(s);
+        neighborSet.insert(origNeighbors.begin(), origNeighbors.end());
+      }
+
+      std::vector<int> allNeighbors(neighborSet.begin(), neighborSet.end());
+
+      for (int z : allNeighbors) {
+        int isolatedNeighborCount = 0;
+        for (int s : isolatedVertices) {
+          if (graph.contains(s, z)) {
+            isolatedNeighborCount++;
+          }
+        }
+
+        if (isolatedNeighborCount >= 2) {
+          chromosome.set_value(z, LABEL_TWO);
+
+          for (int s : isolatedVertices) {
+            if (graph.contains(s, z)) {
+              chromosome.set_value(s, LABEL_ZERO);
+            }
+          }
+        } else {
+          chromosome.set_value(z, LABEL_TWO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        if (chromosome.get_value(s) == LABEL_ZERO) {
+          chromosome.set_value(s, LABEL_ZERO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        H.remove_vertex(s);
+      }
+    }
+  }
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
+Chromosome HeuristicGenerators::h4_m(const MatrixGraph &graph) {
+  MatrixGraph H(graph);
+
+  Chromosome chromosome(graph.order(), 0);
+
+  while (H.order() > 0) {
+    int v = -1;
+    int maxDegree = -1;
+
+    auto vertices = H.get_vertices();
+    for (int vertex : vertices) {
+      int currentDegree = H.degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
+      }
+    }
+
+    chromosome.set_value(v, LABEL_TWO);
+
+    const BitSet &neighborBits = H.get_neighbors(v);
+    std::vector<int> neighbors;
+
+    for (size_t i = 0; i < neighborBits.size(); ++i) {
+      if (neighborBits[i]) {
+        neighbors.push_back(static_cast<int>(i));
+      }
+    }
+
+    std::sort(neighbors.begin(), neighbors.end(),
+              [&H](int a, int b) { return H.degree(b) < H.degree(a); });
+
+    if (!neighbors.empty()) {
+      chromosome.set_value(neighbors[0], LABEL_ONE);
+
+      for (size_t i = 1; i < neighbors.size(); ++i) {
+        chromosome.set_value(neighbors[i], LABEL_ZERO);
+      }
+    }
+
+    std::vector<int> neighbors_copy = neighbors;
+    for (int neighbor : neighbors_copy) {
+      if (H.contains(neighbor)) {
+        H.remove_vertex(neighbor);
+      }
+    }
+
+    if (H.contains(v)) {
+      H.remove_vertex(v);
+    }
+
+    while (true) {
+      auto isolatedVertices = H.get_isolated_vertices();
+      if (isolatedVertices.empty()) {
+        break;
+      }
+
+      std::set<int> neighborSet;
+      for (int s : isolatedVertices) {
+        const BitSet &neighborBits = graph.get_neighbors(s);
+        for (size_t i = 0; i < neighborBits.size(); ++i) {
+          if (neighborBits[i]) {
+            neighborSet.insert(static_cast<int>(i));
+          }
+        }
+      }
+
+      std::vector<int> allNeighbors(neighborSet.begin(), neighborSet.end());
+
+      for (int z : allNeighbors) {
+        int isolatedNeighborCount = 0;
+        for (int s : isolatedVertices) {
+          if (graph.contains(s, z)) {
+            isolatedNeighborCount++;
+          }
+        }
+
+        if (isolatedNeighborCount >= 2) {
+          chromosome.set_value(z, LABEL_TWO);
+
+          for (int s : isolatedVertices) {
+            if (graph.contains(s, z)) {
+              chromosome.set_value(s, LABEL_ZERO);
+            }
+          }
+        } else {
+          chromosome.set_value(z, LABEL_TWO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        if (chromosome.get_value(s) == LABEL_ZERO) {
+          chromosome.set_value(s, LABEL_ZERO);
+        }
+      }
+
+      for (int s : isolatedVertices) {
+        H.remove_vertex(s);
+      }
     }
   }
 

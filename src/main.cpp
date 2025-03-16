@@ -379,31 +379,42 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
   auto start_time = std::chrono::high_resolution_clock::now();
   auto heuristic_h1 = heuristicHandle.h1_m(graph);
   auto heuristic_h2 = heuristicHandle.h2_m(graph);
-  // auto heuristic_h3 = heuristicHandle.h3(*graph);
-  // auto heuristic_h4 = heuristicHandle.h4(*graph);
+  auto heuristic_h3 = heuristicHandle.h3_m(graph);
+  auto heuristic_h4 = heuristicHandle.h4_m(graph);
   auto heuristic_h5 = heuristicHandle.h5_m(graph);
 
 #if DEBUG
-  std::cout << "Implementação: MatrixGraph\n";
-  if (valid_totalrd_m(graph, heuristic_h2)) {
-    std::cout << "Solução utilizando h2 é válida\n";
-  } else {
-    std::cout << "Solução utilizando h2 é inválida\n";
+  std::cout << "========================================\n";
+  std::cout << "          IMPLEMENTAÇÃO: MatrixGraph    \n";
+  std::cout << "========================================\n";
+
+  // Lista de heurísticas e seus resultados
+  std::vector<std::pair<std::string, decltype(heuristic_h1)>> heuristics = {
+      {"h1", heuristic_h1},
+      {"h2", heuristic_h2},
+      {"h3", heuristic_h3},
+      {"h4", heuristic_h4},
+      {"h5", heuristic_h5}};
+
+  // Itera sobre as heurísticas e valida cada uma
+  for (const auto &[name, heuristic] : heuristics) {
+    std::cout << "[INFO] Testando solução com " << name << "...\n";
+
+    if (valid_totalrd_m(graph, heuristic)) {
+      std::cout << "[OK] Solução utilizando " << name << " é VÁLIDA\n";
+    } else {
+      std::cout << "[ERRO] Solução utilizando " << name << " é INVÁLIDA\n";
+    }
+
+    std::cout << "----------------------------------------\n";
   }
 #endif
-  // auto is_valid_h4 = valid_totalrd(graph.get(), heuristic_h4);
-  //
-  // if (is_valid_h4) {
-  //   std::cout << "A h4 é válida\n";
-  // } else {
-  //   std::cout << "a h4 não é valida\n";
-  // }
 
   std::vector<Chromosome> initialChromosomes;
   initialChromosomes.push_back(heuristic_h1);
-  // initialChromosomes.push_back(heuristic_h2);
-  // initialChromosomes.push_back(heuristic_h3);
-  // initialChromosomes.push_back(heuristic_h4);
+  initialChromosomes.push_back(heuristic_h2);
+  initialChromosomes.push_back(heuristic_h3);
+  initialChromosomes.push_back(heuristic_h4);
   initialChromosomes.push_back(heuristic_h5);
 
   while (initialChromosomes.size() < pop_size) {
@@ -520,34 +531,40 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
   auto start_time = std::chrono::high_resolution_clock::now();
   auto heuristic_h1 = heuristicHandle.h1_l(graph);
   auto heuristic_h2 = heuristicHandle.h2_l(graph);
-
-#if DEBUG
-  std::cout << "Implementação: ListGraph\n";
-
-  if (valid_totalrd_l(graph, heuristic_h2)) {
-    std::cout << "Solução utilizando h2 é válida\n";
-  } else {
-
-    std::cout << "Solução utilizando h2 é inválida\n";
-  }
-#endif
-  // auto heuristic_h3 = heuristicHandle.h3_l(*graph);
-  // auto heuristic_h4 = heuristicHandle.h4_l(*graph);
+  auto heuristic_h3 = heuristicHandle.h3_l(graph);
+  auto heuristic_h4 = heuristicHandle.h4_l(graph);
   auto heuristic_h5 = heuristicHandle.h5_l(graph);
 
-  // auto is_valid_h4 = valid_totalrd(graph.get(), heuristic_h4);
-  //
-  // if (is_valid_h4) {
-  //   std::cout << "A h4 é válida\n";
-  // } else {
-  //   std::cout << "a h4 não é valida\n";
-  // }
+#if DEBUG
+  std::cout << "========================================\n";
+  std::cout << "          IMPLEMENTAÇÃO: ListGraph       \n";
+  std::cout << "========================================\n";
+
+  std::vector<std::pair<std::string, decltype(heuristic_h1)>> heuristics = {
+      {"h1", heuristic_h1},
+      {"h2", heuristic_h2},
+      {"h3", heuristic_h3},
+      {"h4", heuristic_h4},
+      {"h5", heuristic_h5}};
+
+  for (const auto &[name, heuristic] : heuristics) {
+    std::cout << "[INFO] Testando solução com " << name << "...\n";
+
+    if (valid_totalrd_l(graph, heuristic)) {
+      std::cout << "[OK] Solução utilizando " << name << " é VÁLIDA\n";
+    } else {
+      std::cout << "[ERRO] Solução utilizando " << name << " é INVÁLIDA\n";
+    }
+
+    std::cout << "----------------------------------------\n";
+  }
+#endif
 
   std::vector<Chromosome> initialChromosomes;
   initialChromosomes.push_back(heuristic_h1);
   initialChromosomes.push_back(heuristic_h2);
-  // initialChromosomes.push_back(heuristic_h3);
-  // initialChromosomes.push_back(heuristic_h4);
+  initialChromosomes.push_back(heuristic_h3);
+  initialChromosomes.push_back(heuristic_h4);
   initialChromosomes.push_back(heuristic_h5);
 
   while (initialChromosomes.size() < pop_size) {
