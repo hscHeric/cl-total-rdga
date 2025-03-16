@@ -1,124 +1,78 @@
 #include "HeuristicGenerators.hpp"
 #include "Chromosome.hpp"
-#include "Graph.hpp"
 #include "ListGraph.hpp"
 #include "MatrixGraph.hpp"
 #include <memory>
 #include <set>
 #include <vector>
+#include <iostream>
 
-Graph *HeuristicGenerators::copyGraph(const Graph &graph) {
-  int n = graph.order();
-  auto density = 0.0;
-  if (n <= 1)
-    density = 0.0;
-
-  int m = graph.size();
-
-  density = static_cast<double>(2 * m) / (n * (n - 1));
-
-  const double DENSITY_THRESHOLD = 0.5;
-
-  Graph *graph_copy = nullptr;
-  if (density >= DENSITY_THRESHOLD) {
-    graph_copy = new MatrixGraph(graph.order());
-  } else {
-    graph_copy = new ListGraph(graph.order());
-  }
-
-  graph.for_each_edge(
-      [&graph_copy](int u, int v) { graph_copy->add_edge(u, v); });
-
-  return graph_copy;
-}
-
-bool HeuristicGenerators::isIsolatedVertex(const Graph &graph, int vertex) {
-  return graph.contains(vertex) && graph.degree(vertex) == 0;
-}
-
-std::unordered_set<int>
-HeuristicGenerators::getIsolatedVertices(const Graph &graph) {
-  std::unordered_set<int> isolatedVertices;
-
-  graph.for_each_vertex([&](int v) {
-    if (graph.contains(v) && graph.degree(v) == 0) {
-      isolatedVertices.insert(v);
-    }
-  });
-
-  return isolatedVertices;
-}
-
-Chromosome HeuristicGenerators::h1(const Graph &graph) {
+Chromosome HeuristicGenerators::h1_l(const ListGraph &graph) {
   // 1. Criar uma cópia do grafo G original
-  std::unique_ptr<Graph> H(copyGraph(graph));
+  ListGraph H (graph);
 
-  // Inicializar o cromossomo com o tamanho igual à ordem do grafo e valor
-  // padrão 0
+  // Inicializar o cromossomo com o tamanho igual à ordem 
+  // do grafo e valor padrão 0
   Chromosome chromosome(graph.order(), 0);
 
   // 2. Enquanto tiver vértices em H faça
-  while (H->order() > 0) {
+  // No inicio de cada iteracao desse laço garantimos 
+  // que H não tem vértices isolados
+  while (H.order() > 0) {
     // 3. Escolha aleatoriamente um vértice v qualquer de H
-    int v = H->choose_rng();
+    int v = H.choose_rng();
 
     // 4. Faça f(v) = 2
     chromosome.set_value(v, LABEL_TWO);
 
-    // Armazenar vizinhos de v para processamento e remoção posterior
-    std::vector<int> neighbors;
-    H->for_each_neighbor(
-        v, [&neighbors](int neighbor) { neighbors.push_back(neighbor); });
+    // 5. Pegue um vizinho u de v e faça f(u) = 1 (um vizinho aleatório)
+    auto& neighbors = H.get_neighbors(v);
 
-    // 5. Pegue um vizinho u de v e faça f(u) = 1 (o primeiro da lista de
-    // adjacência)
-    if (!neighbors.empty()) {
-      int u = neighbors[0];
-      chromosome.set_value(u, LABEL_ONE);
+    // Gera um motor de números aleatórios
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
-      // 6. Para todos os demais vizinhos w de v faça f(w) = 0
-      for (size_t i = 1; i < neighbors.size(); ++i) {
+    // Criar uma distribuição uniforme no intervalo dos índices do vetor
+    std::uniform_int_distribution<size_t> dist(0, neighbors.size() - 1);
+
+    // Escolher um vizinho aleatório
+    int random_index = dist(gen);    
+    int u = neighbors[random_index];
+
+    chromosome.set_value(u, LABEL_ONE);
+
+
+    // 6. Para todos os demais vizinhos w de v faça f(w) = 0
+    for (size_t i = 0; i < neighbors.size(); ++i) {
+      if(static_cast<int>(i) != random_index) {
         chromosome.set_value(neighbors[i], LABEL_ZERO);
       }
     }
-
+    
     // 7. Remova do grafo H o vértice v e todos os seus vizinhos
-    for (int neighbor : neighbors) {
-      if (H->contains(neighbor)) {
-        H->remove_vertex(neighbor);
-      }
+    for (int j = 0; j < (int) neighbors.size(); ++j) {
+        H.remove_vertex(neighbors[j]); 
     }
-    if (H->contains(v)) {
-      H->remove_vertex(v);
-    }
+    H.remove_vertex(v);
 
-    // 8. Enquanto houver vértice isolado z em H faça
-    auto isolatedVertices = getIsolatedVertices(*H);
-    while (!isolatedVertices.empty()) {
-      // Pega um vértice isolado qualquer
-      int z = *isolatedVertices.begin();
+    // 8. Se restarem vértices isolados em H atribuímos o
+    // rótulo 1 a todos eles.
+    auto isolatedVertices = H.get_isolated_vertices();
 
+    for(const int& z : isolatedVertices) {
       // 9. Faça f(z) = 1
       chromosome.set_value(z, LABEL_ONE);
 
-      // 10. Seja x um vizinho qualquer de z no grafo G
-      std::vector<int> g_neighbors;
-      graph.for_each_neighbor(
-          z, [&g_neighbors](int neighbor) { g_neighbors.push_back(neighbor); });
+      // 10. Seja x um vizinho de z no grafo G
+      // Escolhemos o primeiro na lista de adjacencia
+      auto& g_neighbors = graph.get_neighbors(z);
+      int x = g_neighbors[0];
 
-      if (!g_neighbors.empty()) {
-        // Escolhe um vizinho qualquer (o primeiro)
-        int x = g_neighbors[0];
-
-        // 11. Mude a cor do vértice x para f(x) = 1
-        chromosome.set_value(x, LABEL_ONE);
-      }
+      // 11. Mude a cor do vértice x para f(x) = 1
+      chromosome.set_value(x, LABEL_ONE);
 
       // 12. Remova z do grafo H
-      H->remove_vertex(z);
-
-      // Atualize a lista de vértices isolados
-      isolatedVertices = getIsolatedVertices(*H);
+      H.remove_vertex(z);
     }
   }
 
@@ -128,6 +82,81 @@ Chromosome HeuristicGenerators::h1(const Graph &graph) {
   return chromosome;
 }
 
+
+Chromosome HeuristicGenerators::h1_m(const MatrixGraph &graph) {
+  // 1. Criar uma cópia do grafo G original
+  MatrixGraph H (graph);
+
+  // Inicializar o cromossomo com o tamanho igual à ordem 
+  // do grafo e valor padrão 0
+  Chromosome chromosome(graph.order(), 0);
+
+  // 2. Enquanto tiver vértices em H faça
+  // No inicio de cada iteracao desse laço garantimos 
+  // que H não tem vértices isolados
+  while (H.order() > 0) {
+    // 3. Escolha aleatoriamente um vértice v qualquer de H
+    int v = H.choose_rng();
+
+    // 4. Faça f(v) = 2
+    chromosome.set_value(v, LABEL_TWO);
+
+    // 5. Pegue um vizinho u de v e faça f(u) = 1 (o primeiro vizinho que aparecer)
+    auto& neighbors = H.get_neighbors(v);
+    int u = -1;
+    for(u = 0; u < static_cast<int>(neighbors.size()); ++u) {
+      if(neighbors[u] == 1) {
+        chromosome.set_value(u, LABEL_ONE);
+        break;
+      }
+    }
+    
+    // 6. Para todos os demais vizinhos w de v faça f(w) = 0
+    for (u = u + 1; u < static_cast<int>(neighbors.size()); ++u) {
+      if(neighbors[u] == 1) {
+        chromosome.set_value(u, LABEL_ZERO);
+      }
+    }
+    
+    // 7. Remova do grafo H o vértice v e todos os seus vizinhos
+    for (int w = 0; w < static_cast<int>(neighbors.size()); ++w) {
+      if(neighbors[w] == 1) {
+        H.remove_vertex(w); 
+      }
+    }
+    H.remove_vertex(v);
+    
+    // 8. Se restarem vértices isolados em H atribuímos o
+    // rótulo 1 a todos eles.
+    auto isolatedVertices = H.get_isolated_vertices();
+    
+    for(const int& z : isolatedVertices) {
+      // 9. Faça f(z) = 1
+      chromosome.set_value(z, LABEL_ONE);
+
+      // 10. Seja x um vizinho de z no grafo G.
+      // Escolhemos o primeiro vizinho que aparecer.
+      // 11. Mude a cor do vértice x para f(x) = 1
+      auto& g_neighbors = graph.get_neighbors(z);
+      for(int x = 0; x < static_cast<int>(g_neighbors.size()); ++x) {
+        if(g_neighbors[x] == 1) {
+          chromosome.set_value(x, LABEL_ONE);
+          break;
+        }
+      }
+
+      // 12. Remova z do grafo H
+      H.remove_vertex(z);
+    }
+  }
+
+  // Calcula o fitness do cromossomo antes de retorná-lo
+  chromosome.calculate_fitness();
+
+  return chromosome;
+}
+
+/*
 Chromosome HeuristicGenerators::h2(const Graph &graph) {
   std::unique_ptr<Graph> H(copyGraph(graph));
 
@@ -499,8 +528,16 @@ Chromosome HeuristicGenerators::h4(const Graph &graph) {
   chromosome.calculate_fitness();
   return chromosome;
 }
+*/
 
-Chromosome HeuristicGenerators::h5(const Graph &graph) {
+Chromosome HeuristicGenerators::h5_l(const ListGraph &graph) {
+  Chromosome chromosome(graph.order(), 1);
+
+  chromosome.calculate_fitness();
+  return chromosome;
+}
+
+Chromosome HeuristicGenerators::h5_m(const MatrixGraph &graph) {
   Chromosome chromosome(graph.order(), 1);
 
   chromosome.calculate_fitness();

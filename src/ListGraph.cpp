@@ -2,7 +2,10 @@
 #include <algorithm>
 #include <stdexcept>
 
-ListGraph::ListGraph(int n) : Graph(n) {
+ListGraph::ListGraph(int n) {
+  if (n <= 0) {
+    throw std::runtime_error("invalid graph order");
+  }
   // Inicializa o grafo com n vértices numerados de 0 a n-1
   for (int i = 0; i < n; i++) {
     _adjList[i] = std::vector<int>();
@@ -22,7 +25,7 @@ int ListGraph::size() const noexcept {
 
 int ListGraph::degree(int v) const {
   if (!contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function degree)");
   }
   return _adjList.at(v).size();
 }
@@ -66,7 +69,7 @@ void ListGraph::add_edge(int u, int v) {
 
   // Verifica se os vértices existem
   if (!contains(u) || !contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function add_edge)");
   }
 
   // Ignora arestas múltiplas (verifica se a aresta já existe)
@@ -81,7 +84,7 @@ void ListGraph::add_edge(int u, int v) {
 
 void ListGraph::remove_edge(int u, int v) {
   if (!contains(u) || !contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function remove_edge)");
   }
 
   // Remove v da lista de adjacência de u
@@ -97,7 +100,7 @@ void ListGraph::remove_edge(int u, int v) {
 
 void ListGraph::remove_vertex(int v) {
   if (!contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function remove_vertex)");
   }
 
   // Remove todas as arestas incidentes em v
@@ -112,6 +115,7 @@ void ListGraph::remove_vertex(int v) {
   _adjList.erase(v);
 }
 
+/*
 void ListGraph::for_each_vertex(const VertexCallback &func) const {
   for (const auto &[vertex, _] : _adjList) {
     func(vertex);
@@ -142,6 +146,14 @@ void ListGraph::for_each_neighbor(int v, const VertexCallback &func) const {
     func(neighbor);
   }
 }
+  */
+
+const std::vector<int>& ListGraph::get_neighbors(int v) const {
+  if(!contains(v)) {
+    throw std::runtime_error("vertex does not exists (function get_neighbors)");
+  }
+  return _adjList.at(v);
+}
 
 std::unordered_set<int> ListGraph::get_vertices() const {
   std::unordered_set<int> vertices;
@@ -149,6 +161,24 @@ std::unordered_set<int> ListGraph::get_vertices() const {
     vertices.insert(vertex);
   }
   return vertices;
+}
+
+std::unordered_set<int> ListGraph::get_isolated_vertices() const {
+  std::unordered_set<int> vertices;
+  for (const auto &[vertex, _] : _adjList) {
+    if(degree(vertex) == 0) {
+      vertices.insert(vertex);
+    }
+  }
+  return vertices;
+}
+
+bool ListGraph::is_isolated_vertex(int vertex) const {
+  return contains(vertex) && degree(vertex) == 0;
+}
+
+float ListGraph::get_density() const {
+  return static_cast<float>(size() * 2) / (order() * (order() - 1)); 
 }
 
 void ListGraph::print() const {

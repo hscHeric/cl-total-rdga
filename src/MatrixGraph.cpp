@@ -2,7 +2,10 @@
 #include <algorithm>
 #include <stdexcept>
 
-MatrixGraph::MatrixGraph(int n) : Graph(n) {
+MatrixGraph::MatrixGraph(int n) {
+  if (n <= 0) {
+    throw std::runtime_error("invalid graph order");
+  }
   // Inicializa o grafo com n vértices numerados de 0 a n-1
   for (int i = 0; i < n; i++) {
     _adjList[i] = BitSet(n);
@@ -22,7 +25,7 @@ int MatrixGraph::size() const noexcept {
 
 int MatrixGraph::degree(int v) const {
   if (!contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function degree)");
   }
   return _adjList.at(v).count();
 }
@@ -64,7 +67,7 @@ void MatrixGraph::add_edge(int u, int v) {
 
   // Verifica se os vértices existem
   if (!contains(u) || !contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function add_edge)");
   }
 
   // Adiciona a aresta (nos dois sentidos, já que é um grafo não direcionado)
@@ -74,7 +77,7 @@ void MatrixGraph::add_edge(int u, int v) {
 
 void MatrixGraph::remove_edge(int u, int v) {
   if (!contains(u) || !contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function remove_edge)");
   }
 
   // Remove a aresta (nos dois sentidos)
@@ -84,7 +87,7 @@ void MatrixGraph::remove_edge(int u, int v) {
 
 void MatrixGraph::remove_vertex(int v) {
   if (!contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
+    throw std::runtime_error("Vertex does not exist (function remove_vertex)");
   }
 
   // Remove todas as arestas incidentes em v
@@ -96,44 +99,6 @@ void MatrixGraph::remove_vertex(int v) {
 
   // Remove o vértice v
   _adjList.erase(v);
-}
-
-void MatrixGraph::for_each_vertex(const VertexCallback &func) const {
-  for (const auto &[vertex, _] : _adjList) {
-    func(vertex);
-  }
-}
-
-void MatrixGraph::for_each_edge(const EdgeCallback &func) const {
-  std::unordered_set<std::pair<int, int>, PairHash> processed_edges;
-
-  for (const auto &[u, bitset] : _adjList) {
-    for (size_t v = 0; v < bitset.size(); ++v) {
-      if (bitset[v]) {
-        // Garante que cada aresta seja processada apenas uma vez
-        auto edge = std::make_pair(std::min(u, static_cast<int>(v)),
-                                   std::max(u, static_cast<int>(v)));
-
-        if (processed_edges.find(edge) == processed_edges.end()) {
-          func(u, static_cast<int>(v));
-          processed_edges.insert(edge);
-        }
-      }
-    }
-  }
-}
-
-void MatrixGraph::for_each_neighbor(int v, const VertexCallback &func) const {
-  if (!contains(v)) {
-    throw std::runtime_error("Vertex does not exist");
-  }
-
-  const BitSet &bitset = _adjList.at(v);
-  for (size_t i = 0; i < bitset.size(); ++i) {
-    if (bitset[i]) {
-      func(static_cast<int>(i));
-    }
-  }
 }
 
 std::unordered_set<int> MatrixGraph::get_vertices() const {
@@ -157,4 +122,30 @@ void MatrixGraph::print() const {
     }
     std::cout << "\n";
   }
+}
+
+
+const BitSet& MatrixGraph::get_neighbors(int v) const {
+  if(!contains(v)) {
+    throw std::runtime_error("error: vertex does not exists (function get_neighbors)");
+  }
+  return _adjList.at(v);
+}
+
+std::unordered_set<int> MatrixGraph::get_isolated_vertices() const {
+  std::unordered_set<int> vertices;
+  for (const auto &[vertex, _] : _adjList) {
+    if(degree(vertex) == 0) {
+      vertices.insert(vertex);
+    }
+  }
+  return vertices;
+}
+
+bool MatrixGraph::is_isolated_vertex(int vertex) const {
+  return contains(vertex) && degree(vertex) == 0;
+}
+
+float MatrixGraph::get_density() const {
+  return static_cast<float>(size() * 2) / (order() * (order() - 1)); 
 }

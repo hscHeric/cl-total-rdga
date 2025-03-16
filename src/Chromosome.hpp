@@ -1,6 +1,6 @@
 #pragma once
-
-#include "Graph.hpp"
+#include "ListGraph.hpp"
+#include "MatrixGraph.hpp"
 #include <boost/dynamic_bitset/dynamic_bitset.hpp>
 
 #define LABEL_ZERO 0
@@ -66,5 +66,6 @@ public:
    Domination
    * @param graph The graph to fix the solution for
    */
-  void fix(const Graph &graph);
+  void fix_l(const ListGraph &graph);
+  void fix_m(const MatrixGraph &graph);
 };

@@ -1,31 +1,53 @@
 #pragma once
-#include "Graph.hpp"
+#include <boost/dynamic_bitset/dynamic_bitset.hpp>
+#include <functional>
+#include <iostream>
+#include <random>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
 
-// Estrutura auxiliar para hash de pares
+using BitSet = boost::dynamic_bitset<>;
 
-class MatrixGraph : public Graph {
+class MatrixGraph {
 private:
   std::unordered_map<int, BitSet> _adjList;
 
 public:
   explicit MatrixGraph(int n);
   MatrixGraph(const MatrixGraph &) = default;
-  ~MatrixGraph() override = default;
+  ~MatrixGraph() = default;
 
-  [[nodiscard]] int order() const noexcept override;
-  [[nodiscard]] int size() const noexcept override;
-  [[nodiscard]] int degree(int v) const override;
-  [[nodiscard]] std::pair<int, int> degree_range() const noexcept override;
-  [[nodiscard]] bool contains(int u, int v) const noexcept override;
-  [[nodiscard]] bool contains(int v) const noexcept override;
+  [[nodiscard]] int order() const noexcept;
+  [[nodiscard]] int size() const noexcept;
+  [[nodiscard]] int degree(int v) const;
+  [[nodiscard]] std::pair<int, int> degree_range() const noexcept;
+  [[nodiscard]] bool contains(int u, int v) const noexcept;
+  [[nodiscard]] bool contains(int v) const noexcept;
 
-  void add_edge(int u, int v) override;
-  void remove_edge(int u, int v) override;
-  void remove_vertex(int v) override;
+  void add_edge(int u, int v);
+  void remove_edge(int u, int v);
+  void remove_vertex(int v);
 
-  void for_each_vertex(const VertexCallback &func) const override;
-  void for_each_edge(const EdgeCallback &func) const override;
-  void for_each_neighbor(int v, const VertexCallback &func) const override;
-  [[nodiscard]] std::unordered_set<int> get_vertices() const override;
-  void print() const override;
+  [[nodiscard]] std::unordered_set<int> get_vertices() const;
+  void print() const;
+
+  [[nodiscard]] const BitSet& get_neighbors(int v) const;
+  [[nodiscard]] std::unordered_set<int> get_isolated_vertices() const;
+  [[nodiscard]] bool is_isolated_vertex(int vertex) const;
+  [[nodiscard]] float get_density() const;
+
+  [[nodiscard]] int choose_rng() const {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::unordered_set<int> vertices = get_vertices();
+
+    if (vertices.empty()) {
+      throw std::runtime_error("Graph is empty, cannot choose a vertex.");
+    }
+    std::uniform_int_distribution<> distrib(0, vertices.size() - 1);
+    auto it = vertices.begin();
+    std::advance(it, distrib(gen));
+    return *it;
+  };
 };
