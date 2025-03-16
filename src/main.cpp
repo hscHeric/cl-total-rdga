@@ -9,17 +9,20 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <memory>
 #include <set>
 #include <string>
 
 #define DEBUG 1
 
 struct AlgorithmParams {
-  size_t max_stagnant = 200;
-  size_t generations = 800;
-  size_t tournament_size = 5;
-  double crossover_rate = 0.8;
-  double population_factor = 3;
+  size_t max_stagnant = 100;
+  size_t generations = 341;
+  size_t tournament_size = 3;
+  double crossover_rate = 0.8933;
+  double population_factor = 4;
+  double elitism_rate = 0.1;
+  double mutation_rate = 0.05;
   std::string file_path;
   size_t trials = 1;
   std::string output_file = "results.csv";
@@ -49,6 +52,36 @@ struct HeuristicBuffer {
 HeuristicBuffer global_heuristic_buffer_l;
 HeuristicBuffer global_heuristic_buffer_m;
 
+void init_heuristic_buffer_l(const ListGraph &graph) {
+  if (!global_heuristic_buffer_l.initialized) {
+    HeuristicGenerators heuristicHandle;
+    global_heuristic_buffer_l.h2 = heuristicHandle.h2_l(graph);
+    global_heuristic_buffer_l.h3 = heuristicHandle.h3_l(graph);
+    global_heuristic_buffer_l.h4 = heuristicHandle.h4_l(graph);
+    global_heuristic_buffer_l.h5 = heuristicHandle.h5_l(graph);
+    global_heuristic_buffer_l.initialized = true;
+
+#if (DEBUG)
+    std::cout << "[DEBUG] Inicializando o HeuristicBuffer - ListGraph\n";
+#endif
+  }
+}
+
+void init_heuristic_buffer_m(const MatrixGraph &graph) {
+  if (!global_heuristic_buffer_m.initialized) {
+    HeuristicGenerators heuristicHandle;
+    global_heuristic_buffer_m.h2 = heuristicHandle.h2_m(graph);
+    global_heuristic_buffer_m.h3 = heuristicHandle.h3_m(graph);
+    global_heuristic_buffer_m.h4 = heuristicHandle.h4_m(graph);
+    global_heuristic_buffer_m.h5 = heuristicHandle.h5_m(graph);
+    global_heuristic_buffer_m.initialized = true;
+
+#if (DEBUG)
+    std::cout << "[DEBUG] Inicializando o HeuristicBuffer - MatrixGraph\n";
+#endif
+  }
+}
+
 void load_and_normalize_graph(const std::string &filename,
                               bool &graph_is_matrix, ListGraph &graph_l,
                               MatrixGraph &graph_m);
@@ -63,8 +96,6 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
                                     const AlgorithmParams &params);
 TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
                                     const AlgorithmParams &params);
-void init_heuristic_buffer_l(const ListGraph &graph);
-void init_heuristic_buffer_m(const MatrixGraph &graph);
 
 /**
  * @brief Main
@@ -85,18 +116,37 @@ int main(int argc, char *argv[]) {
   load_and_normalize_graph(params.file_path, graph_is_matrix, graph_l, graph_m);
 
   if (graph_is_matrix) {
+    if (!graph_m.get_isolated_vertices().empty()) {
+#if DEBUG
+      std::cout << "A execução foi interrompida pois o grafo contém vértices "
+                   "isolados";
+#endif
+      return 1;
+    }
+
     init_heuristic_buffer_m(graph_m);
   } else {
 
+    if (!graph_l.get_isolated_vertices().empty()) {
+#if DEBUG
+      std::cout << "A execução foi interrompida pois o grafo contém vértices "
+                   "isolados";
+#endif
+      return 1;
+    }
     init_heuristic_buffer_l(graph_l);
   }
 
   for (size_t trial = 0; trial < params.trials; ++trial) {
-    // std::cout << "\n===== Executando trial " << (trial + 1) << " de "
-    //         << params.trials << " =====\n"
-    //       << std::endl;
+#if DEBUG
+    std::cout << "\n===== Executando trial " << (trial + 1) << " de "
+              << params.trials << " =====\n"
+              << std::endl;
+#endif
 
     TrialResult result;
+
+    // std::cerr << "arquivo: " << params.file_path << std::endl;
 
     if (graph_is_matrix) {
       result = run_genetic_algorithm_m(graph_m, params);
@@ -104,19 +154,21 @@ int main(int argc, char *argv[]) {
       result = run_genetic_algorithm_l(graph_l, params);
     }
 
-    // std::cout << "\nResultado do trial " << (trial + 1) << ":" << std::endl;
-    // std::cout << "  Nome do grafo: " << result.graph_name << std::endl;
-    // std::cout << "  Ordem (vértices): " << result.node_count << std::endl;
-    // std::cout << "  Tamanho (arestas): " << result.edge_count << std::endl;
-    // std::cout << "  Fitness: " << result.fitness << std::endl;
-    // std::cout << "  Tempo (microssegundos): " << result.elapsed_micros
-    //          << std::endl;
-    // std::cout << "  Corresponde a heurística: "
-    //          << (result.matches_heuristic ? "Sim" : "Não");
-    // if (result.matches_heuristic) {
-    // std::cout << " (" << result.matched_heuristic << ")";
-    // }
-    // std::cout << std::endl;
+#if DEBUG
+    std::cout << "\nResultado do trial " << (trial + 1) << ":" << std::endl;
+    std::cout << "  Nome do grafo: " << result.graph_name << std::endl;
+    std::cout << "  Ordem (vértices): " << result.node_count << std::endl;
+    std::cout << "  Tamanho (arestas): " << result.edge_count << std::endl;
+    std::cout << "  Fitness: " << result.fitness << std::endl;
+    std::cout << "  Tempo (microssegundos): " << result.elapsed_micros
+              << std::endl;
+    std::cout << "  Corresponde a heurística: "
+              << (result.matches_heuristic ? "Sim" : "Não");
+    if (result.matches_heuristic) {
+      std::cout << " (" << result.matched_heuristic << ")";
+    }
+    std::cout << std::endl;
+#endif
 
     // Escrever no CSV
     write_result_to_csv(params.output_file, result);
@@ -263,6 +315,8 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
               << "  --generations VALUE\n"
               << "  --population VALUE\n"
               << "  --tournament VALUE\n"
+              << "  --elitism VALUE\n"
+              << "  --mutation VALUE\n"
 
               << "  --trials VALUE\n"
               << "  --output FILE\n";
@@ -283,6 +337,10 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
       params.population_factor = std::stod(argv[++i]);
     } else if (arg == "--tournament" && i + 1 < argc) {
       params.tournament_size = std::stoul(argv[++i]);
+    } else if (arg == "--elitism" && i + 1 < argc) {
+      params.elitism_rate = std::stod(argv[++i]);
+    } else if (arg == "--mutation" && i + 1 < argc) {
+      params.mutation_rate = std::stod(argv[++i]);
     } else if (arg == "--trials" && i + 1 < argc) {
       params.trials = std::stoul(argv[++i]);
     } else if (arg == "--output" && i + 1 < argc) {
@@ -328,9 +386,10 @@ bool valid_totalrd_m(const MatrixGraph &graph, const Chromosome &chromosome) {
     }
 
     if (!hasValidNeighbor) {
-      // std::cout << "Solução inválida: vértice " << v << " com f(v) = " <<
-      // label
-      //           << " não possui vizinho válido." << std::endl;
+#if DEBUG
+      std::cout << "Solução inválida: vértice " << v << " com f(v) = " << label
+                << " não possui vizinho válido." << std::endl;
+#endif
       return false;
     }
   }
@@ -351,9 +410,10 @@ bool valid_totalrd_l(const ListGraph &graph, const Chromosome &chromosome) {
     }
 
     if (!hasValidNeighbor) {
-      // std::cout << "Solução inválida: vértice " << v << " com f(v) = " <<
-      // label
-      //           << " não possui vizinho válido." << std::endl;
+#if DEBUG
+      std::cout << "Solução inválida: vértice " << v << " com f(v) = " << label
+                << " não possui vizinho válido." << std::endl;
+#endif
       return false;
     }
   }
@@ -392,13 +452,13 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
                                     const AlgorithmParams &params) {
   HeuristicGenerators heuristicHandle;
 
+  // o tamanho da população é uma fração do tamanho do grafo
   size_t pop_size =
-      std::max(static_cast<size_t>(graph.order() / params.population_factor),
-               static_cast<size_t>(5)); // Tamanho minimo da população como 5
+      static_cast<size_t>(graph.order() / params.population_factor);
 
   auto start_time = std::chrono::high_resolution_clock::now();
-#if DEBUG
   auto heuristic_h1 = heuristicHandle.h1_m(graph);
+#if DEBUG
   auto heuristic_h2 = heuristicHandle.h2_m(graph);
   auto heuristic_h3 = heuristicHandle.h3_m(graph);
   auto heuristic_h4 = heuristicHandle.h4_m(graph);
@@ -429,61 +489,33 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
 
     std::cout << "----------------------------------------\n";
   }
-
-  // Verificando se as heuristicas são deterministicas
-
-  for (const auto &[name, heuristic] : heuristics) {
-    std::vector<Chromosome> solutions;
-
-    for (int i = 0; i < 10; ++i) {
-      solutions.push_back(heuristic);
-    }
-
-    bool all_equal = true;
-    for (size_t i = 1; i < solutions.size(); ++i) {
-      if (!chromosomes_equal(solutions[0], solutions[i])) {
-        all_equal = false;
-        break;
-      }
-    }
-
-    if (all_equal) {
-      std::cout << "[DEBUG] Todas as 10 soluções geradas por " << name
-                << " são idênticas. Pode haver falta de variação.\n";
-    }
-  }
 #endif
 
   std::vector<Chromosome> initialChromosomes;
-  size_t h1_count = static_cast<size_t>(pop_size * 0.6);
-  size_t h2_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h3_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h4_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h5_count = static_cast<size_t>(pop_size * 0.1);
 
-  if (h1_count + h2_count + h3_count + h4_count + h5_count < pop_size) {
-    h1_count +=
-        pop_size - (h1_count + h2_count + h3_count + h4_count + h5_count);
+  int s_h1 = 0.6 * pop_size;
+  int s_h2 = 0.1 * pop_size;
+  int s_h3 = 0.1 * pop_size;
+  int s_h4 = 0.1 * pop_size;
+
+  int count = 0;
+  while (initialChromosomes.size() < pop_size) {
+    if (count < s_h1) {
+      initialChromosomes.push_back(heuristicHandle.h1_m(graph));
+    } else if (count < s_h1 + s_h2) {
+      initialChromosomes.push_back(global_heuristic_buffer_m.h2);
+    } else if (count < s_h1 + s_h2 + s_h3) {
+      initialChromosomes.push_back(global_heuristic_buffer_m.h3);
+    } else if (count < s_h1 + s_h2 + s_h3 + s_h4) {
+      initialChromosomes.push_back(global_heuristic_buffer_m.h4);
+    } else {
+      initialChromosomes.push_back(global_heuristic_buffer_m.h5);
+    }
+    count++;
   }
 
-  for (size_t i = 0; i < h1_count; ++i) {
+  while (initialChromosomes.size() < pop_size) {
     initialChromosomes.push_back(heuristicHandle.h1_m(graph));
-  }
-
-  for (size_t i = 0; i < h2_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_m.h2);
-  }
-
-  for (size_t i = 0; i < h3_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_m.h3);
-  }
-
-  for (size_t i = 0; i < h4_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_m.h4);
-  }
-
-  for (size_t i = 0; i < h5_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_m.h5);
   }
 
   Population population(pop_size, initialChromosomes);
@@ -503,8 +535,8 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
   while (generation < params.generations &&
          stagnant_generations < params.max_stagnant) {
 
-    // std::cout << "-- geração " << generation << std::endl;
-    population.evolve_m(graph, params.tournament_size, params.crossover_rate);
+    population.evolve_m(graph, params.tournament_size, params.crossover_rate,
+                        params.elitism_rate, params.mutation_rate);
 
     const auto &chromosomes = population.getChromosomes();
     auto best_it =
@@ -517,9 +549,10 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
       best_fitness = best_it->get_fitness();
       best_chromosome = *best_it;
       stagnant_generations = 0;
-
-      // std::cout << "Nova melhor solução na geração " << generation
-      //           << ": fitness = " << best_fitness << std::endl;
+#if DEBUG
+      std::cout << "Nova melhor solução na geração " << generation
+                << ": fitness = " << best_fitness << std::endl;
+#endif
     } else {
       stagnant_generations++;
     }
@@ -531,29 +564,28 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
       end_time - start_time);
 
-  // std::cout << "Algoritmo genético concluído após " << generation << "
-  // gerações"
-  //           << std::endl;
-  // std::cout << "Melhor fitness: " << best_fitness << std::endl;
-  //
+#if DEBUG
+  std::cout << "Algoritmo genético concluído após " << generation << " gerações"
+            << std::endl;
+  std::cout << "Melhor fitness: " << best_fitness << std::endl;
+#endif
+
   bool matches_heuristic = false;
   std::string matched_heuristic = "none";
 
   if (chromosomes_equal(best_chromosome, heuristic_h1)) {
     matches_heuristic = true;
     matched_heuristic = "h1";
-  }
-  /*else if (chromosomes_equal(best_chromosome, heuristic_h2)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_m.h2)) {
     matches_heuristic = true;
     matched_heuristic = "h2";
-  } else if (chromosomes_equal(best_chromosome, heuristic_h3)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_m.h3)) {
     matches_heuristic = true;
     matched_heuristic = "h3";
-  } else if (chromosomes_equal(best_chromosome, heuristic_h4)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_m.h4)) {
     matches_heuristic = true;
     matched_heuristic = "h4";
-  }*/
-  else if (chromosomes_equal(best_chromosome, heuristic_h5)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_m.h5)) {
     matches_heuristic = true;
     matched_heuristic = "h5";
   }
@@ -561,10 +593,14 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
   // Verificar se a solução é válida
   bool is_valid = valid_totalrd_m(graph, best_chromosome);
   if (!is_valid) {
-    // std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
-    //           << std::endl;
+#if DEBUG
+    std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
+              << std::endl;
+#endif
   } else {
-    // std::cout << "A solução encontrada é válida." << std::endl;
+#if DEBUG
+    std::cout << "A solução encontrada é válida." << std::endl;
+#endif
   }
 
   double density = static_cast<double>(graph.size()) /
@@ -589,14 +625,14 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
                                     const AlgorithmParams &params) {
   HeuristicGenerators heuristicHandle;
 
+  // o tamanho da população é uma fração do tamanho do grafo
   size_t pop_size =
-      std::max(static_cast<size_t>(graph.order() / params.population_factor),
-               static_cast<size_t>(5)); // Tamanho minimo da população como 5
+      static_cast<size_t>(graph.order() / params.population_factor);
 
   auto start_time = std::chrono::high_resolution_clock::now();
+  auto heuristic_h1 = heuristicHandle.h1_l(graph);
 
 #if DEBUG
-  auto heuristic_h1 = heuristicHandle.h1_l(graph);
   auto heuristic_h2 = heuristicHandle.h2_l(graph);
   auto heuristic_h3 = heuristicHandle.h3_l(graph);
   auto heuristic_h4 = heuristicHandle.h4_l(graph);
@@ -625,64 +661,39 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
 
     std::cout << "----------------------------------------\n";
   }
-
-  for (const auto &[name, heuristic] : heuristics) {
-    std::vector<Chromosome> solutions;
-
-    for (int i = 0; i < 10; ++i) {
-      solutions.push_back(heuristic);
-    }
-
-    bool all_equal = true;
-    for (size_t i = 1; i < solutions.size(); ++i) {
-      if (!chromosomes_equal(solutions[0], solutions[i])) {
-        all_equal = false;
-        break;
-      }
-    }
-
-    if (all_equal) {
-      std::cout << "[DEBUG] Todas as 10 soluções geradas por " << name
-                << " são idênticas. Pode haver falta de variação.\n";
-    } else {
-      std::cout << "[DEBUG] Existe soluções diferentes geradas por " << name
-                << "\n";
-    }
-  }
 #endif
 
   std::vector<Chromosome> initialChromosomes;
 
-  size_t h1_count = static_cast<size_t>(pop_size * 0.6);
-  size_t h2_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h3_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h4_count = static_cast<size_t>(pop_size * 0.1);
-  size_t h5_count = static_cast<size_t>(pop_size * 0.1);
+  int s_h1 = 0.6 * pop_size;
+  int s_h2 = 0.1 * pop_size;
+  int s_h3 = 0.1 * pop_size;
+  int s_h4 = 0.1 * pop_size;
 
-  if (h1_count + h2_count + h3_count + h4_count + h5_count < pop_size) {
-    h1_count +=
-        pop_size - (h1_count + h2_count + h3_count + h4_count + h5_count);
+  int count = 0;
+  while (initialChromosomes.size() < pop_size) {
+    if (count < s_h1) {
+      initialChromosomes.push_back(heuristicHandle.h1_l(graph));
+    } else if (count < s_h1 + s_h2) {
+      initialChromosomes.push_back(global_heuristic_buffer_l.h2);
+    } else if (count < s_h1 + s_h2 + s_h3) {
+      initialChromosomes.push_back(global_heuristic_buffer_l.h3);
+    } else if (count < s_h1 + s_h2 + s_h3 + s_h4) {
+      initialChromosomes.push_back(global_heuristic_buffer_l.h4);
+    } else {
+      initialChromosomes.push_back(global_heuristic_buffer_l.h5);
+    }
+    count++;
   }
 
-  for (size_t i = 0; i < h1_count; ++i) {
-    initialChromosomes.push_back(heuristicHandle.h1_l(graph));
-  }
+  // initialChromosomes.push_back(heuristic_h2);
+  // initialChromosomes.push_back(heuristic_h3);
+  // initialChromosomes.push_back(heuristic_h4);
+  // initialChromosomes.push_back(heuristic_h5);
 
-  for (size_t i = 0; i < h2_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_l.h2);
-  }
-
-  for (size_t i = 0; i < h3_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_l.h3);
-  }
-
-  for (size_t i = 0; i < h4_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_l.h4);
-  }
-
-  for (size_t i = 0; i < h5_count; ++i) {
-    initialChromosomes.push_back(global_heuristic_buffer_l.h5);
-  }
+  // while (initialChromosomes.size() < pop_size) {
+  //   initialChromosomes.push_back(heuristicHandle.h1_l(graph));
+  // }
 
   Population population(pop_size, initialChromosomes);
 
@@ -700,8 +711,9 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
 
   while (generation < params.generations &&
          stagnant_generations < params.max_stagnant) {
-    // std::cout << "-- geração " << generation << std::endl;
-    population.evolve_l(graph, params.tournament_size, params.crossover_rate);
+
+    population.evolve_l(graph, params.tournament_size, params.crossover_rate,
+                        params.elitism_rate, params.mutation_rate);
 
     const auto &chromosomes = population.getChromosomes();
     auto best_it =
@@ -715,8 +727,10 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
       best_chromosome = *best_it;
       stagnant_generations = 0;
 
-      // std::cout << "Nova melhor solução na geração " << generation
-      //         << ": fitness = " << best_fitness << std::endl;
+#if DEBUG
+      std::cout << "Nova melhor solução na geração " << generation
+                << ": fitness = " << best_fitness << std::endl;
+#endif
     } else {
       stagnant_generations++;
     }
@@ -728,10 +742,11 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
   auto elapsed = std::chrono::duration_cast<std::chrono::microseconds>(
       end_time - start_time);
 
-  // std::cout << "Algoritmo genético concluído após " << generation << "
-  // gerações"
-  //         << std::endl;
-  // std::cout << "Melhor fitness: " << best_fitness << std::endl;
+#if DEBUG
+  std::cout << "Algoritmo genético concluído após " << generation << " gerações"
+            << std::endl;
+  std::cout << "Melhor fitness: " << best_fitness << std::endl;
+#endif
 
   bool matches_heuristic = false;
   std::string matched_heuristic = "none";
@@ -739,18 +754,16 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
   if (chromosomes_equal(best_chromosome, heuristic_h1)) {
     matches_heuristic = true;
     matched_heuristic = "h1";
-  }
-  /*else if (chromosomes_equal(best_chromosome, heuristic_h2)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_l.h2)) {
     matches_heuristic = true;
     matched_heuristic = "h2";
-  } else if (chromosomes_equal(best_chromosome, heuristic_h3)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_l.h3)) {
     matches_heuristic = true;
     matched_heuristic = "h3";
-  } else if (chromosomes_equal(best_chromosome, heuristic_h4)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_l.h4)) {
     matches_heuristic = true;
     matched_heuristic = "h4";
-  }*/
-  else if (chromosomes_equal(best_chromosome, heuristic_h5)) {
+  } else if (chromosomes_equal(best_chromosome, global_heuristic_buffer_l.h5)) {
     matches_heuristic = true;
     matched_heuristic = "h5";
   }
@@ -758,10 +771,14 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
   // Verificar se a solução é válida
   bool is_valid = valid_totalrd_l(graph, best_chromosome);
   if (!is_valid) {
-    // std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
-    //         << std::endl;
+#if DEBUG
+    std::cout << "ATENÇÃO: A melhor solução encontrada não é válida!"
+              << std::endl;
+#endif
   } else {
-    // std::cout << "A solução encontrada é válida." << std::endl;
+#if DEBUG
+    std::cout << "A solução encontrada é válida." << std::endl;
+#endif
   }
 
   double density = static_cast<double>(graph.size()) /
@@ -780,34 +797,4 @@ TrialResult run_genetic_algorithm_l(const ListGraph &graph,
   result.graph_density = density;
   result.is_dense = (density > 0.5) ? true : false;
   return result;
-}
-
-void init_heuristic_buffer_l(const ListGraph &graph) {
-  if (!global_heuristic_buffer_l.initialized) {
-    HeuristicGenerators heuristicHandle;
-    global_heuristic_buffer_l.h2 = heuristicHandle.h2_l(graph);
-    global_heuristic_buffer_l.h3 = heuristicHandle.h3_l(graph);
-    global_heuristic_buffer_l.h4 = heuristicHandle.h4_l(graph);
-    global_heuristic_buffer_l.h5 = heuristicHandle.h5_l(graph);
-    global_heuristic_buffer_l.initialized = true;
-
-#if (DEBUG)
-    std::cout << "[DEBUG] Inicializando o HeuristicBuffer - ListGraph\n";
-#endif
-  }
-}
-
-void init_heuristic_buffer_m(const MatrixGraph &graph) {
-  if (!global_heuristic_buffer_m.initialized) {
-    HeuristicGenerators heuristicHandle;
-    global_heuristic_buffer_m.h2 = heuristicHandle.h2_m(graph);
-    global_heuristic_buffer_m.h3 = heuristicHandle.h3_m(graph);
-    global_heuristic_buffer_m.h4 = heuristicHandle.h4_m(graph);
-    global_heuristic_buffer_m.h5 = heuristicHandle.h5_m(graph);
-    global_heuristic_buffer_m.initialized = true;
-
-#if (DEBUG)
-    std::cout << "[DEBUG] Inicializando o HeuristicBuffer - MatrixGraph\n";
-#endif
-  }
 }
