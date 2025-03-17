@@ -13,7 +13,7 @@
 #include <set>
 #include <string>
 
-#define IRACE 0
+#define IRACE 1
 #define DEBUG ((~IRACE) & 1)
 
 struct AlgorithmParams {
@@ -104,14 +104,13 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
 int main(int argc, char *argv[]) {
   auto params = parse_args(argc, argv);
 
+#if !IRACE
   ensure_csv_header(params.output_file);
+#endif
 
-  // Cria dois grafos, e depois decide qual deles será inicializado,
-  // dependendo da densidade do grafo do arquivo lido
+  // Criar os grafos e determinar qual será utilizado
   ListGraph graph_l(1);
   MatrixGraph graph_m(1);
-
-  // Flag que indica se o grafo lido é uma matriz ou uma lista de adjacencias
   bool graph_is_matrix = false;
 
   load_and_normalize_graph(params.file_path, graph_is_matrix, graph_l, graph_m);
@@ -120,24 +119,37 @@ int main(int argc, char *argv[]) {
     if (!graph_m.get_isolated_vertices().empty()) {
 #if DEBUG
       std::cout << "A execução foi interrompida pois o grafo contém vértices "
-                   "isolados";
+                   "isolados."
+                << std::endl;
 #endif
       return 1;
     }
-
     init_heuristic_buffer_m(graph_m);
   } else {
-
     if (!graph_l.get_isolated_vertices().empty()) {
 #if DEBUG
       std::cout << "A execução foi interrompida pois o grafo contém vértices "
-                   "isolados";
+                   "isolados."
+                << std::endl;
 #endif
       return 1;
     }
     init_heuristic_buffer_l(graph_l);
   }
 
+  // Modo IRACE: Executa apenas uma tentativa e imprime apenas o fitness
+#if IRACE
+  TrialResult result;
+  if (graph_is_matrix) {
+    result = run_genetic_algorithm_m(graph_m, params);
+  } else {
+    result = run_genetic_algorithm_l(graph_l, params);
+  }
+  std::cout << result.fitness << std::endl;
+  return 0;
+
+#else
+  // Modo normal: executa múltiplas tentativas e salva no CSV
   for (size_t trial = 0; trial < params.trials; ++trial) {
 #if DEBUG
     std::cout << "\n===== Executando trial " << (trial + 1) << " de "
@@ -146,9 +158,6 @@ int main(int argc, char *argv[]) {
 #endif
 
     TrialResult result;
-
-    // std::cerr << "arquivo: " << params.file_path << std::endl;
-
     if (graph_is_matrix) {
       result = run_genetic_algorithm_m(graph_m, params);
     } else {
@@ -171,14 +180,14 @@ int main(int argc, char *argv[]) {
     std::cout << std::endl;
 #endif
 
-    // Escrever no CSV
     write_result_to_csv(params.output_file, result);
   }
-
+#if DEBUG
   std::cout << "\nTodos os resultados foram salvos em: " << params.output_file
             << std::endl;
-
   return 0;
+#endif // DEBUG
+#endif // !IRACE
 }
 
 // ----------------------------------------------------------------------------------
