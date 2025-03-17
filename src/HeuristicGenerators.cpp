@@ -717,17 +717,19 @@ Chromosome HeuristicGenerators::h3_l(const ListGraph &graph) {
         }
       }
 
-      chromosome.set_value(u, LABEL_ONE);
+      if (u != -1) { // Verifica se u foi atribuído corretamente
+        chromosome.set_value(u, LABEL_ONE);
 
-      for (int neighbor : neighbors) {
-        if (neighbor != u) {
-          chromosome.set_value(neighbor, LABEL_ZERO);
+        for (int neighbor : neighbors) {
+          if (neighbor != u) {
+            chromosome.set_value(neighbor, LABEL_ZERO);
+          }
         }
       }
     }
 
     std::vector<int> neighbors_copy =
-        neighbors; // Criar cópia para evitar modificar durante iteração
+        neighbors; // Cópia para evitar modificar durante iteração
     for (int neighbor : neighbors_copy) {
       if (H.contains(neighbor)) {
         H.remove_vertex(neighbor);
@@ -755,8 +757,7 @@ Chromosome HeuristicGenerators::h3_l(const ListGraph &graph) {
 
       if (!hasLabel1Neighbor) {
         const std::vector<int> &g_neighbors = graph.get_neighbors(z);
-
-        if (!g_neighbors.empty()) {
+        if (!g_neighbors.empty()) { // Verifica se existem vizinhos
           int x = g_neighbors[0];
           chromosome.set_value(x, LABEL_ONE);
         }
@@ -773,19 +774,19 @@ Chromosome HeuristicGenerators::h3_l(const ListGraph &graph) {
 
 Chromosome HeuristicGenerators::h3_m(const MatrixGraph &graph) {
   MatrixGraph H(graph);
+
   Chromosome chromosome(graph.order(), 0);
 
   while (H.order() > 0) {
     int v = -1;
     int maxDegree = -1;
 
-    for (int vertex = 0; vertex < H.order(); ++vertex) {
-      if (H.contains(vertex)) {
-        int currentDegree = H.degree(vertex);
-        if (currentDegree > maxDegree) {
-          maxDegree = currentDegree;
-          v = vertex;
-        }
+    auto vertices = H.get_vertices();
+    for (int vertex : vertices) {
+      int currentDegree = H.degree(vertex);
+      if (currentDegree > maxDegree) {
+        maxDegree = currentDegree;
+        v = vertex;
       }
     }
 
@@ -831,6 +832,7 @@ Chromosome HeuristicGenerators::h3_m(const MatrixGraph &graph) {
       }
 
       int z = *isolatedVertices.begin();
+
       chromosome.set_value(z, LABEL_ONE);
 
       bool hasLabel1Neighbor = false;
@@ -845,14 +847,22 @@ Chromosome HeuristicGenerators::h3_m(const MatrixGraph &graph) {
       }
 
       if (!hasLabel1Neighbor) {
-        // Find first neighbor directly from BitSet
-        const BitSet &gNeighbors = graph.get_neighbors(z);
+        int x = -1;
+        int maxNeighborDegree = -1;
 
-        for (size_t i = 0; i < gNeighbors.size(); ++i) {
-          if (gNeighbors[i]) {
-            chromosome.set_value(static_cast<int>(i), LABEL_ONE);
-            break;
+        for (size_t i = 0; i < zNeighbors.size(); ++i) {
+          if (zNeighbors[i]) {
+            int neighbor = static_cast<int>(i);
+            int neighborDegree = graph.degree(neighbor);
+            if (neighborDegree > maxNeighborDegree) {
+              maxNeighborDegree = neighborDegree;
+              x = neighbor;
+            }
           }
+        }
+
+        if (x != -1) {
+          chromosome.set_value(x, LABEL_ONE);
         }
       }
 
@@ -861,6 +871,7 @@ Chromosome HeuristicGenerators::h3_m(const MatrixGraph &graph) {
   }
 
   chromosome.calculate_fitness();
+
   return chromosome;
 }
 
