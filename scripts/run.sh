@@ -5,12 +5,14 @@ INPUT_DIR="data/edges/"
 OUTPUT_DIR="data/results/"
 
 # Parâmetros
-MAX_STAGNANT=103
+MAX_STAGNANT=100
 GENERATIONS=341
 TOURNAMENT_SIZE=2
 CROSSOVER_PROB=0.8933
+ELITISM_RATE=0.1
+MUTATION_RATE=0.05
 POP_SIZE=4.5
-TRIALS=10
+TRIALS=1
 
 # Criar o diretório de resultados, se não existir
 mkdir -p "$OUTPUT_DIR"
@@ -80,6 +82,8 @@ for entry in "${sorted_files[@]}"; do
     --generations "$GENERATIONS" \
     --population "$POP_SIZE" \
     --tournament "$TOURNAMENT_SIZE" \
+    --elitism "$ELITISM_RATE" \
+    --mutation "$MUTATION_RATE" \
     --trials "$TRIALS" \
     --output "$output_file"
 
