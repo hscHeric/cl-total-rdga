@@ -13,7 +13,8 @@
 #include <set>
 #include <string>
 
-#define DEBUG 1
+#define IRACE 0
+#define DEBUG ((~IRACE) & 1)
 
 struct AlgorithmParams {
   size_t max_stagnant = 100;
@@ -307,7 +308,15 @@ void load_and_normalize_graph(const std::string &filename,
 AlgorithmParams parse_args(int argc, char *argv[]) {
   AlgorithmParams params;
 
-  if (argc < 2) {
+#if IRACE
+  if (argc < 5) {
+    std::cerr << "Usage: " << argv[0] << " [options] <graph_file>\n";
+    exit(1);
+  }
+  params.file_path = argv[4];
+
+#else
+  if (argc < 2) { // Modo normal: arquivo de entrada em argv[1]
     std::cerr << "Usage: " << argv[0] << " <graph_file> [options]\n"
               << "Options:\n"
               << "  --crossover VALUE\n"
@@ -317,16 +326,17 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
               << "  --tournament VALUE\n"
               << "  --elitism VALUE\n"
               << "  --mutation VALUE\n"
-
               << "  --trials VALUE\n"
               << "  --output FILE\n";
     exit(1);
   }
-
-  params.file_path = argv[1];
+  params.file_path =
+      argv[1]; // No modo normal, o caminho do arquivo está em argv[1]
+#endif
 
   for (int i = 2; i < argc; i++) {
     std::string arg = argv[i];
+
     if (arg == "--crossover" && i + 1 < argc) {
       params.crossover_rate = std::stod(argv[++i]);
     } else if (arg == "--stagnation" && i + 1 < argc) {
@@ -341,15 +351,22 @@ AlgorithmParams parse_args(int argc, char *argv[]) {
       params.elitism_rate = std::stod(argv[++i]);
     } else if (arg == "--mutation" && i + 1 < argc) {
       params.mutation_rate = std::stod(argv[++i]);
+#if !IRACE
     } else if (arg == "--trials" && i + 1 < argc) {
       params.trials = std::stoul(argv[++i]);
     } else if (arg == "--output" && i + 1 < argc) {
       params.output_file = argv[++i];
+#endif
+#if IRACE
     } else {
-      std::cerr << "Unknown argument: " << arg << std::endl;
-      exit(1);
+      continue;
+#endif
     }
   }
+
+#if IRACE
+  params.trials = 1;
+#endif
 
   return params;
 }
