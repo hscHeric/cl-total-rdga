@@ -13,8 +13,8 @@
 #include <set>
 #include <string>
 
-#define IRACE 1
-#define DEBUG ((~IRACE) & 1)
+#define IRACE 0
+#define DEBUG ((~IRACE) & 0)
 
 struct AlgorithmParams {
   size_t max_stagnant = 100;

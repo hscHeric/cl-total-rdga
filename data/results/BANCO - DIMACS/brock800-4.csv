@@ -1,1 +1,11 @@
-graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density,is_dense
+brock800-4.txt,800,207643,10,67605505,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69873956,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69171014,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69162394,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69834849,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69256164,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,69387091,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,68445851,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,70470214,no,none,yes,0.649696,true
+brock800-4.txt,800,207643,10,68650433,no,none,yes,0.649696,true

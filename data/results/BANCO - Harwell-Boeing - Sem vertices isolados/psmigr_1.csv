@@ -1,3 +1,11 @@
-graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density
-psmigr_1.txt,3140,410781,78,23956118617,no,none,yes,1
-psmigr_1.txt,3140,410781,91,23572869513,no,none,yes,1
+graph_name,graph_order,graph_size,fitness_value,elapsed_time(microsecond),matches_heuristic,heuristic_matched,is_valid,density,is_dense
+psmigr_1.txt,3140,410781,66,214881453,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,58,210916139,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,60,215113432,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,62,213561375,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,62,212575158,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,60,213568881,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,56,209411791,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,61,211142416,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,62,211030012,no,none,yes,0.0833526,false
+psmigr_1.txt,3140,410781,60,210257297,no,none,yes,0.0833526,false
