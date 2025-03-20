@@ -10,11 +10,15 @@
 #include <fstream>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <set>
 #include <string>
+#include <thread>
 
 #define IRACE 0
 #define DEBUG ((~IRACE) & 0)
+#define PARALLEL 1
+#define NUM_THREADS 8
 
 struct AlgorithmParams {
   size_t max_stagnant = 100;
@@ -103,18 +107,14 @@ TrialResult run_genetic_algorithm_m(const MatrixGraph &graph,
  */
 int main(int argc, char *argv[]) {
   auto params = parse_args(argc, argv);
-
 #if !IRACE
   ensure_csv_header(params.output_file);
 #endif
-
   // Criar os grafos e determinar qual será utilizado
   ListGraph graph_l(1);
   MatrixGraph graph_m(1);
   bool graph_is_matrix = false;
-
   load_and_normalize_graph(params.file_path, graph_is_matrix, graph_l, graph_m);
-
   if (graph_is_matrix) {
     if (!graph_m.get_isolated_vertices().empty()) {
 #if DEBUG
@@ -136,7 +136,6 @@ int main(int argc, char *argv[]) {
     }
     init_heuristic_buffer_l(graph_l);
   }
-
   // Modo IRACE: Executa apenas uma tentativa e imprime apenas o fitness
 #if IRACE
   TrialResult result;
@@ -147,16 +146,13 @@ int main(int argc, char *argv[]) {
   }
   std::cout << result.fitness << std::endl;
   return 0;
-
 #else
-  // Modo normal: executa múltiplas tentativas e salva no CSV
-  for (size_t trial = 0; trial < params.trials; ++trial) {
-#if DEBUG
-    std::cout << "\n===== Executando trial " << (trial + 1) << " de "
-              << params.trials << " =====\n"
-              << std::endl;
-#endif
+#if PARALLEL
+  std::vector<TrialResult> results(params.trials);
+  std::vector<std::thread> threads;
+  std::mutex csv_mutex; // Mutex para proteger a escrita no arquivo CSV
 
+  auto thread_func = [&](size_t trial_id) {
     TrialResult result;
     if (graph_is_matrix) {
       result = run_genetic_algorithm_m(graph_m, params);
@@ -164,6 +160,56 @@ int main(int argc, char *argv[]) {
       result = run_genetic_algorithm_l(graph_l, params);
     }
 
+#if DEBUG
+    std::cout << "\nResultado do trial " << (trial_id + 1) << ":" << std::endl;
+    std::cout << "  Nome do grafo: " << result.graph_name << std::endl;
+    std::cout << "  Ordem (vértices): " << result.node_count << std::endl;
+    std::cout << "  Tamanho (arestas): " << result.edge_count << std::endl;
+    std::cout << "  Fitness: " << result.fitness << std::endl;
+    std::cout << "  Tempo (microssegundos): " << result.elapsed_micros
+              << std::endl;
+    std::cout << "  Corresponde a heurística: "
+              << (result.matches_heuristic ? "Sim" : "Não");
+    if (result.matches_heuristic) {
+      std::cout << " (" << result.matched_heuristic << ")";
+    }
+    std::cout << std::endl;
+#endif
+
+    std::lock_guard<std::mutex> lock(csv_mutex);
+    write_result_to_csv(params.output_file, result);
+  };
+
+  // Create and start threads
+  for (size_t trial = 0; trial < params.trials; ++trial) {
+    if (threads.size() < NUM_THREADS) {
+      threads.emplace_back(thread_func, trial);
+    } else {
+      threads[trial % NUM_THREADS].join();
+      threads[trial % NUM_THREADS] = std::thread(thread_func, trial);
+    }
+  }
+
+  // Wait for all remaining threads to finish
+  for (auto &thread : threads) {
+    if (thread.joinable()) {
+      thread.join();
+    }
+  }
+
+#else
+  for (size_t trial = 0; trial < params.trials; ++trial) {
+#if DEBUG
+    std::cout << "\n===== Executando trial " << (trial + 1) << " de "
+              << params.trials << " =====\n"
+              << std::endl;
+#endif
+    TrialResult result;
+    if (graph_is_matrix) {
+      result = run_genetic_algorithm_m(graph_m, params);
+    } else {
+      result = run_genetic_algorithm_l(graph_l, params);
+    }
 #if DEBUG
     std::cout << "\nResultado do trial " << (trial + 1) << ":" << std::endl;
     std::cout << "  Nome do grafo: " << result.graph_name << std::endl;
@@ -179,9 +225,10 @@ int main(int argc, char *argv[]) {
     }
     std::cout << std::endl;
 #endif
-
     write_result_to_csv(params.output_file, result);
   }
+#endif // PARALLEL
+
 #if DEBUG
   std::cout << "\nTodos os resultados foram salvos em: " << params.output_file
             << std::endl;
