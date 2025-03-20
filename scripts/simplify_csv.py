@@ -2,19 +2,38 @@ import pandas as pd
 import argparse
 
 
-# Função para processar e simplificar os dados
-def simplify_csv(input_file, output_file):
-    # Carregar o arquivo combinado
-    df = pd.read_csv(input_file)
+def main():
+    # Configuração do parser de argumentos
+    parser = argparse.ArgumentParser(
+        description="Simplificar os resultados do CSV, mantendo apenas colunas essenciais."
+    )
+    parser.add_argument(
+        "--results",
+        type=str,
+        required=True,
+        help="Caminho para o arquivo CSV de resultados completos",
+    )
+    parser.add_argument(
+        "--output",
+        type=str,
+        required=True,
+        help="Caminho para o arquivo CSV de saída simplificado",
+    )
 
-    # Selecionar as colunas relevantes
-    simplified_df = df[
+    # Parse dos argumentos
+    args = parser.parse_args()
+
+    # Carregar os dados do CSV
+    df = pd.read_csv(args.results)
+
+    # Selecionar apenas as colunas desejadas
+    simple_df = df[
         [
             "graph_name",
-            "graph_order",
+            "pli_vertex",
             "pli_density",
-            "best_fitness_value",
             "pli_TRD_number",
+            "best_fitness_value",
             "gap_relative(%)",
             "mean_fitness_value",
             "std_fitness_value",
@@ -22,44 +41,10 @@ def simplify_csv(input_file, output_file):
         ]
     ]
 
-    # Renomear as colunas conforme solicitado
-    simplified_df.columns = [
-        "graph_name",
-        "order",
-        "density",
-        "best_fitness_value",
-        "pli_TRD_number",
-        "gap_relative(%)",
-        "mean_fitness_value",
-        "std",
-        "pli_status",
-    ]
+    # Salvar os dados simplificados no arquivo de saída
+    simple_df.to_csv(args.output, index=False)
 
-    # Salvar o novo arquivo CSV
-    simplified_df.to_csv(output_file, index=False)
-    print(f"Arquivo simplificado salvo como {output_file}")
-
-
-def main():
-    # Configuração do parser de argumentos
-    parser = argparse.ArgumentParser(
-        description="Simplificar o CSV com dados de grafos."
-    )
-    parser.add_argument(
-        "--input", type=str, required=True, help="Caminho para o arquivo CSV combinado"
-    )
-    parser.add_argument(
-        "--output",
-        type=str,
-        required=True,
-        help="Caminho para o arquivo de saída simplificado",
-    )
-
-    # Parse dos argumentos
-    args = parser.parse_args()
-
-    # Simplificar o arquivo CSV
-    simplify_csv(args.input, args.output)
+    print(f"✅ Arquivo simplificado salvo como {args.output}")
 
 
 if __name__ == "__main__":
