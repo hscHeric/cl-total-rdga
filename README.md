@@ -9,7 +9,7 @@
     <li>Every vertex v with f(v) = 0 has a neighbor u with f(u) = 2;</li>
     <li>Every vertex v with f(v) > 0 has a neighbor u with f(u) > 0.</li>
   </ul>
-  <p>The goal is to minimize <code>ω(f) = ∑ f(v)</code>. The minimum value is denoted as <strong>γ<sub>t</sub><sup>R</sup>(G)</strong>.</p>
+  <p>The goal is to minimize <code>ω(f) = ∑ f(v)</code>. The minimum value is denoted as <strong>γ<sub>tR</sub>(G)</strong>.</p>
 
   <h2>Dependencies</h2>
   <ul>
